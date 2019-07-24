@@ -6,29 +6,50 @@
       </div>
     </div>
     <div class="row">
-      <table class="table">
-        <thead>
-          <th>Block ID</th>
-          <th>Time</th>
-          <th>Baker</th>
-          <th>Volume</th>
-          <th>Fees</th>
-        </thead>
-        <tbody>
-          <tr v-for="block in blocks" v-bind:key="block.level">
-            <td>
-              <router-link :to="{name: 'block', params: {level: block.level}}">{{block.level}}</router-link>
-            </td>
-            <td>{{block.timestamp | tsfromnow }}</td>
-            <td>
-              <router-link :to="{name: 'baker', params: {baker: block.baker}}">{{block.baker}}</router-link>
-            </td>
-            <td>{{block.volume | tezos }}</td>
-            <td>{{block.fees | tezos }}</td>
-          </tr>
-        </tbody>
-      </table>
+      <b-table
+        show-empty
+        stacked="md"
+        :items="items"
+        :fields="fields"
+        :current-page="currentPage"
+        :per-page="perPage"
+      >
+        <template slot="level" slot-scope="row">
+          <b-link
+            :to="{ name: 'block', params: { level: row.item.level }}"><span>{{ row.item.level }}</span>
+          </b-link>
+        </template>
+
+        <template slot="timestamp" slot-scope="row">
+          <span>{{ row.item.timestamp | tsfromnow }}</span>
+        </template>
+
+        <template slot="baker" slot-scope="row">
+          <b-link
+            :to="{ name: 'baker', params: { baker: row.item.baker }}"><span>{{ row.item.baker }}</span>
+          </b-link>
+        </template>
+      </b-table>
     </div>
+    <b-row>
+      <b-col md="2" class="my-1">
+        <b-form-group label-cols-sm="3" label="Per page" class="mb-0">
+          <b-form-select v-model="perPage" :options="pageOptions"></b-form-select>
+        </b-form-group>
+      </b-col>
+      <b-col class="my-1 col-md-10">
+        <b-pagination
+          v-model="currentPage"
+          :total-rows="rows"
+          :per-page="perPage"
+          align="right"
+          first-text="First"
+          prev-text="Prev"
+          next-text="Next"
+          last-text="Last"
+        ></b-pagination>
+      </b-col>
+    </b-row>
   </div>
 </template>
 <script>
@@ -36,14 +57,37 @@ import { mapState } from "vuex";
 import { ACTIONS } from "../../store";
 
 export default {
+  data() {
+    return {
+      perPage: 10,
+      currentPage: 1,
+      pageOptions: [10, 15, 20, 25, 30],
+      fields: [
+        { key: 'level', label: 'Block ID', sortable: true, sortDirection: 'desc' },
+        { key: 'timestamp', label: 'Time', sortable: true },
+        { key: 'baker', label: 'Baker' },
+        { key: 'volume', label: 'Volume' },
+        { key: 'fees', label: 'Fees' }
+      ]
+    }
+  },
   name: "Blocks_full",
-  computed: mapState({
-    blocks: state => state.blocks
-  }),
+  computed: {
+    ...mapState({
+      blocks: state => state.blocks,
+    }),
+
+    rows() {
+      return this.blocks.length
+    },
+
+    items() {
+      return this.blocks
+    }
+  },
+
   async created() {
     await this.$store.dispatch(ACTIONS.BLOCKS_GET);
   }
 };
 </script>
-
-<style  />
