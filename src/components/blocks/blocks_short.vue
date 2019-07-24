@@ -149,7 +149,6 @@ export default {
     },
 
     tsx_items() {
-      console.log(this.transactions)
       return this.transactions
     }
   },
