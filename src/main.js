@@ -6,12 +6,12 @@ import "./registerServiceWorker";
 import routes from "./routes";
 import moment from "moment";
 import { FontAwesomeIcon, FontAwesomeLayers, FontAwesomeLayersText } from "@fortawesome/vue-fontawesome";
-
-
+import BootstrapVue from 'bootstrap-vue'
 
 Vue.config.productionTip = false;
 
 Vue.use(VueRouter)
+Vue.use(BootstrapVue)
 
 let router = new VueRouter({
   mode: "history",
