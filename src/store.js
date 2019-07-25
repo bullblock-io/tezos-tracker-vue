@@ -74,7 +74,9 @@ export default new Vuex.Store({
   },
   actions: {
     async [ACTIONS.BLOCKS_GET]({ commit }, params) {
-      const result = await axios.get(`https://teztracker.everstake.one/v2/data/${this.state.app.platform}/${this.state.app.network}/blocks`);
+      var page = params ? params.page : 1;
+      var limit = params ? params.perPage : 10;
+      const result = await axios.get(`https://teztracker.everstake.one/v2/data/${this.state.app.platform}/${this.state.app.network}/blocks?limit=${limit}&offset=${limit * (page - 1)}`);
       commit(ACTIONS.BLOCKS_SET, result.data)
     },
     async [ACTIONS.BLOCK_GET_BY_ID]({ commit }, blockLevel) {
@@ -89,8 +91,10 @@ export default new Vuex.Store({
       const result = await axios.get(`https://teztracker.everstake.one/v2/data/${this.state.app.platform}/${this.state.app.network}/blocks/head`);
       commit(ACTIONS.BLOCK_SET_HEAD, result.data)
     },
-    async [ACTIONS.TRANSACTIONS_GET]({ commit }) {
-      const result = await axios.get(`https://teztracker.everstake.one/v2/data/${this.state.app.platform}/${this.state.app.network}/operations?operation_kind=transaction`);
+    async [ACTIONS.TRANSACTIONS_GET]({ commit }, params) {
+      var page = params ? params.page : 1;
+      var limit = params ? params.perPage : 10;
+      const result = await axios.get(`https://teztracker.everstake.one/v2/data/${this.state.app.platform}/${this.state.app.network}/operations?operation_kind=transaction&limit=${limit}&offset=${limit * (page - 1)}`);
       commit(ACTIONS.TRANSACTIONS_SET, result.data)
     },
     async [ACTIONS.ENDORSEMENTS_GET]({ commit }, level) {
