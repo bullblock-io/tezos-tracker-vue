@@ -12,17 +12,17 @@
         :items="items"
         :fields="fields"
         :current-page="currentPage"
-        :per-page="perPage"
+        :per-page="0"
       >
         <template slot="txhash" slot-scope="row">
-          <b-link
-            :to="{name: 'tx', params: { txhash: row.item.operationGroupHash }}"><span>{{ row.item.operationGroupHash | longhash }}</span>
+          <b-link :to="{name: 'tx', params: { txhash: row.item.operationGroupHash }}">
+            <span>{{ row.item.operationGroupHash | longhash }}</span>
           </b-link>
         </template>
 
         <template slot="level" slot-scope="row">
-          <b-link
-            :to="{ name: 'block', params: { level: row.item.blockLevel }}"><span>{{ row.item.blockLevel }}</span>
+          <b-link :to="{ name: 'block', params: { level: row.item.blockLevel }}">
+            <span>{{ row.item.blockLevel }}</span>
           </b-link>
         </template>
 
@@ -31,14 +31,14 @@
         </template>
 
         <template slot="from" slot-scope="row">
-          <b-link
-            :to="{name: 'account', params: { account: row.item.source }}"><span>{{ row.item.source }}</span>
+          <b-link :to="{name: 'account', params: { account: row.item.source }}">
+            <span>{{ row.item.source }}</span>
           </b-link>
         </template>
 
         <template slot="to" slot-scope="row">
-          <b-link
-            :to="{name: 'account', params: { account: row.item.destination }}"><span>{{ row.item.destination }}</span>
+          <b-link :to="{name: 'account', params: { account: row.item.destination }}">
+            <span>{{ row.item.destination }}</span>
           </b-link>
         </template>
         <template slot="amount" slot-scope="row">
@@ -81,15 +81,15 @@ export default {
       currentPage: 1,
       pageOptions: [10, 15, 20, 25, 30],
       fields: [
-        { key: 'txhash', label: 'Hash', sortable: true, sortDirection: 'desc' },
-        { key: 'level', label: 'Block ID', sortable: true },
-        { key: 'timestamp', label: 'Time' },
-        { key: 'from', label: 'From' },
-        { key: 'to', label: 'To' },
-        { key: 'amount', label: 'Amount' },
-        { key: 'fee', label: 'Fees' }
+        { key: "txhash", label: "Hash", sortable: true, sortDirection: "desc" },
+        { key: "level", label: "Block ID", sortable: true },
+        { key: "timestamp", label: "Time" },
+        { key: "from", label: "From" },
+        { key: "to", label: "To" },
+        { key: "amount", label: "Amount" },
+        { key: "fee", label: "Fees" }
       ]
-    }
+    };
   },
   name: "Transactions",
   props: {
@@ -102,14 +102,23 @@ export default {
     }),
 
     rows() {
-      return this.transactions.length
+      return 12574305;
     },
 
     items() {
-      return this.transactions
+      return this.transactions;
     }
   },
-
+  watch: {
+    currentPage: {
+      async handler(value) {
+        await this.$store.dispatch(ACTIONS.TRANSACTIONS_GET, {
+          page: value,
+          perPage: this.perPage
+        });
+      }
+    }
+  },
   async mounted() {
     await this.$store.dispatch(ACTIONS.TRANSACTIONS_GET);
   }

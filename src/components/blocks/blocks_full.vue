@@ -12,11 +12,11 @@
         :items="items"
         :fields="fields"
         :current-page="currentPage"
-        :per-page="perPage"
+        :per-page="0"
       >
         <template slot="level" slot-scope="row">
-          <b-link
-            :to="{ name: 'block', params: { level: row.item.level }}"><span>{{ row.item.level }}</span>
+          <b-link :to="{ name: 'block', params: { level: row.item.level }}">
+            <span>{{ row.item.level }}</span>
           </b-link>
         </template>
 
@@ -25,8 +25,8 @@
         </template>
 
         <template slot="baker" slot-scope="row">
-          <b-link
-            :to="{ name: 'baker', params: { baker: row.item.baker }}"><span>{{ row.item.baker }}</span>
+          <b-link :to="{ name: 'baker', params: { baker: row.item.baker }}">
+            <span>{{ row.item.baker }}</span>
           </b-link>
         </template>
       </b-table>
@@ -63,31 +63,50 @@ export default {
       currentPage: 1,
       pageOptions: [10, 15, 20, 25, 30],
       fields: [
-        { key: 'level', label: 'Block ID', sortable: true, sortDirection: 'desc' },
-        { key: 'timestamp', label: 'Time', sortable: true },
-        { key: 'baker', label: 'Baker' },
-        { key: 'volume', label: 'Volume' },
-        { key: 'fees', label: 'Fees' }
+        {
+          key: "level",
+          label: "Block ID",
+          sortable: true,
+          sortDirection: "desc"
+        },
+        { key: "timestamp", label: "Time", sortable: true },
+        { key: "baker", label: "Baker" },
+        { key: "volume", label: "Volume" },
+        { key: "fees", label: "Fees" }
       ]
-    }
+    };
   },
   name: "Blocks_full",
   computed: {
     ...mapState({
       blocks: state => state.blocks,
+      head: state => state.headBlock
     }),
-
     rows() {
-      return this.blocks.length
+      return this.head.level;
     },
-
     items() {
-      return this.blocks
+      return this.blocks;
     }
   },
-
+  watch: {
+    currentPage: {
+      async handler(value) {
+        await this.$store.dispatch(ACTIONS.BLOCKS_GET, {
+          page: value,
+          perPage: this.perPage
+        });
+      }
+    }
+  },
   async created() {
-    await this.$store.dispatch(ACTIONS.BLOCKS_GET);
+    await Promise.all([
+      this.$store.dispatch(ACTIONS.BLOCKS_GET, {
+        page: this.currentPage,
+        perPage: this.perPage
+      }),
+      this.$store.dispatch(ACTIONS.BLOCK_GET_HEAD)
+    ]);
   }
 };
 </script>
