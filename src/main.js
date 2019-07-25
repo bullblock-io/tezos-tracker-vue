@@ -5,9 +5,16 @@ import store from "./store";
 import "./registerServiceWorker";
 import routes from "./routes";
 import moment from "moment";
-import { FontAwesomeIcon, FontAwesomeLayers, FontAwesomeLayersText } from "@fortawesome/vue-fontawesome";
-import BootstrapVue from 'bootstrap-vue'
+import BootstrapVue from "bootstrap-vue"
 
+import { FontAwesomeIcon, FontAwesomeLayers, FontAwesomeLayersText } from "@fortawesome/vue-fontawesome";
+import { faSearch } from "@fortawesome/free-solid-svg-icons";
+import { library } from "@fortawesome/fontawesome-svg-core";
+import { dom } from "@fortawesome/fontawesome-svg-core";
+
+dom.watch();
+
+library.add(faSearch)
 Vue.config.productionTip = false;
 
 Vue.use(VueRouter)
