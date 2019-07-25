@@ -29,17 +29,4 @@ export default {
 };
 </script>
 
-<style>
-#app {
-  font-family: "Montserrat Alternates", sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  margin-top: 60px;
-}
-.bg-red {
-  background-color: red;
-}
-.bg-blue {
-  background-color: aqua;
-}
-</style>
+<style></style>
