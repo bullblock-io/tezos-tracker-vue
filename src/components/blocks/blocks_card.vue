@@ -6,7 +6,7 @@
           <span class="text">Blocks list</span>
           <div class="counter">
             <span class="line"></span>
-            <span class="counter-text">{{head.level}}</span>
+            <span class="counter-text">{{count}}</span>
           </div>
         </h3>
       </div>
@@ -96,11 +96,10 @@ export default {
   computed: {
     ...mapState({
       blocks: state => state.blocks,
-      transactions: state => state.txs,
-      head: state => state.headBlock
+      count: state => state.counts.blocks
     }),
     rows() {
-      return this.head.level;
+      return Number(this.count);
     },
     items() {
       return this.blocks;
@@ -117,13 +116,10 @@ export default {
     }
   },
   async created() {
-    await Promise.all([
-      this.$store.dispatch(ACTIONS.BLOCKS_GET, {
-        page: this.currentPage,
-        perPage: this.perPage
-      }),
-      this.$store.dispatch(ACTIONS.BLOCK_GET_HEAD)
-    ]);
+    await this.$store.dispatch(ACTIONS.BLOCKS_GET, {
+      page: this.currentPage,
+      perPage: this.perPage
+    });
   }
 };
 </script>

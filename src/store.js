@@ -54,7 +54,8 @@ export default new Vuex.Store({
       }
     },
     [ACTIONS.BLOCKS_SET]: function (state, blocks) {
-      state.blocks = blocks
+      state.blocks = blocks.blocks;
+      state.counts.blocks = blocks.count;
     },
     [ACTIONS.TRANSACTIONS_SET]: function (state, txs) {
       state.txs = txs.ops;
@@ -82,7 +83,7 @@ export default new Vuex.Store({
       var page = params ? params.page : 1;
       var limit = params ? params.perPage : 10;
       const result = await axios.get(`https://teztracker.everstake.one/v2/data/${this.state.app.platform}/${this.state.app.network}/blocks?limit=${limit}&offset=${limit * (page - 1)}`);
-      commit(ACTIONS.BLOCKS_SET, result.data)
+      commit(ACTIONS.BLOCKS_SET, { blocks: result.data, count: parseInt(result.headers['x-total-count']) });
     },
     async [ACTIONS.BLOCK_GET_BY_ID]({ commit }, blockLevel) {
       const result = await axios.get(`https://teztracker.everstake.one/v2/data/${this.state.app.platform}/${this.state.app.network}/blocks/${blockLevel}`);
