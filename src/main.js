@@ -2,7 +2,6 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 import App from "./App.vue";
 import store from "./store";
-import "./registerServiceWorker";
 import routes from "./routes";
 import moment from "moment";
 import BootstrapVue from "bootstrap-vue"
