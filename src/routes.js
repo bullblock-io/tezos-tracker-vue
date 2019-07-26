@@ -28,5 +28,5 @@ export default [
     { path: "/bakers", name: "bakers", component: Bakers },
     { path: "/baker/:baker", name: "baker", component: Baker },
     { path: "/accounts", name: "accounts", component: Accounts },
-    { path: "/account/:account", name: "account", component: Account },
+    { path: "/account/:account", name: "account", component: Account }
 ];
