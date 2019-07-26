@@ -43,7 +43,7 @@
         class="table table-borderless table-responsive-sm"
       >
         <template slot="timestamp" slot-scope="row">
-          <span>{{ row.item.timestamp }}</span>
+          <span>{{ row.item.timestamp | timeformat("hh:mm:ss DD.MM.YY") }}</span>
         </template>
 
         <template slot="level" slot-scope="row">
