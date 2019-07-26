@@ -77,8 +77,7 @@ export default {
       count: state => state.counts
     }),
     rows() {
-      return this.count.blocks;
-      return Number(this.count);
+      return Number(this.count.blocks);
     },
     items() {
       return this.blocks;
