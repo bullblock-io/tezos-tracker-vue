@@ -7,7 +7,7 @@
       <nav class="main-nav">
         <ul>
           <li v-bind:class="{active: isActive('index')}">
-            <router-link :to="{name: 'index'}">TZTracker</router-link>
+            <router-link :to="{name: 'index'}">Dashboard</router-link>
           </li>
           <li v-bind:class="{active: isActive('blocks')}">
             <router-link :to="{name: 'blocks'}">Blocks</router-link>

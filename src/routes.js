@@ -24,7 +24,6 @@ export default [
     { path: "/tx/:txhash", name: "tx", component: Tx },
     { path: "/endorsements", name: "endorsements", component: Endorsements },
     { path: "/endorsement/:txID", name: "endorsement", component: Endorsement },
-
     { path: "/delegations", name: "delegations", component: Delegations },
     { path: "/bakers", name: "bakers", component: Bakers },
     { path: "/baker/:baker", name: "baker", component: Baker },

@@ -8,13 +8,14 @@ import moment from "moment";
 import BootstrapVue from "bootstrap-vue"
 
 import { FontAwesomeIcon, FontAwesomeLayers, FontAwesomeLayersText } from "@fortawesome/vue-fontawesome";
-import { faSearch } from "@fortawesome/free-solid-svg-icons";
+import { fas } from "@fortawesome/free-solid-svg-icons";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { dom } from "@fortawesome/fontawesome-svg-core";
 
 dom.watch();
 
-library.add(faSearch)
+library.add(fas);
+
 Vue.config.productionTip = false;
 
 Vue.use(VueRouter)
@@ -24,7 +25,7 @@ let router = new VueRouter({
   mode: "history",
   routes
 })
-const MAX_HASH_LENGTH = 10
+const MAX_HASH_LENGTH = 20
 
 
 Vue.component("font-awesome-icon", FontAwesomeIcon)
@@ -36,15 +37,16 @@ Vue.filter("tsfromnow", function (ts) {
   return moment(Number(ts) * 1000).fromNow();
 });
 
-Vue.filter("longhash", function (hash) {
-  if (hash.length > MAX_HASH_LENGTH) {
-    return hash.slice(0, MAX_HASH_LENGTH) + "...";
+Vue.filter("longhash", function (hash, length) {
+  const l = length || MAX_HASH_LENGTH;
+  if (hash.length > l) {
+    return hash.slice(0, l) + "...";
   }
   return hash;
 });
 
 Vue.filter("tezos", function (amount) {
-  return amount + "ꜩ"
+  return amount + "ꜩ";
 })
 
 

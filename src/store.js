@@ -41,6 +41,10 @@ export default new Vuex.Store({
       platform: "tezos",
       network: "mainnet",
       actions: ACTIONS,
+    },
+    counts: {
+      txs: Number,
+      blocks: Number
     }
   },
   mutations: {
@@ -53,7 +57,8 @@ export default new Vuex.Store({
       state.blocks = blocks
     },
     [ACTIONS.TRANSACTIONS_SET]: function (state, txs) {
-      state.txs = txs;
+      state.txs = txs.ops;
+      state.counts.txs = txs.count;
     },
     [ACTIONS.ENDORSEMENTS_SET]: function (state, ops) {
       state.endorsements = ops
@@ -95,7 +100,7 @@ export default new Vuex.Store({
       var page = params ? params.page : 1;
       var limit = params ? params.perPage : 10;
       const result = await axios.get(`https://teztracker.everstake.one/v2/data/${this.state.app.platform}/${this.state.app.network}/operations?operation_kind=transaction&limit=${limit}&offset=${limit * (page - 1)}`);
-      commit(ACTIONS.TRANSACTIONS_SET, result.data)
+      commit(ACTIONS.TRANSACTIONS_SET, { ops: result.data, count: parseInt(result.headers['x-total-count']) })
     },
     async [ACTIONS.ENDORSEMENTS_GET]({ commit }, level) {
       let url = `https://teztracker.everstake.one/v2/data/${this.state.app.platform}/${this.state.app.network}/operations?operation_kind=endorsement`;

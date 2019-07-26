@@ -1,25 +1,154 @@
 <template>
-  <div class="col">
-    <div class="row">
-      <div class="col">
-        <GlobalStats />
+  <div class="main-content">
+    <section class="promo-section">
+      <div class="container-fluid">
+        <div class="promo-top row justify-content-md-center align-items-center">
+          <div class="promo-search col-lg-6">
+            <h1>Tezos (XTZ) Blockchain Explorer</h1>
+            <div class="search">
+              <form action id="search-form">
+                <input
+                  type="text"
+                  class="search-query"
+                  placeholder="Search for block, txn or address"
+                />
+                <button type="submit" class="button-search">
+                  <font-awesome-icon icon="search" />
+                </button>
+              </form>
+            </div>
+            <p>
+              Tezos blockchain - Version
+              <span>1.01.00</span>
+            </p>
+          </div>
+          <div class="promo-image col-lg-4">
+            <img src="img/promo-img.svg" height="270px" alt />
+          </div>
+        </div>
+
+        <div class="promo-tiles row justify-content-md-center">
+          <div class="tile col text-center ml-4 mr-4">
+            <div class="tile-icon text-center">
+              <font-awesome-icon icon="chart-bar" />
+            </div>
+            <span class="counter">${{info.price}}</span>
+            <div v-if="info.price_24h_change > 0">
+              <span class="percentage green">
+                <font-awesome-icon icon="caret-up" />
+                {{priceChange}}%
+              </span>
+            </div>
+            <div v-else>
+              <span class="percentage red">
+                <font-awesome-icon icon="caret-down" />
+                {{priceChange}}%
+              </span>
+            </div>
+
+            <span class="tile-name">Price</span>
+          </div>
+
+          <div class="tile col text-center mr-4">
+            <div class="tile-icon text-center">
+              <font-awesome-icon icon="folder" />
+            </div>
+            <span class="counter">{{head.level}}</span>
+            <span class="percentage"></span>
+            <span class="tile-name">Height</span>
+          </div>
+
+          <div class="tile col text-center mr-4">
+            <div class="tile-icon text-center">
+              <font-awesome-icon icon="hourglass" />
+            </div>
+            <span class="counter">{{head.metaCycle}}</span>
+            <span class="percentage"></span>
+            <span class="tile-name">Cycle counter</span>
+          </div>
+
+          <div class="tile col text-center mr-4">
+            <div class="tile-icon text-center">
+              <font-awesome-icon icon="lightbulb" />
+            </div>
+            <span class="counter">{{stakingRatio}}%</span>
+            <div v-if="info.staking_ratio > 0">
+              <span class="percentage green">
+                <font-awesome-icon icon="caret-up" />
+              </span>
+            </div>
+            <div v-else>
+              <span class="percentage red">
+                <font-awesome-icon icon="caret-down" />
+              </span>
+            </div>
+            <span class="tile-name">Staking ratio</span>
+          </div>
+
+          <div class="tile col text-center mr-4">
+            <div class="tile-icon text-center">
+              <font-awesome-icon icon="bell" />
+            </div>
+            <span class="counter">TODO: 7,8%</span>
+            <span class="percentage red"></span>
+            <span class="tile-name">Annual yield</span>
+          </div>
+        </div>
       </div>
-    </div>
-    <div class="row">
-      <BlocksShort />
-    </div>
+    </section>
+
+    <section>
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-lg-6">
+            <BlocksCard />
+          </div>
+
+          <div class="col-lg-6">
+            <TxCard />
+          </div>
+        </div>
+      </div>
+    </section>
   </div>
 </template>
 
 <script>
-import BlocksShort from "../blocks/blocks_short.vue";
-import GlobalStats from "../stats/global.vue";
+import { mapState } from "vuex";
+
+import BlocksCard from "../blocks/blocks_card.vue";
+import TxCard from "../transactions/transactions_card.vue";
+import { ACTIONS } from "../../store";
 
 export default {
   name: "index",
   components: {
-    BlocksShort,
-    GlobalStats
+    BlocksCard,
+    TxCard
+  },
+  computed: {
+    ...mapState({
+      info: state => state.priceInfo,
+      head: state => state.headBlock
+    }),
+    priceChange() {
+      if (!this.info || !this.info.price_24h_change) {
+        return 0;
+      }
+      return Math.abs(this.info.price_24h_change.toFixed(2));
+    },
+    stakingRatio() {
+      if (!this.info || !this.info.staking_ratio) {
+        return 0;
+      }
+      return Math.abs(this.info.staking_ratio.toFixed(2));
+    }
+  },
+  async created() {
+    await Promise.all([
+      await this.$store.dispatch(ACTIONS.INFO_GET),
+      await this.$store.dispatch(ACTIONS.BLOCK_GET_HEAD)
+    ]);
   }
 };
 </script>
