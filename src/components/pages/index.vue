@@ -89,7 +89,7 @@
             <div class="tile-icon text-center">
               <font-awesome-icon icon="bell" />
             </div>
-            <span class="counter">TODO: 7,8%</span>
+            <span class="counter">{{info.annual_yield}}%</span>
             <span class="percentage red"></span>
             <span class="tile-name">Annual yield</span>
           </div>
