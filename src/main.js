@@ -26,7 +26,7 @@ let router = new VueRouter({
   routes
 })
 const MAX_HASH_LENGTH = 20
-
+const XTZ = 1000000;
 
 Vue.component("font-awesome-icon", FontAwesomeIcon)
 Vue.component("font-awesome-layers", FontAwesomeLayers)
@@ -35,6 +35,10 @@ Vue.component("font-awesome-layers-text", FontAwesomeLayersText)
 
 Vue.filter("tsfromnow", function (ts) {
   return moment(Number(ts) * 1000).fromNow();
+});
+
+Vue.filter("timeformat", function (ts, format) {
+  return moment(Number(ts) * 1000).format(format);
 });
 
 Vue.filter("longhash", function (hash, length) {
@@ -46,7 +50,11 @@ Vue.filter("longhash", function (hash, length) {
 });
 
 Vue.filter("tezos", function (amount) {
-  return amount + "ꜩ";
+  if (amount > 0) {
+    return (amount / XTZ) + " XTZ"
+  }
+  return "0 XTZ";
+  //return amount + "ꜩ";
 })
 
 
