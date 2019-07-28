@@ -33,7 +33,7 @@
                     <span class="text">Endorsements list</span>
                     <div class="counter">
                       <span class="line"></span>
-                      <span class="counter-text">{{count.endorsements}}</span>
+                      <span class="counter-text">{{count.endorsements | bignum}}</span>
                     </div>
                   </h3>
                 </div>

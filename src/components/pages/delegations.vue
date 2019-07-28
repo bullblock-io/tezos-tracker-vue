@@ -33,7 +33,7 @@
                     <span class="text">Delegations list</span>
                     <div class="counter">
                       <span class="line"></span>
-                      <span class="counter-text">{{count.delegations}}</span>
+                      <span class="counter-text">{{count.delegations | bignum}}</span>
                     </div>
                   </h3>
                 </div>

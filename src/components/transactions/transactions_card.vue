@@ -6,7 +6,7 @@
           <span class="text">Transaction list</span>
           <div class="counter">
             <span class="line"></span>
-            <span class="counter-text">{{count}}</span>
+            <span class="counter-text">{{count | bignum}}</span>
           </div>
         </h3>
       </div>

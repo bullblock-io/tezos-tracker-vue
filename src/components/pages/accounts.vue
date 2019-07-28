@@ -33,7 +33,7 @@
                     <span class="text">Accounts list</span>
                     <div class="counter">
                       <span class="line"></span>
-                      <span class="counter-text">{{count.accounts}}</span>
+                      <span class="counter-text">{{count.accounts | bignum}}</span>
                     </div>
                   </h3>
                 </div>

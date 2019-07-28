@@ -33,7 +33,7 @@
                     <span class="text">Blocks list</span>
                     <div class="counter">
                       <span class="line"></span>
-                      <span class="counter-text">{{count.blocks}}</span>
+                      <span class="counter-text">{{count.blocks | bignum}}</span>
                     </div>
                   </h3>
                 </div>

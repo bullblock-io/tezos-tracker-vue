@@ -33,7 +33,7 @@
                     <span class="text">Transactions list</span>
                     <div class="counter">
                       <span class="line"></span>
-                      <span class="counter-text">{{count.txs}}</span>
+                      <span class="counter-text">{{count.txs | bignum}}</span>
                     </div>
                   </h3>
                 </div>
