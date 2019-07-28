@@ -26,6 +26,9 @@ export const ACTIONS = {
   BAKERS_GET: "BAKERS_GET",
   BAKERS_SET: "BAKERS_SET",
 
+  ACCOUNTS_GET: "ACCOUNTS_GET",
+  ACCOUNTS_SET: "ACCOUNTS_SET",
+
   INFO_NEW: "INFO_NEW",
   INFO_GET: "INFO_GET"
 }
@@ -39,6 +42,7 @@ export default new Vuex.Store({
     endorsements: [],
     delegations: [],
     bakers: [],
+    accounts: [],
     priceInfo: {},
     headBlock: {},
     viewBlock: {},
@@ -52,7 +56,8 @@ export default new Vuex.Store({
       blocks: 0,
       endorsements: 0,
       delegations: 0,
-      bakers: 0
+      bakers: 0,
+      accounts: 0
     }
   },
   mutations: {
@@ -89,6 +94,10 @@ export default new Vuex.Store({
     [ACTIONS.BAKERS_SET]: function (state, data) {
       state.bakers = data.bakers;
       state.counts.bakers = data.count;
+    },
+    [ACTIONS.ACCOUNTS_SET]: function (state, data) {
+      state.accounts = data.accounts;
+      state.counts.accounts = data.count;
     }
   },
   actions: {
@@ -132,6 +141,11 @@ export default new Vuex.Store({
       const { page = 1, limit = 10 } = params || {}
       const result = await axios.get(`${API_URL}/v2/data/${this.state.app.platform}/${this.state.app.network}/bakers?limit=${limit}&offset=${limit * (page - 1)}`);
       commit(ACTIONS.BAKERS_SET, { bakers: result.data, count: parseInt(result.headers['x-total-count']) })
+    },
+    async [ACTIONS.ACCOUNTS_GET]({ commit }, params) {
+      const { page = 1, limit = 10 } = params || {}
+      const result = await axios.get(`${API_URL}/v2/data/${this.state.app.platform}/${this.state.app.network}/accounts?limit=${limit}&offset=${limit * (page - 1)}`);
+      commit(ACTIONS.ACCOUNTS_SET, { accounts: result.data, count: parseInt(result.headers['x-total-count']) })
     }
   },
   getters: {
