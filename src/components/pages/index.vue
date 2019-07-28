@@ -155,6 +155,7 @@ import BlocksCard from "../blocks/blocks_card.vue";
 import TxCard from "../transactions/transactions_card.vue";
 import Search from "../search/search";
 import { ACTIONS } from "../../store";
+import { setInterval, clearInterval } from "timers";
 
 export default {
   name: "index",
@@ -162,6 +163,11 @@ export default {
     BlocksCard,
     TxCard,
     Search
+  },
+  data() {
+    return {
+      interval: {}
+    };
   },
   computed: {
     ...mapState({
@@ -181,11 +187,18 @@ export default {
       return Math.abs(this.info.staking_ratio.toFixed(2));
     }
   },
+  beforeDestroy() {
+    clearInterval(this.interval);
+  },
   async created() {
     await Promise.all([
       await this.$store.dispatch(ACTIONS.INFO_GET),
       await this.$store.dispatch(ACTIONS.BLOCK_GET_HEAD)
     ]);
+    this.interval = setInterval(
+      () => this.$store.dispatch(ACTIONS.INFO_GET),
+      10000
+    );
   }
 };
 </script>
