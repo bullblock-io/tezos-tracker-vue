@@ -67,7 +67,7 @@ export default {
       pageOptions: [10, 15, 20, 25, 30],
       fields: [
         { key: "txhash", label: "Transactions Hash" },
-        { key: "level", label: "Block ID", sortable: true },
+        { key: "level", label: "Block ID" },
         { key: "timestamp", label: "Timestamp" },
         { key: "from", label: "From" },
         { key: "to", label: "To" },
@@ -110,7 +110,4 @@ export default {
 </script>
 
 <style scoped >
-td {
-  text-align: left;
-}
 </style>
