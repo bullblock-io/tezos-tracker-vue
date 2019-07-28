@@ -6,16 +6,7 @@
           <div class="promo-search col-lg-6">
             <h1>Tezos (XTZ) Blockchain Explorer</h1>
             <div class="search">
-              <form action id="search-form">
-                <input
-                  type="text"
-                  class="search-query"
-                  placeholder="Search for block, txn or address"
-                />
-                <button type="submit" class="button-search">
-                  <font-awesome-icon icon="search" />
-                </button>
-              </form>
+              <Search />
             </div>
             <p>
               Tezos blockchain - Version
@@ -162,13 +153,15 @@ import { mapState } from "vuex";
 
 import BlocksCard from "../blocks/blocks_card.vue";
 import TxCard from "../transactions/transactions_card.vue";
+import Search from "../search/search";
 import { ACTIONS } from "../../store";
 
 export default {
   name: "index",
   components: {
     BlocksCard,
-    TxCard
+    TxCard,
+    Search
   },
   computed: {
     ...mapState({

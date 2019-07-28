@@ -37,19 +37,18 @@
       </nav>
     </div>
     <div class="search">
-      <form action id="search-form">
-        <input type="text" class="search-query" placeholder="Search for block, txn or address" />
-        <button type="submit" class="button-search">
-          <font-awesome-icon icon="search" />
-        </button>
-      </form>
+      <Search />
     </div>
   </header>
 </template>
 <script>
+import Search from "../search/search";
 export default {
   name: "TopMenu",
   props: {},
+  components: {
+    Search
+  },
   methods: {
     isActive(...args) {
       return args.includes(this.$route.name);

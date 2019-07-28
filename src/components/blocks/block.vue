@@ -32,18 +32,33 @@
 <script>
 import { mapState } from "vuex";
 import { ACTIONS } from "../../store";
+import _ from "lodash";
 
 export default {
   name: "Block",
   props: {
-    level: Number
+    level: ""
   },
   components: {},
-  computed: mapState({
-    block: state => state.viewBlock
-  }),
+  computed: {
+    ...mapState({
+      block: state => state.viewBlock
+    }),
+    action() {
+      return _.isFinite(parseInt(this.$props.level))
+        ? ACTIONS.BLOCK_GET_BY_ID
+        : ACTIONS.BLOCK_GET_BY_HASH;
+    }
+  },
+  watch: {
+    level: {
+      async handler(value) {
+        await this.$store.dispatch(this.action, value);
+      }
+    }
+  },
   async created() {
-    await this.$store.dispatch(ACTIONS.BLOCK_GET_BY_ID, this.$props.level);
+    await this.$store.dispatch(this.action, this.$props.level);
   }
 };
 </script>
