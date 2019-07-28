@@ -1,9 +1,9 @@
 <template>
-  <div class="col">
-    <div class="row">
+  <div class="main-content">
+    <div class="card-body">
       <BlockInfo :level="level" />
     </div>
-    <div class="row">
+    <div class="card-body">
       <Endorsements :level="level" />
     </div>
   </div>
@@ -21,7 +21,7 @@ export default {
   },
   computed: {
     level() {
-      return parseInt(this.$route.params.level, 0);
+      return this.$route.params.level;
     }
   }
 };

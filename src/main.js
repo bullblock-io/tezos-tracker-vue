@@ -54,7 +54,7 @@ Vue.filter("tezos", function (amount) {
   }
   return "0 XTZ";
   //return amount + "ꜩ";
-})
+});
 
 
 
@@ -64,4 +64,5 @@ const a = new Vue({
   render: h => h(App)
 });
 a.$mount("#app");
+
 

@@ -51,7 +51,7 @@ import { ACTIONS } from "../../store";
 export default {
   name: "Endorsements",
   props: {
-    level: Number
+    level: ""
   },
   data() {
     return {
@@ -83,13 +83,25 @@ export default {
       async handler(value) {
         await this.$store.dispatch(ACTIONS.ENDORSEMENTS_GET, {
           page: value,
-          limit: this.perPage
+          limit: this.perPage,
+          block: this.$props.level
+        });
+      }
+    },
+    level: {
+      async handler(value) {
+        await this.$store.dispatch(ACTIONS.ENDORSEMENTS_GET, {
+          limit: this.perPage,
+          block: this.$props.level
         });
       }
     }
   },
   async mounted() {
-    await this.$store.dispatch(ACTIONS.ENDORSEMENTS_GET);
+    await this.$store.dispatch(ACTIONS.ENDORSEMENTS_GET, {
+      limit: this.perPage,
+      block: this.$props.level
+    });
   }
 };
 </script>

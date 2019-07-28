@@ -7,7 +7,10 @@ Vue.use(Vuex);
 export const ACTIONS = {
   BLOCK_ADD: "BLOCK_ADD",
   BLOCK_SET_HEAD: "BLOCK_SET_HEAD",
+
   BLOCK_GET_BY_ID: "BLOCK_GET_BY_ID",
+  BLOCK_GET_BY_HASH: "BLOCK_GET_BY_HASH",
+
   BLOCK_SET_SINGLE: "BLOCK_SET_SINGLE",
   BLOCK_GET_HEAD: "BLOCK_GET_HEAD",
   BLOCKS_GET: "BLOCKS_GET",
@@ -110,6 +113,10 @@ export default new Vuex.Store({
       const result = await axios.get(`${API_URL}/v2/data/${this.state.app.platform}/${this.state.app.network}/blocks/${blockLevel}`);
       commit(ACTIONS.BLOCK_SET_SINGLE, result.data.block)
     },
+    async [ACTIONS.BLOCK_GET_BY_HASH]({ commit }, blockHash) {
+      const result = await axios.get(`${API_URL}/v2/data/${this.state.app.platform}/${this.state.app.network}/blocks/${blockHash}`);
+      commit(ACTIONS.BLOCK_SET_SINGLE, result.data.block)
+    },
     async [ACTIONS.INFO_GET]({ commit }) {
       const result = await axios.get(`${API_URL}/v2/data/${this.state.app.platform}/${this.state.app.network}/info`);
       commit(ACTIONS.INFO_NEW, result.data)
@@ -124,10 +131,10 @@ export default new Vuex.Store({
       commit(ACTIONS.TRANSACTIONS_SET, { ops: result.data, count: parseInt(result.headers['x-total-count']) })
     },
     async [ACTIONS.ENDORSEMENTS_GET]({ commit }, params) {
-      const { level = 0, page = 1, limit = 10 } = params || {}
+      const { block = "", page = 1, limit = 10 } = params || {}
       let url = `${API_URL}/v2/data/${this.state.app.platform}/${this.state.app.network}/operations?operation_kind=endorsement&limit=${limit}&offset=${limit * (page - 1)}`;
-      if (level && level > 0) {
-        url = `${API_URL}/v2/data/${this.state.app.platform}/${this.state.app.network}/blocks/${level}/endorsements`
+      if (block && block.length > 0) {
+        url = `${API_URL}/v2/data/${this.state.app.platform}/${this.state.app.network}/blocks/${block}/endorsements?limit=${limit}&offset=${limit * (page - 1)}`
       }
       const result = await axios.get(url);
       commit(ACTIONS.ENDORSEMENTS_SET, { ops: result.data, count: parseInt(result.headers['x-total-count']) });
