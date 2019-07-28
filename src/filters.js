@@ -6,6 +6,9 @@ const XTZ = 1000000;
 
 
 Vue.filter("bignum", function (num) {
+    if (!num || num < 1000) {
+        return num
+    }
     const str = Array.from(num.toString()).reverse()
     let result = [];
     for (let i = 0; i < str.length; i++) {
