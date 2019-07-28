@@ -44,8 +44,8 @@ export default new Vuex.Store({
       actions: ACTIONS,
     },
     counts: {
-      txs: Number,
-      blocks: Number
+      txs: 0,
+      blocks: 0
     }
   },
   mutations: {
