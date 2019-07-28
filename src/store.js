@@ -23,6 +23,9 @@ export const ACTIONS = {
   DELEGATIONS_SET: "DELEGATIONS_ADD",
   DELEGATIONS_GET: "DELEGATIONS_GET",
 
+  BAKERS_GET: "BAKERS_GET",
+  BAKERS_SET: "BAKERS_SET",
+
   INFO_NEW: "INFO_NEW",
   INFO_GET: "INFO_GET"
 }
@@ -35,6 +38,7 @@ export default new Vuex.Store({
     blocks: [],
     endorsements: [],
     delegations: [],
+    bakers: [],
     priceInfo: {},
     headBlock: {},
     viewBlock: {},
@@ -47,7 +51,8 @@ export default new Vuex.Store({
       txs: 0,
       blocks: 0,
       endorsements: 0,
-      delegations: 0
+      delegations: 0,
+      bakers: 0
     }
   },
   mutations: {
@@ -81,7 +86,10 @@ export default new Vuex.Store({
     [ACTIONS.BLOCK_SET_SINGLE]: function (state, block) {
       state.viewBlock = block
     },
-
+    [ACTIONS.BAKERS_SET]: function (state, data) {
+      state.bakers = data.bakers;
+      state.counts.bakers = data.count;
+    }
   },
   actions: {
     async [ACTIONS.BLOCKS_GET]({ commit }, params) {
@@ -113,12 +121,17 @@ export default new Vuex.Store({
         url = `${API_URL}/v2/data/${this.state.app.platform}/${this.state.app.network}/blocks/${level}/endorsements`
       }
       const result = await axios.get(url);
-      commit(ACTIONS.ENDORSEMENTS_SET, { ops: result.data, count: parseInt(result.headers['x-total-count']) })
+      commit(ACTIONS.ENDORSEMENTS_SET, { ops: result.data, count: parseInt(result.headers['x-total-count']) });
     },
-    async[ACTIONS.DELEGATIONS_GET]({ commit }, params) {
+    async [ACTIONS.DELEGATIONS_GET]({ commit }, params) {
       const { level = 0, page = 1, limit = 10 } = params || {}
-      const result = await axios.get(`${API_URL}/v2/data/${this.state.app.platform}/${this.state.app.network}/operations?operation_kind=delegation&offset=${limit * (page - 1)}`);
+      const result = await axios.get(`${API_URL}/v2/data/${this.state.app.platform}/${this.state.app.network}/operations?operation_kind=delegation&limit=${limit}&offset=${limit * (page - 1)}`);
       commit(ACTIONS.DELEGATIONS_SET, { ops: result.data, count: parseInt(result.headers['x-total-count']) })
+    },
+    async [ACTIONS.BAKERS_GET]({ commit }, params) {
+      const { page = 1, limit = 10 } = params || {}
+      const result = await axios.get(`${API_URL}/v2/data/${this.state.app.platform}/${this.state.app.network}/bakers?limit=${limit}&offset=${limit * (page - 1)}`);
+      commit(ACTIONS.BAKERS_SET, { bakers: result.data, count: parseInt(result.headers['x-total-count']) })
     }
   },
   getters: {
