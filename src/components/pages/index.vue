@@ -44,7 +44,7 @@
             <div class="tile-icon text-center">
               <font-awesome-icon icon="folder" />
             </div>
-            <span class="counter">{{head.level}}</span>
+            <span class="counter">{{head.level | bignum}}</span>
             <span class="percentage"></span>
             <span class="tile-name">Height</span>
           </div>

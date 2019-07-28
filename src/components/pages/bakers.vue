@@ -33,7 +33,7 @@
                     <span class="text">Bakers list</span>
                     <div class="counter">
                       <span class="line"></span>
-                      <span class="counter-text">{{count.bakers}}</span>
+                      <span class="counter-text">{{count.bakers | bignum}}</span>
                     </div>
                   </h3>
                 </div>
