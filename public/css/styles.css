@@ -86,10 +86,16 @@ body {
   color: #309282;
 }
 
+a.dropdown-toggle {
+  position: relative;
+}
+
 .main-header .header-middle .main-nav ul li .dropdown-toggle:after {
   border: none;
   content: url(../img/angle-down.svg);
-  vertical-align: baseline;
+  left: 100%;
+  top: -6%;
+  position: absolute;
 }
 
 .main-header .header-middle .main-nav ul li .dropdown-menu {

@@ -12,7 +12,7 @@
           <li v-bind:class="{active: isActive('blocks')}">
             <router-link :to="{name: 'blocks'}">Blocks</router-link>
           </li>
-          <li v-bind:class="{active: isActive('txs', 'endorsements', 'delegations')}">
+          <li>
             <a
               class="dropdown-toggle"
               data-toggle="dropdown"
