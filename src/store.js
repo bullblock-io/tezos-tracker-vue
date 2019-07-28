@@ -46,7 +46,8 @@ export default new Vuex.Store({
     counts: {
       txs: 0,
       blocks: 0,
-      endorsements: 0
+      endorsements: 0,
+      delegations: 0
     }
   },
   mutations: {
@@ -67,8 +68,9 @@ export default new Vuex.Store({
       state.endorsements = txs.ops;
       state.counts.endorsements = txs.count;
     },
-    [ACTIONS.DELEGATIONS_SET]: function (state, ops) {
-      state.delegations = ops;
+    [ACTIONS.DELEGATIONS_SET]: function (state, txs) {
+      state.delegations = txs.ops;
+      state.counts.delegations = txs.count;
     },
     [ACTIONS.INFO_NEW]: function (state, info) {
       state.priceInfo = info;
@@ -106,18 +108,18 @@ export default new Vuex.Store({
     },
     async [ACTIONS.ENDORSEMENTS_GET]({ commit }, params) {
       const { level = 0, page = 1, limit = 10 } = params || {}
-      let url = `${API_URL}/v2/data/${this.state.app.platform}/${this.state.app.network}/operations?operation_kind=endorsement&limit=${limit}&&offset=${limit * (page - 1)}`;
+      let url = `${API_URL}/v2/data/${this.state.app.platform}/${this.state.app.network}/operations?operation_kind=endorsement&limit=${limit}&offset=${limit * (page - 1)}`;
       if (level && level > 0) {
         url = `${API_URL}/v2/data/${this.state.app.platform}/${this.state.app.network}/blocks/${level}/endorsements`
       }
       const result = await axios.get(url);
       commit(ACTIONS.ENDORSEMENTS_SET, { ops: result.data, count: parseInt(result.headers['x-total-count']) })
     },
-    async[ACTIONS.DELEGATIONS_GET]({ commit }) {
-      const result = await axios.get(`${API_URL}/v2/data/${this.state.app.platform}/${this.state.app.network}/operations?operation_kind=delegation`);
-      commit(ACTIONS.DELEGATIONS_SET, result.data)
+    async[ACTIONS.DELEGATIONS_GET]({ commit }, params) {
+      const { level = 0, page = 1, limit = 10 } = params || {}
+      const result = await axios.get(`${API_URL}/v2/data/${this.state.app.platform}/${this.state.app.network}/operations?operation_kind=delegation&offset=${limit * (page - 1)}`);
+      commit(ACTIONS.DELEGATIONS_SET, { ops: result.data, count: parseInt(result.headers['x-total-count']) })
     }
-
   },
   getters: {
     getBlockById(state) {
