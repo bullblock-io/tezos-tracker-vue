@@ -98,7 +98,7 @@ export default {
       async handler(value) {
         await this.$store.dispatch(ACTIONS.TRANSACTIONS_GET, {
           page: value,
-          perPage: this.perPage
+          limit: this.perPage
         });
       }
     }

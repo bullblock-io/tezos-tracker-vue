@@ -88,7 +88,7 @@ export default {
       async handler(value) {
         await this.$store.dispatch(ACTIONS.BLOCKS_GET, {
           page: value,
-          perPage: this.perPage
+          limit: this.perPage
         });
       }
     }
@@ -96,7 +96,7 @@ export default {
   async created() {
     await this.$store.dispatch(ACTIONS.BLOCKS_GET, {
       page: this.currentPage,
-      perPage: this.perPage
+      limit: this.perPage
     });
   }
 };

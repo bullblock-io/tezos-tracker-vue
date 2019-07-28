@@ -45,7 +45,8 @@ export default new Vuex.Store({
     },
     counts: {
       txs: 0,
-      blocks: 0
+      blocks: 0,
+      endorsements: 0
     }
   },
   mutations: {
@@ -62,8 +63,9 @@ export default new Vuex.Store({
       state.txs = txs.ops;
       state.counts.txs = txs.count;
     },
-    [ACTIONS.ENDORSEMENTS_SET]: function (state, ops) {
-      state.endorsements = ops
+    [ACTIONS.ENDORSEMENTS_SET]: function (state, txs) {
+      state.endorsements = txs.ops;
+      state.counts.endorsements = txs.count;
     },
     [ACTIONS.DELEGATIONS_SET]: function (state, ops) {
       state.delegations = ops;
@@ -81,8 +83,7 @@ export default new Vuex.Store({
   },
   actions: {
     async [ACTIONS.BLOCKS_GET]({ commit }, params) {
-      var page = params ? params.page : 1;
-      var limit = params ? params.perPage : 10;
+      const { page = 1, limit = 10 } = params || {};
       const result = await axios.get(`${API_URL}/v2/data/${this.state.app.platform}/${this.state.app.network}/blocks?limit=${limit}&offset=${limit * (page - 1)}`);
       commit(ACTIONS.BLOCKS_SET, { blocks: result.data, count: parseInt(result.headers['x-total-count']) });
     },
@@ -99,20 +100,20 @@ export default new Vuex.Store({
       commit(ACTIONS.BLOCK_SET_HEAD, result.data)
     },
     async [ACTIONS.TRANSACTIONS_GET]({ commit }, params) {
-      var page = params ? params.page : 1;
-      var limit = params ? params.perPage : 10;
+      const { page = 1, limit = 10 } = params || {};
       const result = await axios.get(`${API_URL}/v2/data/${this.state.app.platform}/${this.state.app.network}/operations?operation_kind=transaction&limit=${limit}&offset=${limit * (page - 1)}`);
       commit(ACTIONS.TRANSACTIONS_SET, { ops: result.data, count: parseInt(result.headers['x-total-count']) })
     },
-    async [ACTIONS.ENDORSEMENTS_GET]({ commit }, level) {
-      let url = `${API_URL}/v2/data/${this.state.app.platform}/${this.state.app.network}/operations?operation_kind=endorsement`;
+    async [ACTIONS.ENDORSEMENTS_GET]({ commit }, params) {
+      const { level = 0, page = 1, limit = 10 } = params || {}
+      let url = `${API_URL}/v2/data/${this.state.app.platform}/${this.state.app.network}/operations?operation_kind=endorsement&limit=${limit}&&offset=${limit * (page - 1)}`;
       if (level && level > 0) {
         url = `${API_URL}/v2/data/${this.state.app.platform}/${this.state.app.network}/blocks/${level}/endorsements`
       }
       const result = await axios.get(url);
-      commit(ACTIONS.ENDORSEMENTS_SET, result.data)
+      commit(ACTIONS.ENDORSEMENTS_SET, { ops: result.data, count: parseInt(result.headers['x-total-count']) })
     },
-    async [ACTIONS.DELEGATIONS_GET]({ commit }) {
+    async[ACTIONS.DELEGATIONS_GET]({ commit }) {
       const result = await axios.get(`${API_URL}/v2/data/${this.state.app.platform}/${this.state.app.network}/operations?operation_kind=delegation`);
       commit(ACTIONS.DELEGATIONS_SET, result.data)
     }
