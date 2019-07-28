@@ -7,7 +7,7 @@
       placeholder="Search for block, txn or address"
     />
     <button type="submit" class="button-search">
-      <font-awesome-icon icon="search" />
+      <font-awesome-icon class="icon-white" icon="search" />
     </button>
   </form>
 </template>
@@ -70,3 +70,8 @@ export default {
 };
 </script>
 
+<style scoped>
+.icon-white {
+  color: white;
+}
+</style>
