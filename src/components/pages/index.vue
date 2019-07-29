@@ -23,17 +23,17 @@
             <div class="tile-icon text-center">
               <font-awesome-icon icon="chart-bar" />
             </div>
-            <span class="counter">${{info.price}}</span>
+            <span class="counter">${{ info.price }}</span>
             <div v-if="info.price_24h_change > 0">
               <span class="percentage green">
                 <font-awesome-icon icon="caret-up" />
-                {{priceChange}}%
+                {{ priceChange }}%
               </span>
             </div>
             <div v-else>
               <span class="percentage red">
                 <font-awesome-icon icon="caret-down" />
-                {{priceChange}}%
+                {{ priceChange }}%
               </span>
             </div>
 
@@ -44,7 +44,7 @@
             <div class="tile-icon text-center">
               <font-awesome-icon icon="folder" />
             </div>
-            <span class="counter">{{head.level | bignum}}</span>
+            <span class="counter">{{ head.level | bignum }}</span>
             <span class="percentage"></span>
             <span class="tile-name">Height</span>
           </div>
@@ -53,7 +53,7 @@
             <div class="tile-icon text-center">
               <font-awesome-icon icon="hourglass" />
             </div>
-            <span class="counter">{{head.metaCycle}}</span>
+            <span class="counter">{{ head.metaCycle }}</span>
             <span class="percentage"></span>
             <span class="tile-name">Cycle counter</span>
           </div>
@@ -62,7 +62,7 @@
             <div class="tile-icon text-center">
               <font-awesome-icon icon="lightbulb" />
             </div>
-            <span class="counter">{{stakingRatio}}%</span>
+            <span class="counter">{{ stakingRatio }}%</span>
             <div v-if="info.staking_ratio > 0">
               <span class="percentage green">
                 <font-awesome-icon icon="caret-up" />
@@ -80,7 +80,7 @@
             <div class="tile-icon text-center">
               <font-awesome-icon icon="bell" />
             </div>
-            <span class="counter">{{info.annual_yield}}%</span>
+            <span class="counter">{{ info.annual_yield }}%</span>
             <span class="percentage red"></span>
             <span class="tile-name">Annual yield</span>
           </div>
@@ -204,4 +204,3 @@ export default {
 </script>
 
 <style />
-

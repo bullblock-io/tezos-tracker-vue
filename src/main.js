@@ -5,7 +5,11 @@ import store from "./store";
 import routes from "./routes";
 import BootstrapVue from "bootstrap-vue";
 import "./filters";
-import { FontAwesomeIcon, FontAwesomeLayers, FontAwesomeLayersText } from "@fortawesome/vue-fontawesome";
+import {
+  FontAwesomeIcon,
+  FontAwesomeLayers,
+  FontAwesomeLayersText
+} from "@fortawesome/vue-fontawesome";
 import { fas } from "@fortawesome/free-solid-svg-icons";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { dom } from "@fortawesome/fontawesome-svg-core";
@@ -15,18 +19,17 @@ library.add(fas);
 
 Vue.config.productionTip = false;
 
-Vue.use(VueRouter)
-Vue.use(BootstrapVue)
+Vue.use(VueRouter);
+Vue.use(BootstrapVue);
 
 let router = new VueRouter({
   mode: "history",
   routes
-})
+});
 
-Vue.component("font-awesome-icon", FontAwesomeIcon)
-Vue.component("font-awesome-layers", FontAwesomeLayers)
-Vue.component("font-awesome-layers-text", FontAwesomeLayersText)
-
+Vue.component("font-awesome-icon", FontAwesomeIcon);
+Vue.component("font-awesome-layers", FontAwesomeLayers);
+Vue.component("font-awesome-layers-text", FontAwesomeLayersText);
 
 const a = new Vue({
   store,
@@ -34,5 +37,3 @@ const a = new Vue({
   render: h => h(App)
 });
 a.$mount("#app");
-
-

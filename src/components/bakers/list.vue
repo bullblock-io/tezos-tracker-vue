@@ -10,7 +10,9 @@
       class="transactions-table table table-borderless table-responsive-md"
     >
       <template slot="baker" slot-scope="row">
-        <b-link :to="{name: 'account', params: { account: row.item.accountId }}">
+        <b-link
+          :to="{ name: 'account', params: { account: row.item.accountId } }"
+        >
           <span>{{ row.item.accountId | longhash(35) }}</span>
         </b-link>
       </template>
@@ -21,7 +23,7 @@
         <span>{{ row.item.stakingBalance | tezos }}</span>
       </template>
       <template slot="fees" slot-scope="row">
-        <span>{{ row.item.fees | longhash(20)}}</span>
+        <span>{{ row.item.fees | longhash(20) }}</span>
       </template>
       <template slot="endorsement" slot-scope="row">
         <span>{{ row.item.endorsements }}</span>
@@ -88,5 +90,4 @@ export default {
 };
 </script>
 
-<style scoped >
-</style>
+<style scoped></style>

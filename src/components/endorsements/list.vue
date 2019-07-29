@@ -10,19 +10,23 @@
       class="table table-borderless table-responsive-md"
     >
       <template slot="txhash" slot-scope="row">
-        <b-link :to="{name: 'tx', params: { txhash: row.item.operationGroupHash }}">
+        <b-link
+          :to="{ name: 'tx', params: { txhash: row.item.operationGroupHash } }"
+        >
           <span>{{ row.item.operationGroupHash | longhash(35) }}</span>
         </b-link>
       </template>
 
       <template slot="block" slot-scope="row">
-        <b-link :to="{ name: 'block', params: { level: row.item.level }}">
+        <b-link :to="{ name: 'block', params: { level: row.item.level } }">
           <span>{{ row.item.blockHash | longhash(25) }}</span>
         </b-link>
       </template>
 
       <template slot="endorser" slot-scope="row">
-        <b-link :to="{ name: 'account', params: { account: row.item.delegate }}">
+        <b-link
+          :to="{ name: 'account', params: { account: row.item.delegate } }"
+        >
           <span>{{ row.item.delegate | longhash(42) }}</span>
         </b-link>
       </template>
@@ -50,9 +54,7 @@ import { ACTIONS } from "../../store";
 
 export default {
   name: "Endorsements",
-  props: {
-    level: ""
-  },
+  props: ["level"],
   data() {
     return {
       perPage: 10,
@@ -92,7 +94,7 @@ export default {
       async handler(value) {
         await this.$store.dispatch(ACTIONS.ENDORSEMENTS_GET, {
           limit: this.perPage,
-          block: this.$props.level
+          block: value
         });
       }
     }
@@ -106,5 +108,4 @@ export default {
 };
 </script>
 
-<style scoped >
-</style>
+<style scoped></style>

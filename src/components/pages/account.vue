@@ -1,6 +1,6 @@
 <template>
   <div class="col">
-    <div class="row">single account {{hash}}</div>
+    <div class="row">single account {{ hash }}</div>
   </div>
 </template>
 
