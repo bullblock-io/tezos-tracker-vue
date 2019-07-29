@@ -16,8 +16,8 @@ import _ from "lodash";
 
 const prefixes = {
   account: ["tz", "KT"],
-  operation: ["oo"],
-  block: ["BL", "BM"]
+  operation: ["o"],
+  block: ["B"]
 };
 
 export default {
