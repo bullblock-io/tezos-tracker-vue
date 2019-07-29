@@ -10,13 +10,15 @@
       class="transactions-table table table-borderless table-responsive-md"
     >
       <template slot="txhash" slot-scope="row">
-        <b-link :to="{name: 'tx', params: { txhash: row.item.operationGroupHash }}">
+        <b-link
+          :to="{ name: 'tx', params: { txhash: row.item.operationGroupHash } }"
+        >
           <span>{{ row.item.operationGroupHash | longhash(35) }}</span>
         </b-link>
       </template>
 
       <template slot="level" slot-scope="row">
-        <b-link :to="{ name: 'block', params: { level: row.item.blockLevel }}">
+        <b-link :to="{ name: 'block', params: { level: row.item.blockLevel } }">
           <span>{{ row.item.blockLevel }}</span>
         </b-link>
       </template>
@@ -26,13 +28,15 @@
       </template>
 
       <template slot="from" slot-scope="row">
-        <b-link :to="{name: 'account', params: { account: row.item.source }}">
-          <span>{{ row.item.source | longhash(20)}}</span>
+        <b-link :to="{ name: 'account', params: { account: row.item.source } }">
+          <span>{{ row.item.source | longhash(20) }}</span>
         </b-link>
       </template>
 
       <template slot="to" slot-scope="row">
-        <b-link :to="{name: 'account', params: { account: row.item.destination }}">
+        <b-link
+          :to="{ name: 'account', params: { account: row.item.destination } }"
+        >
           <span>{{ row.item.destination | longhash(20) }}</span>
         </b-link>
       </template>
@@ -109,5 +113,4 @@ export default {
 };
 </script>
 
-<style scoped >
-</style>
+<style scoped></style>

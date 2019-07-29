@@ -6,7 +6,7 @@
           <span class="text">Transaction list</span>
           <div class="counter">
             <span class="line"></span>
-            <span class="counter-text">{{count | bignum}}</span>
+            <span class="counter-text">{{ count | bignum }}</span>
           </div>
         </h3>
       </div>
@@ -19,14 +19,16 @@
             data-toggle="dropdown"
             aria-haspopup="true"
             aria-expanded="false"
-          >This year</button>
+          >
+            This year
+          </button>
           <div class="dropdown-menu" aria-labelledby="thisYear2">
             <a class="dropdown-item" href="#">Action</a>
             <a class="dropdown-item" href="#">Another action</a>
             <a class="dropdown-item" href="#">Something else here</a>
           </div>
         </div>
-        <router-link :to="{name: 'txs'}">
+        <router-link :to="{ name: 'txs' }">
           <button class="btn green float-right">View All</button>
         </router-link>
       </div>
@@ -43,17 +45,26 @@
         class="table table-borderless table-responsive-sm"
       >
         <template slot="timestamp" slot-scope="row">
-          <span>{{ row.item.timestamp | timeformat("hh:mm:ss DD.MM.YY") }}</span>
+          <span>
+            {{ row.item.timestamp | timeformat("hh:mm:ss DD.MM.YY") }}
+          </span>
         </template>
 
         <template slot="level" slot-scope="row">
-          <b-link :to="{ name: 'block', params: { level: row.item.blockLevel }}">
+          <b-link
+            :to="{ name: 'block', params: { level: row.item.blockLevel } }"
+          >
             <span>{{ row.item.blockLevel }}</span>
           </b-link>
         </template>
 
         <template slot="baker" slot-scope="row">
-          <b-link :to="{ name: 'tx', params: { txhash: row.item.operationGroupHash }}">
+          <b-link
+            :to="{
+              name: 'tx',
+              params: { txhash: row.item.operationGroupHash }
+            }"
+          >
             <span>{{ row.item.operationGroupHash | longhash(35) }}</span>
           </b-link>
         </template>
@@ -100,8 +111,6 @@ export default {
       count: state => state.counts.txs
     }),
     rows() {
-      return Number(this.count);
-      console.log(this.count);
       return this.count;
     },
     items() {
@@ -127,5 +136,4 @@ export default {
 };
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>

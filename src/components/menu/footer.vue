@@ -4,7 +4,9 @@
       <div class="container-fluid">
         <div class="row justify-content-md-center align-items-center">
           <div class="col-lg-6">
-            <div class="copyright ml-2">© 2019 TZ Tracker. All rights reserved.</div>
+            <div class="copyright ml-2">
+              © 2019 TZ Tracker. All rights reserved.
+            </div>
           </div>
           <div class="col-lg-6 text-right">
             <div class="contacts mr-2">
@@ -24,5 +26,4 @@ export default {
 };
 </script>
 
-<style>
-</style>
+<style></style>

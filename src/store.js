@@ -1,8 +1,7 @@
 import Vue from "vue";
 import Vuex from "vuex";
-import axios from "axios"
+import axios from "axios";
 Vue.use(Vuex);
-
 
 export const ACTIONS = {
   BLOCK_ADD: "BLOCK_ADD",
@@ -34,9 +33,9 @@ export const ACTIONS = {
 
   INFO_NEW: "INFO_NEW",
   INFO_GET: "INFO_GET"
-}
+};
 
-const API_URL = 'https://api-teztracker.everstake.one'
+const API_URL = "https://api-teztracker.everstake.one";
 
 export default new Vuex.Store({
   state: {
@@ -52,7 +51,7 @@ export default new Vuex.Store({
     app: {
       platform: "tezos",
       network: "mainnet",
-      actions: ACTIONS,
+      actions: ACTIONS
     },
     counts: {
       txs: 0,
@@ -64,41 +63,41 @@ export default new Vuex.Store({
     }
   },
   mutations: {
-    [ACTIONS.BLOCKS_ADD]: function (state, block) {
+    [ACTIONS.BLOCKS_ADD]: function(state, block) {
       if (!this.getters.getBlockById(block.level)) {
         state.blocks.unshift(block);
       }
     },
-    [ACTIONS.BLOCKS_SET]: function (state, blocks) {
+    [ACTIONS.BLOCKS_SET]: function(state, blocks) {
       state.blocks = blocks.blocks;
       state.counts.blocks = blocks.count;
     },
-    [ACTIONS.TRANSACTIONS_SET]: function (state, txs) {
+    [ACTIONS.TRANSACTIONS_SET]: function(state, txs) {
       state.txs = txs.ops;
       state.counts.txs = txs.count;
     },
-    [ACTIONS.ENDORSEMENTS_SET]: function (state, txs) {
+    [ACTIONS.ENDORSEMENTS_SET]: function(state, txs) {
       state.endorsements = txs.ops;
       state.counts.endorsements = txs.count;
     },
-    [ACTIONS.DELEGATIONS_SET]: function (state, txs) {
+    [ACTIONS.DELEGATIONS_SET]: function(state, txs) {
       state.delegations = txs.ops;
       state.counts.delegations = txs.count;
     },
-    [ACTIONS.INFO_NEW]: function (state, info) {
+    [ACTIONS.INFO_NEW]: function(state, info) {
       state.priceInfo = info;
     },
-    [ACTIONS.BLOCK_SET_HEAD]: function (state, block) {
+    [ACTIONS.BLOCK_SET_HEAD]: function(state, block) {
       state.headBlock = block;
     },
-    [ACTIONS.BLOCK_SET_SINGLE]: function (state, block) {
-      state.viewBlock = block
+    [ACTIONS.BLOCK_SET_SINGLE]: function(state, block) {
+      state.viewBlock = block;
     },
-    [ACTIONS.BAKERS_SET]: function (state, data) {
+    [ACTIONS.BAKERS_SET]: function(state, data) {
       state.bakers = data.bakers;
       state.counts.bakers = data.count;
     },
-    [ACTIONS.ACCOUNTS_SET]: function (state, data) {
+    [ACTIONS.ACCOUNTS_SET]: function(state, data) {
       state.accounts = data.accounts;
       state.counts.accounts = data.count;
     }
@@ -106,64 +105,126 @@ export default new Vuex.Store({
   actions: {
     async [ACTIONS.BLOCKS_GET]({ commit }, params) {
       const { page = 1, limit = 10 } = params || {};
-      const result = await axios.get(`${API_URL}/v2/data/${this.state.app.platform}/${this.state.app.network}/blocks?limit=${limit}&offset=${limit * (page - 1)}`);
-      commit(ACTIONS.BLOCKS_SET, { blocks: result.data, count: parseInt(result.headers['x-total-count']) });
+      const result = await axios.get(
+        `${API_URL}/v2/data/${this.state.app.platform}/${
+          this.state.app.network
+        }/blocks?limit=${limit}&offset=${limit * (page - 1)}`
+      );
+      commit(ACTIONS.BLOCKS_SET, {
+        blocks: result.data,
+        count: parseInt(result.headers["x-total-count"])
+      });
     },
     async [ACTIONS.BLOCK_GET_BY_ID]({ commit }, blockLevel) {
-      const result = await axios.get(`${API_URL}/v2/data/${this.state.app.platform}/${this.state.app.network}/blocks/${blockLevel}`);
-      commit(ACTIONS.BLOCK_SET_SINGLE, result.data.block)
+      const result = await axios.get(
+        `${API_URL}/v2/data/${this.state.app.platform}/${
+          this.state.app.network
+        }/blocks/${blockLevel}`
+      );
+      commit(ACTIONS.BLOCK_SET_SINGLE, result.data.block);
     },
     async [ACTIONS.BLOCK_GET_BY_HASH]({ commit }, blockHash) {
-      const result = await axios.get(`${API_URL}/v2/data/${this.state.app.platform}/${this.state.app.network}/blocks/${blockHash}`);
-      commit(ACTIONS.BLOCK_SET_SINGLE, result.data.block)
+      const result = await axios.get(
+        `${API_URL}/v2/data/${this.state.app.platform}/${
+          this.state.app.network
+        }/blocks/${blockHash}`
+      );
+      commit(ACTIONS.BLOCK_SET_SINGLE, result.data.block);
     },
     async [ACTIONS.INFO_GET]({ commit }) {
-      const result = await axios.get(`${API_URL}/v2/data/${this.state.app.platform}/${this.state.app.network}/info`);
-      commit(ACTIONS.INFO_NEW, result.data)
+      const result = await axios.get(
+        `${API_URL}/v2/data/${this.state.app.platform}/${
+          this.state.app.network
+        }/info`
+      );
+      commit(ACTIONS.INFO_NEW, result.data);
     },
     async [ACTIONS.BLOCK_GET_HEAD]({ commit }) {
-      const result = await axios.get(`${API_URL}/v2/data/${this.state.app.platform}/${this.state.app.network}/blocks/head`);
-      commit(ACTIONS.BLOCK_SET_HEAD, result.data)
+      const result = await axios.get(
+        `${API_URL}/v2/data/${this.state.app.platform}/${
+          this.state.app.network
+        }/blocks/head`
+      );
+      commit(ACTIONS.BLOCK_SET_HEAD, result.data);
     },
     async [ACTIONS.TRANSACTIONS_GET]({ commit }, params) {
       const { page = 1, limit = 10 } = params || {};
-      const result = await axios.get(`${API_URL}/v2/data/${this.state.app.platform}/${this.state.app.network}/operations?operation_kind=transaction&limit=${limit}&offset=${limit * (page - 1)}`);
-      commit(ACTIONS.TRANSACTIONS_SET, { ops: result.data, count: parseInt(result.headers['x-total-count']) })
+      const result = await axios.get(
+        `${API_URL}/v2/data/${this.state.app.platform}/${
+          this.state.app.network
+        }/operations?operation_kind=transaction&limit=${limit}&offset=${limit *
+          (page - 1)}`
+      );
+      commit(ACTIONS.TRANSACTIONS_SET, {
+        ops: result.data,
+        count: parseInt(result.headers["x-total-count"])
+      });
     },
     async [ACTIONS.ENDORSEMENTS_GET]({ commit }, params) {
-      const { block = "", page = 1, limit = 10 } = params || {}
-      let url = `${API_URL}/v2/data/${this.state.app.platform}/${this.state.app.network}/operations?operation_kind=endorsement&limit=${limit}&offset=${limit * (page - 1)}`;
+      const { block = "", page = 1, limit = 10 } = params || {};
+      let url = `${API_URL}/v2/data/${this.state.app.platform}/${
+        this.state.app.network
+      }/operations?operation_kind=endorsement&limit=${limit}&offset=${limit *
+        (page - 1)}`;
       if (block && block.length > 0) {
-        url = `${API_URL}/v2/data/${this.state.app.platform}/${this.state.app.network}/blocks/${block}/endorsements?limit=${limit}&offset=${limit * (page - 1)}`
+        url = `${API_URL}/v2/data/${this.state.app.platform}/${
+          this.state.app.network
+        }/blocks/${block}/endorsements?limit=${limit}&offset=${limit *
+          (page - 1)}`;
       }
       const result = await axios.get(url);
-      commit(ACTIONS.ENDORSEMENTS_SET, { ops: result.data, count: parseInt(result.headers['x-total-count']) });
+      commit(ACTIONS.ENDORSEMENTS_SET, {
+        ops: result.data,
+        count: parseInt(result.headers["x-total-count"])
+      });
     },
     async [ACTIONS.DELEGATIONS_GET]({ commit }, params) {
-      const { level = 0, page = 1, limit = 10 } = params || {}
-      const result = await axios.get(`${API_URL}/v2/data/${this.state.app.platform}/${this.state.app.network}/operations?operation_kind=delegation&limit=${limit}&offset=${limit * (page - 1)}`);
-      commit(ACTIONS.DELEGATIONS_SET, { ops: result.data, count: parseInt(result.headers['x-total-count']) })
+      const { page = 1, limit = 10 } = params || {};
+      const result = await axios.get(
+        `${API_URL}/v2/data/${this.state.app.platform}/${
+          this.state.app.network
+        }/operations?operation_kind=delegation&limit=${limit}&offset=${limit *
+          (page - 1)}`
+      );
+      commit(ACTIONS.DELEGATIONS_SET, {
+        ops: result.data,
+        count: parseInt(result.headers["x-total-count"])
+      });
     },
     async [ACTIONS.BAKERS_GET]({ commit }, params) {
-      const { page = 1, limit = 10 } = params || {}
-      const result = await axios.get(`${API_URL}/v2/data/${this.state.app.platform}/${this.state.app.network}/bakers?limit=${limit}&offset=${limit * (page - 1)}`);
-      commit(ACTIONS.BAKERS_SET, { bakers: result.data, count: parseInt(result.headers['x-total-count']) })
+      const { page = 1, limit = 10 } = params || {};
+      const result = await axios.get(
+        `${API_URL}/v2/data/${this.state.app.platform}/${
+          this.state.app.network
+        }/bakers?limit=${limit}&offset=${limit * (page - 1)}`
+      );
+      commit(ACTIONS.BAKERS_SET, {
+        bakers: result.data,
+        count: parseInt(result.headers["x-total-count"])
+      });
     },
     async [ACTIONS.ACCOUNTS_GET]({ commit }, params) {
-      const { page = 1, limit = 10 } = params || {}
-      const result = await axios.get(`${API_URL}/v2/data/${this.state.app.platform}/${this.state.app.network}/accounts?limit=${limit}&offset=${limit * (page - 1)}`);
-      commit(ACTIONS.ACCOUNTS_SET, { accounts: result.data, count: parseInt(result.headers['x-total-count']) })
+      const { page = 1, limit = 10 } = params || {};
+      const result = await axios.get(
+        `${API_URL}/v2/data/${this.state.app.platform}/${
+          this.state.app.network
+        }/accounts?limit=${limit}&offset=${limit * (page - 1)}`
+      );
+      commit(ACTIONS.ACCOUNTS_SET, {
+        accounts: result.data,
+        count: parseInt(result.headers["x-total-count"])
+      });
     }
   },
   getters: {
     getBlockById(state) {
-      return id => state.blocks.find(el => el.level === id)
+      return id => state.blocks.find(el => el.level === id);
     },
     getTransactionById(state) {
-      return id => state.txs.find(el => el.hash === id)
+      return id => state.txs.find(el => el.hash === id);
     },
     getActions(state) {
-      return () => state.app.actions
+      return () => state.app.actions;
     }
   }
 });

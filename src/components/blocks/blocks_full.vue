@@ -10,7 +10,7 @@
       class="table table-borderless table-responsive-sm"
     >
       <template slot="level" slot-scope="row">
-        <b-link :to="{ name: 'block', params: { level: row.item.level }}">
+        <b-link :to="{ name: 'block', params: { level: row.item.level } }">
           <span>{{ row.item.level }}</span>
         </b-link>
       </template>
@@ -20,7 +20,7 @@
       </template>
 
       <template slot="baker" slot-scope="row">
-        <b-link :to="{ name: 'baker', params: { baker: row.item.baker }}">
+        <b-link :to="{ name: 'baker', params: { baker: row.item.baker } }">
           <span>{{ row.item.baker | longhash(42) }}</span>
         </b-link>
       </template>

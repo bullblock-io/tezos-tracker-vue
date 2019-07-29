@@ -5,7 +5,7 @@
     </thead>
     <tbody>
       <tr>
-        <td>here's single tx id: {{tx.id}} named: {{tx.name}}</td>
+        <td>here's single tx id: {{ tx.id }} named: {{ tx.name }}</td>
       </tr>
     </tbody>
   </table>

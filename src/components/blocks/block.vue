@@ -1,28 +1,31 @@
 <template>
   <div>
     <div>
-      <h2>Block information {{block.level}}</h2>
+      <h2>Block information {{ block.level }}</h2>
       <table class="table-borderless text-left table border">
         <tr>
           <td>Hash</td>
-          <td>{{block.hash}}</td>
+          <td>{{ block.hash }}</td>
         </tr>
         <tr>
           <td>Timestamp</td>
-          <td>{{block.timestamp}}</td>
+          <td>{{ block.timestamp }}</td>
         </tr>
         <tr>
           <td>Volume</td>
-          <td>{{block.volume | tezos}}</td>
+          <td>{{ block.volume | tezos }}</td>
         </tr>
         <tr>
           <td>Cycle</td>
-          <td>{{block.metaCycle}}</td>
+          <td>{{ block.metaCycle }}</td>
         </tr>
         <tr>
           <td>Baker</td>
           <td>
-            <router-link :to="{name: 'baker', params: {baker: block.baker}}">{{block.baker}}</router-link>
+            <router-link
+              :to="{ name: 'baker', params: { baker: block.baker } }"
+              >{{ block.baker }}</router-link
+            >
           </td>
         </tr>
       </table>
@@ -36,9 +39,7 @@ import _ from "lodash";
 
 export default {
   name: "Block",
-  props: {
-    level: ""
-  },
+  props: ["level"],
   components: {},
   computed: {
     ...mapState({
@@ -63,5 +64,4 @@ export default {
 };
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>

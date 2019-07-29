@@ -13,7 +13,7 @@
 
             <ol class="breadcrumb ml-2">
               <li class="breadcrumb-item">
-                <router-link :to="{name: 'index'}">Home</router-link>
+                <router-link :to="{ name: 'index' }">Home</router-link>
               </li>
               <li class="breadcrumb-item active">Endorsements page</li>
             </ol>
@@ -33,7 +33,9 @@
                     <span class="text">Endorsements list</span>
                     <div class="counter">
                       <span class="line"></span>
-                      <span class="counter-text">{{count.endorsements | bignum}}</span>
+                      <span class="counter-text">{{
+                        count.endorsements | bignum
+                      }}</span>
                     </div>
                   </h3>
                 </div>
@@ -46,7 +48,9 @@
                       data-toggle="dropdown"
                       aria-haspopup="true"
                       aria-expanded="false"
-                    >This year</button>
+                    >
+                      This year
+                    </button>
                     <div class="dropdown-menu" aria-labelledby="thisYear">
                       <a class="dropdown-item" href="#">Action</a>
                       <a class="dropdown-item" href="#">Another action</a>
@@ -84,4 +88,3 @@ export default {
 </script>
 
 <style />
-

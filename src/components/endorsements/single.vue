@@ -5,14 +5,12 @@
     </thead>
     <tbody>
       <tr>
-        <td>here's single endorsement {{hash}}</td>
+        <td>here's single endorsement {{ hash }}</td>
       </tr>
     </tbody>
   </table>
 </template>
 <script>
-import { mapState } from "vuex";
-
 export default {
   name: "Endorsement",
   props: {
@@ -21,5 +19,4 @@ export default {
 };
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>
