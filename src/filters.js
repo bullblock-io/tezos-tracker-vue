@@ -25,10 +25,10 @@ Vue.filter("timeformat", function (ts, format) {
 
 Vue.filter("longhash", function (hash, length) {
     const l = length || MAX_HASH_LENGTH;
-    if (hash.length > l) {
-        return hash.slice(0, l) + "...";
+    if (!hash || hash.length < l) {
+        return hash;
     }
-    return hash;
+    return hash.slice(0, l) + "...";
 });
 
 Vue.filter("tezos", function (amount) {
