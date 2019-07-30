@@ -1,67 +1,95 @@
 <template>
-  <div>
-    <div>
-      <h2>Block information {{ block.level }}</h2>
-      <table class="table-borderless text-left table border">
-        <tr>
-          <td>Hash</td>
-          <td>{{ block.hash }}</td>
-        </tr>
-        <tr>
-          <td>Timestamp</td>
-          <td>{{ block.timestamp }}</td>
-        </tr>
-        <tr>
-          <td>Volume</td>
-          <td>{{ block.volume | tezos }}</td>
-        </tr>
-        <tr>
-          <td>Cycle</td>
-          <td>{{ block.metaCycle }}</td>
-        </tr>
-        <tr>
-          <td>Baker</td>
-          <td>
-            <router-link
-              :to="{ name: 'baker', params: { baker: block.baker } }"
-              >{{ block.baker }}</router-link
-            >
-          </td>
-        </tr>
-      </table>
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card ml-2 mr-2">
+        <div class="card-header">
+          <div class="title">
+            <h3>
+              <span class="text">{{level}}</span>
+            </h3>
+            <span class="subtitle">Block Information</span>
+          </div>
+        </div>
+
+        <div class="card-divider"></div>
+
+        <div class="card-body">
+          <div class="item-info row ml-1 mr-1">
+            <div class="col-lg-3">
+              <span class="label">Hash</span>
+            </div>
+            <div class="col-lg-9">
+              <span class="value">{{block.hash}}</span>
+            </div>
+          </div>
+          <div class="item-info row ml-1 mr-1">
+            <div class="col-lg-3">
+              <span class="label">Timestamp</span>
+            </div>
+            <div class="col-lg-9">
+              <span class="value">{{block.timestamp | timeformat("hh:mm:ss DD.MM.YY")}}</span>
+            </div>
+          </div>
+          <div class="item-info row ml-1 mr-1">
+            <div class="col-lg-3">
+              <span class="label">Volume</span>
+            </div>
+            <div class="col-lg-9">
+              <span class="value">{{block.volume | tezos }}</span>
+            </div>
+          </div>
+          <div class="item-info row ml-1 mr-1">
+            <div class="col-lg-3">
+              <span class="label">Cycle</span>
+            </div>
+            <div class="col-lg-9">
+              <span class="value">{{block.metaCycle}}</span>
+            </div>
+          </div>
+          <div class="item-info row ml-1 mr-1">
+            <div class="col-lg-3">
+              <span class="label">Baker</span>
+            </div>
+            <div class="col-lg-9">
+              <span class="value">
+                <router-link :to="{ name: 'baker', params: {baker: block.baker}}">{{block.baker}}</router-link>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
 <script>
-import { mapState } from "vuex";
-import { ACTIONS } from "../../store";
-import _ from "lodash";
+import { api } from "../../store";
 
 export default {
   name: "Block",
   props: ["level"],
   components: {},
-  computed: {
-    ...mapState({
-      block: state => state.viewBlock
-    }),
-    action() {
-      return _.isFinite(parseInt(this.$props.level))
-        ? ACTIONS.BLOCK_GET_BY_ID
-        : ACTIONS.BLOCK_GET_BY_HASH;
-    }
+  data() {
+    return {
+      block: {}
+    };
   },
   watch: {
     level: {
       async handler(value) {
-        await this.$store.dispatch(this.action, value);
+        await this.load(value);
       }
     }
   },
   async created() {
-    await this.$store.dispatch(this.action, this.$props.level);
+    await this.load(this.$props.level);
+  },
+  methods: {
+    async load(level) {
+      const result = await api.getBlock({ block: level });
+      this.$data.block = result.data.block;
+    }
   }
 };
 </script>
 
-<style scoped></style>
+<style />

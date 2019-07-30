@@ -10,9 +10,7 @@
       class="table table-borderless table-responsive-md"
     >
       <template slot="txhash" slot-scope="row">
-        <b-link
-          :to="{ name: 'tx', params: { txhash: row.item.operationGroupHash } }"
-        >
+        <b-link :to="{ name: 'tx', params: { txhash: row.item.operationGroupHash } }">
           <span>{{ row.item.operationGroupHash | longhash(35) }}</span>
         </b-link>
       </template>
@@ -24,9 +22,7 @@
       </template>
 
       <template slot="endorser" slot-scope="row">
-        <b-link
-          :to="{ name: 'account', params: { account: row.item.delegate } }"
-        >
+        <b-link :to="{ name: 'account', params: { account: row.item.delegate } }">
           <span>{{ row.item.delegate | longhash(42) }}</span>
         </b-link>
       </template>
@@ -50,16 +46,18 @@
 </template>
 <script>
 import { mapState } from "vuex";
-import { ACTIONS } from "../../store";
+import { ACTIONS, api } from "../../store";
 
 export default {
   name: "Endorsements",
-  props: ["level"],
+  props: ["block"],
   data() {
     return {
       perPage: 10,
       currentPage: 1,
       pageOptions: [10, 15, 20, 25, 30],
+      endorsements: [],
+      count: 0,
       fields: [
         { key: "txhash", label: "Endorsements Hash" },
         { key: "block", label: "Endorsed Block" },
@@ -69,12 +67,8 @@ export default {
     };
   },
   computed: {
-    ...mapState({
-      endorsements: state => state.endorsements,
-      count: state => state.counts
-    }),
     rows() {
-      return this.count.endorsements;
+      return this.count;
     },
     items() {
       return this.endorsements;
@@ -83,29 +77,37 @@ export default {
   watch: {
     currentPage: {
       async handler(value) {
-        await this.$store.dispatch(ACTIONS.ENDORSEMENTS_GET, {
-          page: value,
-          limit: this.perPage,
-          block: this.$props.level
-        });
+        await this.reload(value);
       }
     },
-    level: {
+    block: {
       async handler(value) {
-        await this.$store.dispatch(ACTIONS.ENDORSEMENTS_GET, {
-          limit: this.perPage,
-          block: value
-        });
+        await this.reload();
       }
     }
   },
   async mounted() {
-    await this.$store.dispatch(ACTIONS.ENDORSEMENTS_GET, {
-      limit: this.perPage,
-      block: this.$props.level
-    });
+    await this.reload();
+  },
+  methods: {
+    async reload(page = 1) {
+      const props = {
+        page,
+        limit: this.perPage
+      };
+      let result;
+      if (this.block && this.block.level > 0) {
+        props.block_id = this.block.level;
+        result = await api.getBlockEndorsements(props);
+        this.perPage = 32;
+      } else {
+        result = await api.getEndorsements(props);
+      }
+      this.count = result.count;
+      this.endorsements = result.data;
+      this.$store.commit(ACTIONS.SET_ENDORSEMENTS_COUNT, this.count);
+    }
   }
 };
 </script>
-
-<style scoped></style>
+<style />

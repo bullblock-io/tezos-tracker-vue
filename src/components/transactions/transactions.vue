@@ -10,9 +10,7 @@
       class="transactions-table table table-borderless table-responsive-md"
     >
       <template slot="txhash" slot-scope="row">
-        <b-link
-          :to="{ name: 'tx', params: { txhash: row.item.operationGroupHash } }"
-        >
+        <b-link :to="{ name: 'tx', params: { txhash: row.item.operationGroupHash } }">
           <span>{{ row.item.operationGroupHash | longhash(35) }}</span>
         </b-link>
       </template>
@@ -34,9 +32,7 @@
       </template>
 
       <template slot="to" slot-scope="row">
-        <b-link
-          :to="{ name: 'account', params: { account: row.item.destination } }"
-        >
+        <b-link :to="{ name: 'account', params: { account: row.item.destination } }">
           <span>{{ row.item.destination | longhash(20) }}</span>
         </b-link>
       </template>
@@ -61,7 +57,7 @@
 </template>
 <script>
 import { mapState } from "vuex";
-import { ACTIONS } from "../../store";
+import { ACTIONS, api } from "../../store";
 
 export default {
   data() {
@@ -69,6 +65,8 @@ export default {
       perPage: 10,
       currentPage: 1,
       pageOptions: [10, 15, 20, 25, 30],
+      transactions: [],
+      count: 0,
       fields: [
         { key: "txhash", label: "Transactions Hash" },
         { key: "level", label: "Block ID" },
@@ -81,17 +79,13 @@ export default {
     };
   },
   name: "Transactions",
-  props: {
-    blockHash: String
-  },
-
+  props: ["block", "account"],
   computed: {
     ...mapState({
-      transactions: state => state.txs,
-      count: state => state.counts
+      counts: state => state.counts
     }),
     rows() {
-      return this.count.txs;
+      return this.count;
     },
     items() {
       return this.transactions;
@@ -100,17 +94,38 @@ export default {
   watch: {
     currentPage: {
       async handler(value) {
-        await this.$store.dispatch(ACTIONS.TRANSACTIONS_GET, {
-          page: value,
-          limit: this.perPage
-        });
+        await this.reload(value);
+      }
+    },
+    block: {
+      async handler(value) {
+        await this.reload();
       }
     }
   },
   async mounted() {
-    await this.$store.dispatch(ACTIONS.TRANSACTIONS_GET);
+    await this.reload();
+  },
+  methods: {
+    async reload(page = 1) {
+      const props = {
+        page,
+        limit: this.perPage
+      };
+      if (this.$props.block) {
+        props.block_id = this.$props.block.hash;
+      }
+      if (this.$props.account) {
+        props.account_id = this.$props.account;
+      }
+      const data = await api.getTransactions(props);
+      this.transactions = data.data;
+      this.count = data.count;
+      this.$store.commit(ACTIONS.SET_TX_COUNT, this.count);
+    }
   }
 };
 </script>
+
 
 <style scoped></style>

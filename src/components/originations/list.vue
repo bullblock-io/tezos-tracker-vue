@@ -21,12 +21,6 @@
         </b-link>
       </template>
 
-      <template slot="to" slot-scope="row">
-        <b-link :to="{ name: 'account', params: { account: row.item.destination } }">
-          <span>{{ row.item.delegate | longhash(20) }}</span>
-        </b-link>
-      </template>
-
       <template slot="level" slot-scope="row">
         <b-link :to="{ name: 'block', params: { level: row.item.blockLevel } }">
           <span>{{ row.item.blockLevel }}</span>
@@ -37,9 +31,6 @@
         <span>{{ row.item.timestamp | timeformat("hh:mm:ss DD.MM.YY") }}</span>
       </template>
 
-      <template slot="amount" slot-scope="row">
-        <span>TODO {{ row.item.fee }}</span>
-      </template>
       <template slot="fee" slot-scope="row">
         <span>{{ row.item.fee | tezos }}</span>
       </template>
@@ -61,32 +52,30 @@
 import { mapState } from "vuex";
 import { ACTIONS, api } from "../../store";
 export default {
-  name: "Delegations",
+  name: "Originations",
   props: ["account"],
   data() {
     return {
       perPage: 10,
       currentPage: 1,
       pageOptions: [10, 15, 20, 25, 30],
-      delegations: [],
+      originations: [],
       count: 0,
       fields: [
-        { key: "txhash", label: "Delegations Hash" },
+        { key: "txhash", label: "Origination Hash" },
         { key: "from", label: "From" },
-        { key: "to", label: "To" },
         { key: "level", label: "Block ID" },
         { key: "timestamp", label: "Timestamp" },
-        { key: "amount", label: "Amount" },
         { key: "fee", label: "Fees" }
       ]
     };
   },
   computed: {
     rows() {
-      return this.count.delegations;
+      return this.count;
     },
     items() {
-      return this.delegations;
+      return this.originations;
     }
   },
   watch: {
@@ -111,10 +100,9 @@ export default {
       if (this.$props.account) {
         props.account_id = this.$props.account;
       }
-      const data = await api.getDelegations(props);
-      this.delegations = data.data;
+      const data = await api.getOriginations(props);
+      this.originations = data.data;
       this.count = data.count;
-      this.$store.commit(ACTIONS.SET_DELEGATIONS_COUNT, this.count);
     }
   }
 };
