@@ -21,7 +21,7 @@
             <div class="col-lg-10">
               <span class="value">
                 {{account.balance | tezos }}
-                (TODO: $5 537,029)
+                ({{convert(account.balance)}})
               </span>
             </div>
           </div>
@@ -83,7 +83,9 @@
   </div>
 </template>
 <script>
-import { api } from "../../store";
+import { api, ACTIONS, XTZ } from "../../store";
+import { mapState } from "vuex";
+import { ceil } from "lodash";
 
 export default {
   name: "Account",
@@ -95,7 +97,11 @@ export default {
       account: {}
     };
   },
-  computed: {},
+  computed: {
+    ...mapState({
+      info: state => state.priceInfo
+    })
+  },
   watch: {
     hash: {
       async handler(value) {
@@ -104,6 +110,7 @@ export default {
     }
   },
   async mounted() {
+    await this.$store.dispatch(ACTIONS.INFO_GET);
     await this.reload(this.hash);
   },
   methods: {
@@ -116,6 +123,14 @@ export default {
       } else {
         this.baker = false;
       }
+    },
+    convert(tzAmount) {
+      let result = 0;
+      if (tzAmount || tzAmount > 0) {
+        const tez = tzAmount / XTZ;
+        result = ceil(tez * this.info.price, 2);
+      }
+      return "$" + result;
     }
   }
 };

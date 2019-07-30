@@ -105,6 +105,7 @@ export default {
       }
       this.count = result.count;
       this.endorsements = result.data;
+      this.$store.commit(ACTIONS.SET_ENDORSEMENTS_COUNT, this.count);
     }
   }
 };

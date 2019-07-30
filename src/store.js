@@ -3,6 +3,7 @@ import Vuex from "vuex";
 import axios from "axios";
 import TzAPI from "./tzApi";
 Vue.use(Vuex);
+export const XTZ = 1000000;
 
 export const ACTIONS = {
   BLOCK_ADD: "BLOCK_ADD",
@@ -19,13 +20,16 @@ export const ACTIONS = {
   //OPERATIONS
   TRANSACTIONS_SET: "TRANSACTIONS_SET",
   TRANSACTIONS_GET: "TRANSACTIONS_GET",
+  SET_TX_COUNT: "SET_TX_COUNT",
 
   ENDORSEMENTS_SET: "ENDORSEMENTS_ADD",
   ENDORSEMENTS_GET: "ENDORSEMENTS_GET",
+  SET_ENDORSEMENTS_COUNT: "SET_ENDORSEMENTS_COUNT",
+
 
   DELEGATIONS_SET: "DELEGATIONS_ADD",
   DELEGATIONS_GET: "DELEGATIONS_GET",
-
+  SET_DELEGATIONS_COUNT: "SET_DELEGATIONS_COUNT",
   BAKERS_GET: "BAKERS_GET",
   BAKERS_SET: "BAKERS_SET",
 
@@ -68,7 +72,15 @@ export default new Vuex.Store({
     }
   },
   mutations: {
-
+    [ACTIONS.SET_TX_COUNT]: function (state, count) {
+      state.counts.txs = count;
+    },
+    [ACTIONS.SET_ENDORSEMENTS_COUNT]: function (state, count) {
+      state.counts.endorsements = count;
+    },
+    [ACTIONS.SET_DELEGATIONS_COUNT]: function (state, count) {
+      state.counts.delegations = count;
+    },
     [ACTIONS.BLOCKS_SET]: function (state, blocks) {
       state.blocks = blocks.data;
       state.counts.blocks = blocks.count;

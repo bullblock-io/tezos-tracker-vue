@@ -114,6 +114,7 @@ export default {
       const data = await api.getDelegations(props);
       this.delegations = data.data;
       this.count = data.count;
+      this.$store.commit(ACTIONS.SET_DELEGATIONS_COUNT, this.count);
     }
   }
 };

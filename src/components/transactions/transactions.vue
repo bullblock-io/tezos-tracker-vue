@@ -81,6 +81,9 @@ export default {
   name: "Transactions",
   props: ["block", "account"],
   computed: {
+    ...mapState({
+      counts: state => state.counts
+    }),
     rows() {
       return this.count;
     },
@@ -118,6 +121,7 @@ export default {
       const data = await api.getTransactions(props);
       this.transactions = data.data;
       this.count = data.count;
+      this.$store.commit(ACTIONS.SET_TX_COUNT, this.count);
     }
   }
 };

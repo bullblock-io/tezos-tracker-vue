@@ -10,28 +10,6 @@
           </div>
         </h3>
       </div>
-      <div class="table-filters">
-        <div class="dropdown float-left">
-          <button
-            class="btn btn-secondary dropdown-toggle"
-            type="button"
-            id="thisYear2"
-            data-toggle="dropdown"
-            aria-haspopup="true"
-            aria-expanded="false"
-          >
-            This year
-          </button>
-          <div class="dropdown-menu" aria-labelledby="thisYear2">
-            <a class="dropdown-item" href="#">Action</a>
-            <a class="dropdown-item" href="#">Another action</a>
-            <a class="dropdown-item" href="#">Something else here</a>
-          </div>
-        </div>
-        <router-link :to="{ name: 'txs' }">
-          <button class="btn green float-right">View All</button>
-        </router-link>
-      </div>
     </div>
 
     <div class="card-body">
@@ -45,15 +23,11 @@
         class="table table-borderless table-responsive-sm"
       >
         <template slot="timestamp" slot-scope="row">
-          <span>
-            {{ row.item.timestamp | timeformat("hh:mm:ss DD.MM.YY") }}
-          </span>
+          <span>{{ row.item.timestamp | timeformat("hh:mm:ss DD.MM.YY") }}</span>
         </template>
 
         <template slot="level" slot-scope="row">
-          <b-link
-            :to="{ name: 'block', params: { level: row.item.blockLevel } }"
-          >
+          <b-link :to="{ name: 'block', params: { level: row.item.blockLevel } }">
             <span>{{ row.item.blockLevel }}</span>
           </b-link>
         </template>

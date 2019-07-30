@@ -58,90 +58,39 @@
                         <span class="text">Transactions list</span>
                       </h3>
                     </div>
-                    <div class="table-filters">
-                      <div class="dropdown float-left">
-                        <button
-                          class="btn btn-secondary dropdown-toggle"
-                          type="button"
-                          id="thisYear"
-                          data-toggle="dropdown"
-                          aria-haspopup="true"
-                          aria-expanded="false"
-                        >This year</button>
-                        <div class="dropdown-menu" aria-labelledby="thisYear">
-                          <a class="dropdown-item" href="#">Action</a>
-                          <a class="dropdown-item" href="#">Another action</a>
-                          <a class="dropdown-item" href="#">Something else here</a>
-                        </div>
-                      </div>
+                  </div>
+
+                  <div class="card-body">
+                    <Transactions :account="hash" />
+                  </div>
+                </div>
+
+                <div class="tab-pane" id="delegations">
+                  <div class="card-header">
+                    <div class="title">
+                      <h3>
+                        <span class="text">Delegations</span>
+                      </h3>
                     </div>
                   </div>
 
                   <div class="card-body">
-                    <table class="transactions-table table table-borderless table-responsive-md">
-                      <thead>
-                        <tr>
-                          <th>From</th>
-                          <th>To</th>
-                          <th>Amount</th>
-                          <th>Fees</th>
-                          <th>Gas Limit</th>
-                          <th>Storage Limit</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr>
-                          <td>
-                            <a href="#">fgcjckreux7483d98487d48d848fu48f949</a>
-                          </td>
-                          <td>
-                            <a href="#">fgcjckreux7483d98487d48d848fu48f949</a>
-                          </td>
-                          <td>12 234</td>
-                          <td>12 XTZ</td>
-                          <td>12 234</td>
-                          <td>12</td>
-                        </tr>
-                        <tr>
-                          <td>
-                            <a href="#">fgcjckreux7483d98487d48d848fu48f949</a>
-                          </td>
-                          <td>
-                            <a href="#">fgcjckreux7483d98487d48d848fu48f949</a>
-                          </td>
-                          <td>12 234</td>
-                          <td>12 XTZ</td>
-                          <td>12 234</td>
-                          <td>12</td>
-                        </tr>
-                      </tbody>
-                    </table>
-
-                    <ul class="pagination">
-                      <li class="page-item">
-                        <a class="page-link" href="#">Prev</a>
-                      </li>
-                      <li class="page-item active">
-                        <a class="page-link" href="#">1</a>
-                      </li>
-                      <li class="page-item">
-                        <a class="page-link" href="#">2</a>
-                      </li>
-                      <li class="page-item">
-                        <a class="page-link" href="#">3</a>
-                      </li>
-                      <li class="page-item">
-                        <a class="page-link" href="#">4</a>
-                      </li>
-                      <li class="page-item">
-                        <a class="page-link" href="#">Next</a>
-                      </li>
-                    </ul>
+                    <Delegations :account="hash" />
                   </div>
                 </div>
+                <div class="tab-pane" id="originations">
+                  <div class="card-header">
+                    <div class="title">
+                      <h3>
+                        <span class="text">Originations</span>
+                      </h3>
+                    </div>
+                  </div>
 
-                <div class="tab-pane" id="delegations">Delegations</div>
-                <div class="tab-pane" id="originations">Originations</div>
+                  <div class="card-body">
+                    <Originations :account="hash" />
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -153,7 +102,9 @@
 
 <script>
 import AccountInfo from "../accounts/single";
-
+import Transactions from "../transactions/transactions";
+import Delegations from "../delegations/list";
+import Originations from "../originations/list";
 export default {
   name: "Account",
   computed: {
@@ -162,7 +113,10 @@ export default {
     }
   },
   components: {
-    AccountInfo
+    AccountInfo,
+    Transactions,
+    Delegations,
+    Originations
   }
 };
 </script>
