@@ -46,7 +46,7 @@
 </template>
 <script>
 import { mapState } from "vuex";
-import { ACTIONS } from "../../store";
+import { ACTIONS, api } from "../../store";
 
 export default {
   name: "Endorsements",
@@ -56,6 +56,8 @@ export default {
       perPage: 10,
       currentPage: 1,
       pageOptions: [10, 15, 20, 25, 30],
+      endorsements: [],
+      count: 0,
       fields: [
         { key: "txhash", label: "Endorsements Hash" },
         { key: "block", label: "Endorsed Block" },
@@ -65,12 +67,8 @@ export default {
     };
   },
   computed: {
-    ...mapState({
-      endorsements: state => state.endorsements,
-      count: state => state.counts
-    }),
     rows() {
-      return this.count.endorsements;
+      return this.count;
     },
     items() {
       return this.endorsements;
@@ -92,18 +90,22 @@ export default {
     await this.reload();
   },
   methods: {
-    reload(page = 1) {
+    async reload(page = 1) {
       const props = {
         page,
         limit: this.perPage
       };
-      if (this.block) {
+      let result;
+      if (this.block && this.block.level > 0) {
         props.block_id = this.block.level;
+        result = await api.getBlockEndorsements(props);
+      } else {
+        result = await api.getEndorsements(props);
       }
-      return this.$store.dispatch(ACTIONS.ENDORSEMENTS_GET, props);
+      this.count = result.count;
+      this.endorsements = result.data;
     }
   }
 };
 </script>
-
-<style scoped></style>
+<style />

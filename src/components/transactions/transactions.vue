@@ -57,7 +57,7 @@
 </template>
 <script>
 import { mapState } from "vuex";
-import { ACTIONS } from "../../store";
+import { ACTIONS, api } from "../../store";
 
 export default {
   data() {
@@ -65,6 +65,8 @@ export default {
       perPage: 10,
       currentPage: 1,
       pageOptions: [10, 15, 20, 25, 30],
+      transactions: [],
+      count: 0,
       fields: [
         { key: "txhash", label: "Transactions Hash" },
         { key: "level", label: "Block ID" },
@@ -79,12 +81,8 @@ export default {
   name: "Transactions",
   props: ["block"],
   computed: {
-    ...mapState({
-      transactions: state => state.txs,
-      count: state => state.counts
-    }),
     rows() {
-      return this.count.txs;
+      return this.count;
     },
     items() {
       return this.transactions;
@@ -106,7 +104,7 @@ export default {
     await this.reload();
   },
   methods: {
-    reload(page = 1) {
+    async reload(page = 1) {
       const props = {
         page,
         limit: this.perPage
@@ -114,7 +112,9 @@ export default {
       if (this.$props.block) {
         props.block_id = this.$props.block.hash;
       }
-      return this.$store.dispatch(ACTIONS.TRANSACTIONS_GET, props);
+      const data = await api.getTransactions(props);
+      this.transactions = data.data;
+      this.count = data.count;
     }
   }
 };
