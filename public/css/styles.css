@@ -78,6 +78,9 @@ body {
   margin-left: 4px;
 }
 
+span a.baker {
+  color: #309282;
+}
 .main-header .header-middle .main-nav ul li a:hover {
   color: #309282;
 }

@@ -52,7 +52,10 @@
             </div>
             <div class="col-lg-9">
               <span class="value">
-                <router-link :to="{ name: 'baker', params: {baker: block.baker}}">{{block.baker}}</router-link>
+                <router-link
+                  class="baker"
+                  :to="{ name: 'baker', params: {baker: block.baker}}"
+                >{{block.baker}}</router-link>
               </span>
             </div>
           </div>
