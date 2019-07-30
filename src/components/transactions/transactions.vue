@@ -10,9 +10,7 @@
       class="transactions-table table table-borderless table-responsive-md"
     >
       <template slot="txhash" slot-scope="row">
-        <b-link
-          :to="{ name: 'tx', params: { txhash: row.item.operationGroupHash } }"
-        >
+        <b-link :to="{ name: 'tx', params: { txhash: row.item.operationGroupHash } }">
           <span>{{ row.item.operationGroupHash | longhash(35) }}</span>
         </b-link>
       </template>
@@ -34,9 +32,7 @@
       </template>
 
       <template slot="to" slot-scope="row">
-        <b-link
-          :to="{ name: 'account', params: { account: row.item.destination } }"
-        >
+        <b-link :to="{ name: 'account', params: { account: row.item.destination } }">
           <span>{{ row.item.destination | longhash(20) }}</span>
         </b-link>
       </template>
@@ -81,10 +77,7 @@ export default {
     };
   },
   name: "Transactions",
-  props: {
-    blockHash: String
-  },
-
+  props: ["block"],
   computed: {
     ...mapState({
       transactions: state => state.txs,
@@ -100,17 +93,32 @@ export default {
   watch: {
     currentPage: {
       async handler(value) {
-        await this.$store.dispatch(ACTIONS.TRANSACTIONS_GET, {
-          page: value,
-          limit: this.perPage
-        });
+        await this.reload(value);
+      }
+    },
+    block: {
+      async handler(value) {
+        await this.reload();
       }
     }
   },
   async mounted() {
-    await this.$store.dispatch(ACTIONS.TRANSACTIONS_GET);
+    await this.reload();
+  },
+  methods: {
+    reload(page = 1) {
+      const props = {
+        page,
+        limit: this.perPage
+      };
+      if (this.$props.block) {
+        props.block_id = this.$props.block.hash;
+      }
+      return this.$store.dispatch(ACTIONS.TRANSACTIONS_GET, props);
+    }
   }
 };
 </script>
+
 
 <style scoped></style>

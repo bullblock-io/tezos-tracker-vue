@@ -10,9 +10,7 @@
       class="table table-borderless table-responsive-md"
     >
       <template slot="txhash" slot-scope="row">
-        <b-link
-          :to="{ name: 'tx', params: { txhash: row.item.operationGroupHash } }"
-        >
+        <b-link :to="{ name: 'tx', params: { txhash: row.item.operationGroupHash } }">
           <span>{{ row.item.operationGroupHash | longhash(35) }}</span>
         </b-link>
       </template>
@@ -24,9 +22,7 @@
       </template>
 
       <template slot="endorser" slot-scope="row">
-        <b-link
-          :to="{ name: 'account', params: { account: row.item.delegate } }"
-        >
+        <b-link :to="{ name: 'account', params: { account: row.item.delegate } }">
           <span>{{ row.item.delegate | longhash(42) }}</span>
         </b-link>
       </template>
@@ -54,7 +50,7 @@ import { ACTIONS } from "../../store";
 
 export default {
   name: "Endorsements",
-  props: ["level"],
+  props: ["block"],
   data() {
     return {
       perPage: 10,
@@ -83,27 +79,29 @@ export default {
   watch: {
     currentPage: {
       async handler(value) {
-        await this.$store.dispatch(ACTIONS.ENDORSEMENTS_GET, {
-          page: value,
-          limit: this.perPage,
-          block: this.$props.level
-        });
+        await this.reload(value);
       }
     },
-    level: {
+    block: {
       async handler(value) {
-        await this.$store.dispatch(ACTIONS.ENDORSEMENTS_GET, {
-          limit: this.perPage,
-          block: value
-        });
+        await this.reload();
       }
     }
   },
   async mounted() {
-    await this.$store.dispatch(ACTIONS.ENDORSEMENTS_GET, {
-      limit: this.perPage,
-      block: this.$props.level
-    });
+    await this.reload();
+  },
+  methods: {
+    reload(page = 1) {
+      const props = {
+        page,
+        limit: this.perPage
+      };
+      if (this.block) {
+        props.block_id = this.block.level;
+      }
+      return this.$store.dispatch(ACTIONS.ENDORSEMENTS_GET, props);
+    }
   }
 };
 </script>

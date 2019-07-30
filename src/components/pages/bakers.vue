@@ -33,30 +33,13 @@
                     <span class="text">Bakers list</span>
                     <div class="counter">
                       <span class="line"></span>
-                      <span class="counter-text">{{
+                      <span class="counter-text">
+                        {{
                         count.bakers | bignum
-                      }}</span>
+                        }}
+                      </span>
                     </div>
                   </h3>
-                </div>
-                <div class="table-filters">
-                  <div class="dropdown float-left">
-                    <button
-                      class="btn btn-secondary dropdown-toggle"
-                      type="button"
-                      id="thisYear"
-                      data-toggle="dropdown"
-                      aria-haspopup="true"
-                      aria-expanded="false"
-                    >
-                      This year
-                    </button>
-                    <div class="dropdown-menu" aria-labelledby="thisYear">
-                      <a class="dropdown-item" href="#">Action</a>
-                      <a class="dropdown-item" href="#">Another action</a>
-                      <a class="dropdown-item" href="#">Something else here</a>
-                    </div>
-                  </div>
                 </div>
               </div>
 
