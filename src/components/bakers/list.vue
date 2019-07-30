@@ -10,9 +10,7 @@
       class="transactions-table table table-borderless table-responsive-md"
     >
       <template slot="baker" slot-scope="row">
-        <b-link
-          :to="{ name: 'account', params: { account: row.item.accountId } }"
-        >
+        <b-link :to="{ name: 'baker', params: { baker: row.item.accountId } }">
           <span>{{ row.item.accountId | longhash(35) }}</span>
         </b-link>
       </template>

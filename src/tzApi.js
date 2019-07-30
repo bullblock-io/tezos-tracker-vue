@@ -29,6 +29,10 @@ export default class TzAPI {
     getAccounts(opts = {}) {
         return get(this.API_URL, "accounts", opts);
     }
+    getAccount(opts = {}) {
+        const { account } = opts;
+        return get(this.API_URL, `accounts/${account}`, opts);
+    }
     getBakers(opts = {}) {
         return get(this.API_URL, "bakers", opts);
     }
@@ -50,6 +54,12 @@ export default class TzAPI {
             ...opts
         });
     }
+    getOriginations(opts = {}) {
+        return get(this.API_URL, "operations", {
+            operation_kind: "origination",
+            ...opts
+        });
+    }
     getBlockHead(opts = {}) {
         return get(this.API_URL, "blocks/head", opts);
     }
@@ -67,4 +77,5 @@ export default class TzAPI {
     getBlocks(opts = {}) {
         return get(this.API_URL, "blocks", opts);
     }
+
 }

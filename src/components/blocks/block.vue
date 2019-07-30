@@ -76,14 +76,18 @@ export default {
   watch: {
     level: {
       async handler(value) {
-        const result = await api.getBlock({ block: value });
-        this.$data.block = result.data.block;
+        await this.load(value);
       }
     }
   },
   async created() {
-    const result = await api.getBlock({ block: this.$props.level });
-    this.$data.block = result.data.block;
+    await this.load(this.$props.level);
+  },
+  methods: {
+    async load(level) {
+      const result = await api.getBlock({ block: level });
+      this.$data.block = result.data.block;
+    }
   }
 };
 </script>

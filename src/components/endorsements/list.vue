@@ -99,6 +99,7 @@ export default {
       if (this.block && this.block.level > 0) {
         props.block_id = this.block.level;
         result = await api.getBlockEndorsements(props);
+        this.perPage = 32;
       } else {
         result = await api.getEndorsements(props);
       }

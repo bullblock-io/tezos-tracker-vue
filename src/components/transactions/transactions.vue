@@ -79,7 +79,7 @@ export default {
     };
   },
   name: "Transactions",
-  props: ["block"],
+  props: ["block", "account"],
   computed: {
     rows() {
       return this.count;
@@ -111,6 +111,9 @@ export default {
       };
       if (this.$props.block) {
         props.block_id = this.$props.block.hash;
+      }
+      if (this.$props.account) {
+        props.account_id = this.$props.account;
       }
       const data = await api.getTransactions(props);
       this.transactions = data.data;
