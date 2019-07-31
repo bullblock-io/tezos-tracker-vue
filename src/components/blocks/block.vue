@@ -66,7 +66,6 @@
 </template>
 <script>
 import { api } from "../../store";
-
 export default {
   name: "Block",
   props: ["level"],
@@ -89,6 +88,11 @@ export default {
   methods: {
     async load(level) {
       const result = await api.getBlock({ block: level });
+      if (result.status !== 200) {
+        return this.$router.push({
+          name: result.status
+        });
+      }
       this.$data.block = result.data.block;
     }
   }

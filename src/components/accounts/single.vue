@@ -116,6 +116,11 @@ export default {
   methods: {
     async reload(acc) {
       const result = await api.getAccount({ account: acc });
+      if (result.status !== 200) {
+        return this.$router.push({
+          name: result.status
+        });
+      }
       this.account = result.data;
       if (result.data.bakerInfo) {
         this.bakerInfo = result.data.bakerInfo;
