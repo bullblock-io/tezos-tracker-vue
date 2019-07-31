@@ -47,7 +47,8 @@
 <script>
 import { mapState } from "vuex";
 import { ACTIONS, api } from "../../store";
-
+import _ from "lodash";
+let i = 0;
 export default {
   name: "Endorsements",
   props: ["block"],
@@ -72,36 +73,45 @@ export default {
     },
     items() {
       return this.endorsements;
+    },
+    level() {
+      return this.$route.params.level;
     }
   },
   watch: {
     currentPage: {
       async handler(value) {
-        await this.reload(value);
+        await this.reload({ page: value, block: this.level });
       }
     },
-    block: {
+    level: {
       async handler(value) {
-        await this.reload();
+        await this.reload({ block: value });
       }
     }
   },
-  async mounted() {
-    await this.reload();
+  async created() {
+    this.reload({ block: this.level });
   },
   methods: {
-    async reload(page = 1) {
+    async reload({ page = 1, block = 0 } = {}) {
       const props = {
         page,
         limit: this.perPage
       };
       let result;
-      if (this.block && this.block.level > 0) {
-        props.block_id = this.block.level;
-        result = await api.getBlockEndorsements(props);
+      if (block > 0) {
+        props.block_id = block;
+        props.limit = 32;
         this.perPage = 32;
+        result = await api.getBlockEndorsements(props);
       } else {
         result = await api.getEndorsements(props);
+      }
+      if (result.status !== 200) {
+        return this.$router.push({
+          name: result.status
+        });
       }
       this.count = result.count;
       this.endorsements = result.data;

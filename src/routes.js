@@ -15,6 +15,10 @@ import Baker from "./components/pages/baker.vue";
 import Accounts from "./components/pages/accounts.vue";
 import Account from "./components/pages/account.vue";
 
+//Errors
+import NotFound from "./components/pages/404.vue";
+import ServerError from "./components/pages/500.vue";
+
 export default [
   { path: "/", name: "index", component: Index },
   { path: "/blocks", name: "blocks", component: Blocks },
@@ -27,5 +31,8 @@ export default [
   { path: "/bakers", name: "bakers", component: Bakers },
   { path: "/baker/:baker", name: "baker", component: Baker },
   { path: "/accounts", name: "accounts", component: Accounts },
-  { path: "/account/:account", name: "account", component: Account }
+  { path: "/account/:account", name: "account", component: Account },
+  { path: "/404", name: "404", component: NotFound },
+  { path: "/500", name: "500", component: ServerError }
+
 ];

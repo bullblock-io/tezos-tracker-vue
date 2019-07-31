@@ -5,7 +5,7 @@
         <div class="card-header">
           <div class="title">
             <h3>
-              <span class="text">ooowU8rXyF8Bq8gY2DucEmaJQ3nTjEvt1EEcphTojtaxDd5Nr3n</span>
+              <span class="text">{{opHash}}</span>
             </h3>
             <span class="subtitle">Transaction Information</span>
           </div>
@@ -19,7 +19,7 @@
               <span class="label">Included in Block</span>
             </div>
             <div class="col-lg-9">
-              <span class="value">BLfYKMGUzogJgHNphCePW5bNx1CvrabhcYYmkGSJEqkVJsNujwy</span>
+              <span class="value">{{blockHash}}</span>
             </div>
           </div>
           <div class="item-info row ml-1 mr-1">
@@ -27,7 +27,7 @@
               <span class="label">Timestamp</span>
             </div>
             <div class="col-lg-9">
-              <span class="value">10:11:03 09.07.2019</span>
+              <span class="value">{{timestamp | timeformat("hh:mm:ss DD.MM.YY") }}</span>
             </div>
           </div>
           <div class="item-info row ml-1 mr-1">
@@ -35,7 +35,7 @@
               <span class="label">Operation Hash</span>
             </div>
             <div class="col-lg-9">
-              <span class="value">oorzbkAuDddUebFTNTxJEeREzfabx8zsnzC1ZD4D3ChuETvrVDb</span>
+              <span class="value">{{opHash}}</span>
             </div>
           </div>
           <div class="item-info row ml-1 mr-1">
@@ -43,7 +43,7 @@
               <span class="label">Block id</span>
             </div>
             <div class="col-lg-9">
-              <span class="value">523054</span>
+              <span class="value">{{level}}</span>
             </div>
           </div>
           <div class="item-info row ml-1 mr-1">
@@ -52,8 +52,8 @@
             </div>
             <div class="col-lg-9">
               <span class="value">
-                1,61 m
-                <sub>ꜩ</sub> ($0,002)
+                {{fee | tezos}}
+                ({{convert(fee)}})
               </span>
             </div>
           </div>
@@ -63,22 +63,34 @@
   </div>
 </template>
 <script>
-import { api } from "../../store";
+import { api, XTZ, ACTIONS } from "../../store";
+import { ceil } from "lodash";
+import { mapState } from "vuex";
 
 export default {
   name: "Transaction",
-  props: ["txhash"],
+  props: ["blockHash", "timestamp", "opHash", "level", "fee"],
   data() {
     return {
       tx: {}
     };
   },
-  computed: {},
-  async created() {},
+  computed: {
+    ...mapState({
+      info: state => state.priceInfo
+    })
+  },
+  async created() {
+    await this.$store.dispatch(ACTIONS.INFO_GET);
+  },
   methods: {
-    async load(level) {
-      const result = await api.getBlock({ block: level });
-      this.$data.block = result.data.block;
+    convert(tzAmount) {
+      let result = 0;
+      if (tzAmount || tzAmount > 0) {
+        const tez = tzAmount / XTZ;
+        result = ceil(tez * this.info.price, 2);
+      }
+      return "$" + result;
     }
   }
 };

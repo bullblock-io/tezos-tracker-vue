@@ -64,7 +64,7 @@
 
                 <div class="tab-pane" id="endorsements">
                   <div class="card-body">
-                    <Endorsements :block="block" />
+                    <Endorsements :block="block.level" />
                   </div>
                 </div>
               </div>

@@ -12,8 +12,13 @@ function formatURL(api, path, query) {
 async function get(api, path, query) {
     const { page = 1, limit = 10 } = query;
     const offset = limit * (page - 1);
-    const data = await axios.get(formatURL(api, path, Object.assign({}, query, { limit, offset })));
-    const result = { data: data.data };
+    let data;
+    try {
+        data = await axios.get(formatURL(api, path, Object.assign({}, query, { limit, offset })));
+    } catch (e) {
+        data = e.response
+    }
+    const result = { data: data.data, status: data.status };
     if (data.headers[COUNT_HEADER]) {
         result.count = parseInt(data.headers[COUNT_HEADER]);
     }

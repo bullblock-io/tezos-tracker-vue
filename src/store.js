@@ -23,7 +23,6 @@ export const ACTIONS = {
   SET_TX_COUNT: "SET_TX_COUNT",
 
   ENDORSEMENTS_SET: "ENDORSEMENTS_ADD",
-  ENDORSEMENTS_GET: "ENDORSEMENTS_GET",
   SET_ENDORSEMENTS_COUNT: "SET_ENDORSEMENTS_COUNT",
 
 
@@ -130,15 +129,6 @@ export default new Vuex.Store({
     },
     async [ACTIONS.TRANSACTIONS_GET]({ commit }, params = {}) {
       commit(ACTIONS.TRANSACTIONS_SET, await api.getTransactions(params));
-    },
-    async [ACTIONS.ENDORSEMENTS_GET]({ commit }, params) {
-      let result;
-      if (params.block_id) {
-        result = await api.getBlockEndorsements(params)
-      } else {
-        result = await api.getEndorsements(params)
-      }
-      commit(ACTIONS.ENDORSEMENTS_SET, result);
     },
     async [ACTIONS.DELEGATIONS_GET]({ commit }, params) {
       commit(ACTIONS.DELEGATIONS_SET, await api.getDelegations(params));

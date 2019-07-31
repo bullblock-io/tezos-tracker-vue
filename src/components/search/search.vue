@@ -65,6 +65,10 @@ export default {
           });
         }
       }
+
+      return this.$router.push({
+        name: "404"
+      });
     }
   }
 };

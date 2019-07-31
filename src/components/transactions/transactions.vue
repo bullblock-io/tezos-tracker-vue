@@ -119,6 +119,11 @@ export default {
         props.account_id = this.$props.account;
       }
       const data = await api.getTransactions(props);
+      if (data.status !== 200) {
+        return this.$router.push({
+          name: data.status
+        });
+      }
       this.transactions = data.data;
       this.count = data.count;
       this.$store.commit(ACTIONS.SET_TX_COUNT, this.count);

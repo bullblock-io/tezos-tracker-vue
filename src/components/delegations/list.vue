@@ -112,6 +112,11 @@ export default {
         props.account_id = this.$props.account;
       }
       const data = await api.getDelegations(props);
+      if (data.status !== 200) {
+        return this.$router.push({
+          name: data.status
+        });
+      }
       this.delegations = data.data;
       this.count = data.count;
       this.$store.commit(ACTIONS.SET_DELEGATIONS_COUNT, this.count);
