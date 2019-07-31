@@ -68,12 +68,16 @@
 import { api } from "../../store";
 export default {
   name: "Block",
-  props: ["level"],
   components: {},
   data() {
     return {
       block: {}
     };
+  },
+  computed: {
+    level() {
+      return this.$route.params.level;
+    }
   },
   watch: {
     level: {
@@ -83,7 +87,7 @@ export default {
     }
   },
   async created() {
-    await this.load(this.$props.level);
+    await this.load(this.level);
   },
   methods: {
     async load(level) {

@@ -47,7 +47,7 @@
 <script>
 import { mapState } from "vuex";
 import { ACTIONS, api } from "../../store";
-
+import _ from "lodash";
 let i = 0;
 export default {
   name: "Endorsements",
@@ -73,25 +73,25 @@ export default {
     },
     items() {
       return this.endorsements;
+    },
+    level() {
+      return this.$route.params.level;
     }
   },
   watch: {
     currentPage: {
       async handler(value) {
-        await this.reload({ page: value, block: this.block });
+        await this.reload({ page: value, block: this.level });
       }
     },
-    block: {
+    level: {
       async handler(value) {
-        if (this.block != value) {
-          alert("different");
-          await this.reload({ block: value });
-        }
+        await this.reload({ block: value });
       }
     }
   },
   async created() {
-    await this.reload({ block: this.block });
+    this.reload({ block: this.level });
   },
   methods: {
     async reload({ page = 1, block = 0 } = {}) {
