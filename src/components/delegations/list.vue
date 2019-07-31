@@ -22,9 +22,13 @@
       </template>
 
       <template slot="to" slot-scope="row">
-        <b-link :to="{ name: 'account', params: { account: row.item.destination } }">
+        <b-link
+          :to="{ name: 'account', params: { account: row.item.destination } }"
+          v-if="row.item.delegate"
+        >
           <span>{{ row.item.delegate | longhash(20) }}</span>
         </b-link>
+        <span v-else>unset</span>
       </template>
 
       <template slot="level" slot-scope="row">
