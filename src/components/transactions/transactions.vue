@@ -101,6 +101,11 @@ export default {
       async handler(value) {
         await this.reload();
       }
+    },
+    account: {
+      async handler(value) {
+        await this.reload();
+      }
     }
   },
   async mounted() {
@@ -115,8 +120,8 @@ export default {
       if (this.$props.block) {
         props.block_id = this.$props.block.hash;
       }
-      if (this.$props.account) {
-        props.account_id = this.$props.account;
+      if (this.account) {
+        props.account_id = this.account;
       }
       const data = await api.getTransactions(props);
       if (data.status !== 200) {
