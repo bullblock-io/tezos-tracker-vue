@@ -102,7 +102,7 @@ export default {
   },
   async created() {
     const result = await api.getBlock({ block: this.level });
-    this.block = result.data.block;
+    this.block = result.data.block || {};
   }
 };
 </script>
