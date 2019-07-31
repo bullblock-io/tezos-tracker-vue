@@ -78,10 +78,10 @@
                     <span>{{ row.item.fee | tezos }}</span>
                   </template>
                   <template slot="gas" slot-scope="row">
-                    <span>{{ row.item.gasLimit | tezos }}</span>
+                    <span>{{ row.item.gasLimit }}</span>
                   </template>
                   <template slot="storage" slot-scope="row">
-                    <span>{{ row.item.gasLimit | tezos }}</span>
+                    <span>{{ row.item.storageLimit }}</span>
                   </template>
                 </b-table>
                 <b-pagination

@@ -42,10 +42,11 @@ export default class TzAPI {
         return get(this.API_URL, "bakers", opts);
     }
     getTransactions(opts = {}) {
-        return get(this.API_URL, "operations", {
-            operation_kind: "transaction",
-            ...opts
-        });
+        const options = { ...opts };
+        if (!options.operation_id) {
+            options.operation_kind = "transaction"
+        }
+        return get(this.API_URL, "operations", options);
     }
     getEndorsements(opts = {}) {
         return get(this.API_URL, "operations", {

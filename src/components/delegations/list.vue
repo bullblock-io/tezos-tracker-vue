@@ -37,9 +37,6 @@
         <span>{{ row.item.timestamp | timeformat("hh:mm:ss DD.MM.YY") }}</span>
       </template>
 
-      <template slot="amount" slot-scope="row">
-        <span>TODO {{ row.item.fee }}</span>
-      </template>
       <template slot="fee" slot-scope="row">
         <span>{{ row.item.fee | tezos }}</span>
       </template>
@@ -76,7 +73,6 @@ export default {
         { key: "to", label: "To" },
         { key: "level", label: "Block ID" },
         { key: "timestamp", label: "Timestamp" },
-        { key: "amount", label: "Amount" },
         { key: "fee", label: "Fees" }
       ]
     };
