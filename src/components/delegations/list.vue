@@ -79,7 +79,7 @@ export default {
   },
   computed: {
     rows() {
-      return this.count.delegations;
+      return this.count;
     },
     items() {
       return this.delegations;
