@@ -15,10 +15,24 @@
               <span class="error-number">404</span>
             </h1>
             <h2 class="error-subtitle">Something`s missing</h2>
-            <router-link class="go-home" :to="{ name: 'index' }">Go to homepage</router-link>
+            <a class="go-home" v-on:click="back()">Go back</a>
           </div>
         </div>
       </div>
     </section>
   </div>
 </template>
+
+<script>
+export default {
+  name: "NotFound",
+  methods: {
+    back() {
+      if (window.history.length <= 2) {
+        return this.$router.push({ name: "index" });
+      }
+      this.$router.go(-2);
+    }
+  }
+};
+</script>
