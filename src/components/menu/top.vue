@@ -32,6 +32,18 @@
               <router-link class="dropdown-item" :to="{ name: 'delegations' }"
                 >Delegations</router-link
               >
+              <router-link class="dropdown-item" :to="{ name: 'originations' }"
+                >Originations</router-link
+              >
+              <router-link class="dropdown-item" :to="{ name: 'activations' }"
+                >Activations</router-link
+              >
+              <router-link class="dropdown-item" :to="{ name: 'double_baking' }"
+                >Double-baking</router-link
+              >
+              <router-link class="dropdown-item" :to="{ name: 'double_endorsement' }"
+                >Double-endorsement</router-link
+              >
             </div>
           </li>
           <li v-bind:class="{ active: isActive('bakers') }">

@@ -25,19 +25,10 @@
         <span>{{ row.item.timestamp | timeformat("hh:mm:ss DD.MM.YY") }}</span>
       </template>
 
-      <template slot="from" slot-scope="row">
-        <b-link :to="{ name: 'account', params: { account: row.item.source } }">
-          <span>{{ row.item.source | longhash(20) }}</span>
-        </b-link>
-      </template>
-
       <template slot="to" slot-scope="row">
-        <b-link :to="{ name: 'account', params: { account: row.item.delegate } }">
+        <b-link :to="{ name: 'account', params: { account: row.item.destionation } }">
           <span>{{ row.item.delegate | longhash(20) }}</span>
         </b-link>
-      </template>
-      <template slot="amount" slot-scope="row">
-        <span>{{ row.item.balance | tezos }}</span>
       </template>
     </b-table>
 
@@ -58,22 +49,20 @@ import { mapState } from "vuex";
 import { ACTIONS, api } from "../../store";
 
 export default {
-  name: "Originations",
+  name: "Activations",
   props: ["account"],
   data() {
     return {
       perPage: 10,
       currentPage: 1,
       pageOptions: [10, 15, 20, 25, 30],
-      originations: [],
+      activations: [],
       count: 0,
       fields: [
         { key: "txhash", label: "Origination Hash" },
         { key: "level", label: "Block ID" },
         { key: "timestamp", label: "Timestamp" },
         { key: "to", label: "To" },
-        { key: "from", label: "From" },
-        { key: "amount", label: "Amount" },
       ]
     };
   },
@@ -82,7 +71,7 @@ export default {
       return this.count;
     },
     items() {
-      return this.originations;
+      return this.activations;
     }
   },
   watch: {
@@ -107,8 +96,9 @@ export default {
       if (this.$props.account) {
         props.account_id = this.$props.account;
       }
-      const data = await api.getOriginations(props);
-      this.originations = data.data;
+      const data = await api.getActivations(props);
+      console.log(data.data);
+      this.activations = data.data;
       this.count = data.count;
     }
   }

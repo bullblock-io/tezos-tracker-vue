@@ -66,6 +66,12 @@ export default class TzAPI {
             ...opts
         });
     }
+    getActivations(opts = {}) {
+        return get(this.API_URL, "operations", {
+            operation_kind: "activate_account",
+            ...opts
+        });
+    }
     getBlockHead(opts = {}) {
         return get(this.API_URL, "blocks/head", opts);
     }

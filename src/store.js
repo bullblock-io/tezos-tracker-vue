@@ -25,6 +25,11 @@ export const ACTIONS = {
   ENDORSEMENTS_SET: "ENDORSEMENTS_ADD",
   SET_ENDORSEMENTS_COUNT: "SET_ENDORSEMENTS_COUNT",
 
+  ORIGINATIONS_SET: "ORIGINATIONS_SET",
+  ORIGINATIONS_GET: "ORIGINATIONS_GET",
+
+  ACTIVATIONS_SET: "ACTIVATIONS_SET",
+  ACTIVATIONS_GET: "ACTIVATIONS_GET",
 
   DELEGATIONS_SET: "DELEGATIONS_ADD",
   DELEGATIONS_GET: "DELEGATIONS_GET",
@@ -51,6 +56,8 @@ export default new Vuex.Store({
     blocks: [],
     endorsements: [],
     delegations: [],
+    originations: [],
+    activations: [],
     bakers: [],
     accounts: [],
     priceInfo: {},
@@ -66,6 +73,8 @@ export default new Vuex.Store({
       blocks: 0,
       endorsements: 0,
       delegations: 0,
+      originations: 0,
+      activations: 0,
       bakers: 0,
       accounts: 0
     }
@@ -95,6 +104,14 @@ export default new Vuex.Store({
     [ACTIONS.DELEGATIONS_SET]: function (state, txs) {
       state.delegations = txs.data;
       state.counts.delegations = txs.count;
+    },
+    [ACTIONS.ORIGINATIONS_SET]: function (state, originations) {
+      state.originations = originations.data;
+      state.counts.originations = originations.count;
+    },
+    [ACTIONS.ACTIVATIONS_SET]: function (state, activations) {
+      state.activations = activations.data;
+      state.counts.activations = activations.count;
     },
     [ACTIONS.INFO_NEW]: function (state, info) {
       state.priceInfo = info.data;
@@ -132,6 +149,12 @@ export default new Vuex.Store({
     },
     async [ACTIONS.DELEGATIONS_GET]({ commit }, params) {
       commit(ACTIONS.DELEGATIONS_SET, await api.getDelegations(params));
+    },
+    async [ACTIONS.ORIGINATIONS_GET]({ commit }, params) {
+      commit(ACTIONS.ORIGINATIONS_SET, await api.getOriginations(params));
+    },
+    async [ACTIONS.ACTIVATIONS_GET]({ commit }, params) {
+      commit(ACTIONS.ACTIVATIONS_SET, await api.getActivations(params));
     },
     async [ACTIONS.BAKERS_GET]({ commit }, params) {
       commit(ACTIONS.BAKERS_SET, await api.getBakers(params));
