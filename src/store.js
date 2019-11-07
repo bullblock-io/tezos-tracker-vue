@@ -26,10 +26,20 @@ export const ACTIONS = {
   SET_ENDORSEMENTS_COUNT: "SET_ENDORSEMENTS_COUNT",
 
   ORIGINATIONS_SET: "ORIGINATIONS_SET",
+  SET_ORIGINATIONS_COUNT: "SET_ORIGINATIONS_COUNT",
   ORIGINATIONS_GET: "ORIGINATIONS_GET",
 
   ACTIVATIONS_SET: "ACTIVATIONS_SET",
+  SET_ACTIVATIONS_COUNT: "SET_ACTIVATIONS_COUNT",
   ACTIVATIONS_GET: "ACTIVATIONS_GET",
+
+  DOUBLEBAKING_SET: "DOUBLEBAKING_SET",
+  SET_DOUBLEBAKING_COUNT: "SET_DOUBLEBAKING_COUNT",
+  DOUBLEBAKING_GET: "DOUBLEBAKING_GET",
+
+  DOUBLEENDORSEMENT_SET: "DOUBLEENDORSEMENT_SET",
+  SET_DOUBLEENDORSEMENT_COUNT: "SET_DOUBLEENDORSEMENT_COUNT",
+  DOUBLEENDORSEMENT_GET: "DOUBLEENDORSEMENT_GET",
 
   DELEGATIONS_SET: "DELEGATIONS_ADD",
   DELEGATIONS_GET: "DELEGATIONS_GET",
@@ -58,6 +68,8 @@ export default new Vuex.Store({
     delegations: [],
     originations: [],
     activations: [],
+    double_baking: [],
+    double_endorsement: [],
     bakers: [],
     accounts: [],
     priceInfo: {},
@@ -75,6 +87,8 @@ export default new Vuex.Store({
       delegations: 0,
       originations: 0,
       activations: 0,
+      double_baking: 0,
+      double_endorsement: 0,
       bakers: 0,
       accounts: 0
     }
@@ -88,6 +102,18 @@ export default new Vuex.Store({
     },
     [ACTIONS.SET_DELEGATIONS_COUNT]: function (state, count) {
       state.counts.delegations = count;
+    },
+    [ACTIONS.SET_ORIGINATIONS_COUNT]: function (state, count) {
+      state.counts.originations = count;
+    },
+    [ACTIONS.SET_ACTIVATIONS_COUNT]: function (state, count) {
+      state.counts.activations = count;
+    },
+    [ACTIONS.SET_DOUBLEBAKING_COUNT]: function (state, count) {
+      state.counts.double_baking = count;
+    },
+    [ACTIONS.SET_DOUBLEENDORSEMENT_COUNT]: function (state, count) {
+      state.counts.double_endorsement = count;
     },
     [ACTIONS.BLOCKS_SET]: function (state, blocks) {
       state.blocks = blocks.data;
@@ -112,6 +138,14 @@ export default new Vuex.Store({
     [ACTIONS.ACTIVATIONS_SET]: function (state, activations) {
       state.activations = activations.data;
       state.counts.activations = activations.count;
+    },
+    [ACTIONS.DOUBLEBAKING_SET]: function (state, double_baking) {
+      state.double_baking = double_baking.data;
+      state.counts.double_baking = double_baking.count;
+    },
+    [ACTIONS.DOUBLEENDORSEMENT_SET]: function (state, double_endorsement) {
+      state.double_endorsement = double_endorsement.data;
+      state.counts.double_endorsement = double_endorsement.count;
     },
     [ACTIONS.INFO_NEW]: function (state, info) {
       state.priceInfo = info.data;
@@ -155,6 +189,12 @@ export default new Vuex.Store({
     },
     async [ACTIONS.ACTIVATIONS_GET]({ commit }, params) {
       commit(ACTIONS.ACTIVATIONS_SET, await api.getActivations(params));
+    },
+    async [ACTIONS.DOUBLEBAKING_GET]({ commit }, params) {
+      commit(ACTIONS.DOUBLEBAKING_SET, await api.getDoubleBaking(params));
+    },
+    async [ACTIONS.DOUBLEENDORSEMENT_GET]({ commit }, params) {
+      commit(ACTIONS.DOUBLEENDORSEMENT_SET, await api.getDoubleEndorsement(params));
     },
     async [ACTIONS.BAKERS_GET]({ commit }, params) {
       commit(ACTIONS.BAKERS_SET, await api.getBakers(params));

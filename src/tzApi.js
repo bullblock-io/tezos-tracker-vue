@@ -72,6 +72,18 @@ export default class TzAPI {
             ...opts
         });
     }
+    getDoubleBaking(opts = {}) {
+        return get(this.API_URL, "operations", {
+            operation_kind: "double_baking_evidence",
+            ...opts
+        });
+    }
+    getDoubleEndorsement(opts = {}) {
+        return get(this.API_URL, "operations", {
+            operation_kind: "double_endorsement_evidence",
+            ...opts
+        });
+    }
     getBlockHead(opts = {}) {
         return get(this.API_URL, "blocks/head", opts);
     }

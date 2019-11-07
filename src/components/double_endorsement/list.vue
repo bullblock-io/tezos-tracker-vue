@@ -25,11 +25,6 @@
         <span>{{ row.item.timestamp | timeformat("hh:mm:ss DD.MM.YY") }}</span>
       </template>
 
-      <template slot="to" slot-scope="row">
-        <b-link :to="{ name: 'account', params: { account: row.item.pkh } }">
-          <span>{{ row.item.pkh | longhash(20) }}</span>
-        </b-link>
-      </template>
     </b-table>
 
     <b-pagination
@@ -49,20 +44,20 @@ import { mapState } from "vuex";
 import { ACTIONS, api } from "../../store";
 
 export default {
-  name: "Activations",
+  name: "DoubleEndorsement",
   props: ["account"],
   data() {
     return {
       perPage: 10,
       currentPage: 1,
       pageOptions: [10, 15, 20, 25, 30],
-      activations: [],
+      double_endorsement: [],
       count: 0,
       fields: [
         { key: "txhash", label: "Origination Hash" },
         { key: "level", label: "Block ID" },
         { key: "timestamp", label: "Timestamp" },
-        { key: "to", label: "To" },
+        { key: "denounced_level", label: "Denounced Level" },
       ]
     };
   },
@@ -71,7 +66,7 @@ export default {
       return this.count;
     },
     items() {
-      return this.activations;
+      return this.double_endorsement;
     }
   },
   watch: {
@@ -96,10 +91,10 @@ export default {
       if (this.$props.account) {
         props.account_id = this.$props.account;
       }
-      const data = await api.getActivations(props);
-      this.activations = data.data;
+      const data = await api.getDoubleEndorsement(props);
+      this.double_endorsement = data.data;
       this.count = data.count;
-      this.$store.commit(ACTIONS.SET_ACTIVATIONS_COUNT, this.count);
+      this.$store.commit(ACTIONS.SET_DOUBLEENDORSEMENT_COUNT, this.count);
     }
   }
 };

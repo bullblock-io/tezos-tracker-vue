@@ -7,7 +7,7 @@
             <div class="page-title ml-2">
               <h2>
                 Tezos (XTZ) Blockchain Explorer -
-                <span>Activations page</span>
+                <span>DoubleBaking page</span>
               </h2>
             </div>
 
@@ -15,7 +15,7 @@
               <li class="breadcrumb-item">
                 <router-link :to="{ name: 'index' }">Home</router-link>
               </li>
-              <li class="breadcrumb-item active">Activations page</li>
+              <li class="breadcrumb-item active">DoubleBaking page</li>
             </ol>
           </div>
         </div>
@@ -29,18 +29,18 @@
             <div class="card ml-2 mr-2">
               <div class="card-header">
                 <div class="title">
-                  <h3 class="row">
-                    <span class="text col">Activations list</span>
+                  <h3>
+                    <span class="text">DoubleBaking list</span>
                     <div class="counter">
-                      <span class="text">Percentage of ICO addresses activated:</span>
-                      <span class="counter-text  float-right">{{ count.activations | getPercentageICOActiveAddresses }}</span>
+                      <span class="line"></span>
+                      <span class="counter-text">{{ count.double_baking | bignum }}</span>
                     </div>
                   </h3>
                 </div>
               </div>
 
               <div class="card-body">
-                <ActivationsList />
+                <DoubleBakingList />
               </div>
             </div>
           </div>
@@ -52,11 +52,11 @@
 
 <script>
 import { mapState } from "vuex";
-import ActivationsList from "../activations/list.vue";
+import DoubleBakingList from "../double_baking/list.vue";
 export default {
-  name: "Activations",
+  name: "DoubleBaking",
   components: {
-    ActivationsList
+    DoubleBakingList
   },
   computed: {
     ...mapState({

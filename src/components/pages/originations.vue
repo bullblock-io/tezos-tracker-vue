@@ -33,7 +33,7 @@
                     <span class="text">Originations list</span>
                     <div class="counter">
                       <span class="line"></span>
-                      <span class="counter-text">{{ count | bignum }}</span>
+                      <span class="counter-text">{{ count.originations | bignum }}</span>
                     </div>
                   </h3>
                 </div>
@@ -60,7 +60,7 @@ export default {
   },
   computed: {
     ...mapState({
-      count: state => state.counts.originations
+      count: state => state.counts
     })
   }
 };

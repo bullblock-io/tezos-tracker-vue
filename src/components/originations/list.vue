@@ -110,9 +110,8 @@ export default {
       const data = await api.getOriginations(props);
       this.originations = data.data;
       this.count = data.count;
+      this.$store.commit(ACTIONS.SET_ORIGINATIONS_COUNT, this.count);
     }
   }
 };
 </script>
-
-<style scoped></style>
