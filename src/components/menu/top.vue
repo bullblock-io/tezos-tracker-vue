@@ -49,8 +49,24 @@
           <li v-bind:class="{ active: isActive('bakers') }">
             <router-link :to="{ name: 'bakers' }">Bakers</router-link>
           </li>
-          <li v-bind:class="{ active: isActive('accounts') }">
-            <router-link :to="{ name: 'accounts' }">Accounts</router-link>
+          <li>
+            <a
+              class="dropdown-toggle"
+              data-toggle="dropdown"
+              href="#"
+              role="button"
+              aria-haspopup="true"
+              aria-expanded="false"
+              >Accounts</a
+            >
+            <div class="dropdown-menu">
+              <router-link class="dropdown-item" :to="{ name: 'accounts' }"
+                >Accounts</router-link
+              >
+              <router-link class="dropdown-item" :to="{ name: 'contracts' }"
+                >Contracts</router-link
+              >
+            </div>
           </li>
         </ul>
       </nav>

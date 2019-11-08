@@ -38,6 +38,9 @@ export default class TzAPI {
         const { account } = opts;
         return get(this.API_URL, `accounts/${account}`, opts);
     }
+    getContracts(opts = {}) {
+        return get(this.API_URL, "contracts", opts);
+    }
     getBakers(opts = {}) {
         return get(this.API_URL, "bakers", opts);
     }

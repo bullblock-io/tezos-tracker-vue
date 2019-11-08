@@ -50,6 +50,9 @@ export const ACTIONS = {
   ACCOUNTS_GET: "ACCOUNTS_GET",
   ACCOUNTS_SET: "ACCOUNTS_SET",
 
+  CONTRACTS_GET: "CONTRACTS_GET",
+  CONTRACTS_SET: "CONTRACTS_SET",
+
   INFO_NEW: "INFO_NEW",
   INFO_GET: "INFO_GET"
 };
@@ -72,6 +75,7 @@ export default new Vuex.Store({
     double_endorsement: [],
     bakers: [],
     accounts: [],
+    contracts: [],
     priceInfo: {},
     headBlock: {},
     viewBlock: {},
@@ -90,7 +94,8 @@ export default new Vuex.Store({
       double_baking: 0,
       double_endorsement: 0,
       bakers: 0,
-      accounts: 0
+      accounts: 0,
+      contracts: 0
     }
   },
   mutations: {
@@ -163,6 +168,10 @@ export default new Vuex.Store({
     [ACTIONS.ACCOUNTS_SET]: function (state, data) {
       state.accounts = data.data;
       state.counts.accounts = data.count;
+    },
+    [ACTIONS.CONTRACTS_SET]: function (state, data) {
+      state.contracts = data.data;
+      state.counts.contracts = data.count;
     }
   },
   actions: {
@@ -201,7 +210,10 @@ export default new Vuex.Store({
     },
     async [ACTIONS.ACCOUNTS_GET]({ commit }, params) {
       commit(ACTIONS.ACCOUNTS_SET, await api.getAccounts(params));
-    }
+    },
+    async [ACTIONS.CONTRACTS_GET]({ commit }, params) {
+      commit(ACTIONS.CONTRACTS_SET, await api.getContracts(params));
+    },
   },
   getters: {
     getBlockById(state) {
