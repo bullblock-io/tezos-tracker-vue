@@ -38,6 +38,9 @@ export default class TzAPI {
         const { account } = opts;
         return get(this.API_URL, `accounts/${account}`, opts);
     }
+    getContracts(opts = {}) {
+        return get(this.API_URL, "contracts", opts);
+    }
     getBakers(opts = {}) {
         return get(this.API_URL, "bakers", opts);
     }
@@ -63,6 +66,24 @@ export default class TzAPI {
     getOriginations(opts = {}) {
         return get(this.API_URL, "operations", {
             operation_kind: "origination",
+            ...opts
+        });
+    }
+    getActivations(opts = {}) {
+        return get(this.API_URL, "operations", {
+            operation_kind: "activate_account",
+            ...opts
+        });
+    }
+    getDoubleBaking(opts = {}) {
+        return get(this.API_URL, "operations", {
+            operation_kind: "double_baking_evidence",
+            ...opts
+        });
+    }
+    getDoubleEndorsement(opts = {}) {
+        return get(this.API_URL, "operations", {
+            operation_kind: "double_endorsement_evidence",
             ...opts
         });
     }

@@ -21,24 +21,10 @@
         </b-link>
       </template>
 
-      <template slot="timestamp" slot-scope="row">
-        <span>{{ row.item.timestamp | timeformat("hh:mm:ss DD.MM.YY") }}</span>
+      <template slot="age" slot-scope="row">
+        <span>{{ row.item.timestamp | getAge }}</span>
       </template>
 
-      <template slot="from" slot-scope="row">
-        <b-link :to="{ name: 'account', params: { account: row.item.source } }">
-          <span>{{ row.item.source | longhash(20) }}</span>
-        </b-link>
-      </template>
-
-      <template slot="to" slot-scope="row">
-        <b-link :to="{ name: 'account', params: { account: row.item.delegate } }">
-          <span>{{ row.item.delegate | longhash(20) }}</span>
-        </b-link>
-      </template>
-      <template slot="amount" slot-scope="row">
-        <span>{{ row.item.balance | tezos }}</span>
-      </template>
     </b-table>
 
     <b-pagination
@@ -58,22 +44,26 @@ import { mapState } from "vuex";
 import { ACTIONS, api } from "../../store";
 
 export default {
-  name: "Originations",
+  name: "DoubleBaking",
   props: ["account"],
   data() {
     return {
       perPage: 10,
       currentPage: 1,
       pageOptions: [10, 15, 20, 25, 30],
-      originations: [],
+      double_baking: [],
       count: 0,
       fields: [
         { key: "txhash", label: "Origination Hash" },
         { key: "level", label: "Block ID" },
-        { key: "timestamp", label: "Timestamp" },
-        { key: "to", label: "To" },
-        { key: "from", label: "From" },
-        { key: "amount", label: "Amount" },
+        { key: "age", label: "Age" },
+        { key: "baker", label: "Baker" },
+        { key: "baker_rewards", label: "Baker Rewards" },
+        { key: "offender", label: "Offender" },
+        { key: "denounced_level", label: "Denounced Level" },
+        { key: "lost_deposits", label: "Lost Deposits" },
+        { key: "lost_rewards", label: "Lost Rewards" },
+        { key: "lost_fees", label: "Lost Fees" },
       ]
     };
   },
@@ -82,7 +72,7 @@ export default {
       return this.count;
     },
     items() {
-      return this.originations;
+      return this.double_baking;
     }
   },
   watch: {
@@ -107,10 +97,10 @@ export default {
       if (this.$props.account) {
         props.account_id = this.$props.account;
       }
-      const data = await api.getOriginations(props);
-      this.originations = data.data;
+      const data = await api.getDoubleBaking(props);
+      this.double_baking = data.data;
       this.count = data.count;
-      this.$store.commit(ACTIONS.SET_ORIGINATIONS_COUNT, this.count);
+      this.$store.commit(ACTIONS.SET_DOUBLEBAKING_COUNT, this.count);
     }
   }
 };

@@ -36,3 +36,16 @@ Vue.filter("tezos", function (amount) {
   return "0 XTZ";
   //return amount + "ꜩ";
 });
+
+Vue.filter("getAge", function (timestamp) {
+  var date = new Date();
+  var value = Math.ceil((date.getTime() - timestamp * 1000)/(1000 * 60 * 60 * 24));
+  return value + ' days';
+});
+
+Vue.filter("getPercentageICOActiveAddresses", function (num) {
+  var allAddresses = 30317;
+  if (num) {
+    return parseFloat((num * 100)/30317).toFixed(2);
+  }
+});

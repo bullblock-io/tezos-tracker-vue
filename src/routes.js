@@ -15,6 +15,13 @@ import Baker from "./components/pages/baker.vue";
 import Accounts from "./components/pages/accounts.vue";
 import Account from "./components/pages/account.vue";
 
+import Contracts from "./components/pages/contracts.vue";
+
+import Originations from "./components/pages/originations.vue";
+import Activations from "./components/pages/activations.vue";
+import DoubleBaking from "./components/pages/double_baking.vue";
+import DoubleEndorsement from "./components/pages/double_endorsement.vue";
+
 //Errors
 import NotFound from "./components/pages/404.vue";
 import ServerError from "./components/pages/500.vue";
@@ -28,9 +35,14 @@ export default [
   { path: "/endorsements", name: "endorsements", component: Endorsements },
   { path: "/endorsement/:txID", name: "endorsement", component: Endorsement },
   { path: "/delegations", name: "delegations", component: Delegations },
+  { path: "/originations", name: "originations", component: Originations },
+  { path: "/activations", name: "activations", component: Activations },
+  { path: "/double_baking", name: "double_baking", component: DoubleBaking },
+  { path: "/double_endorsement", name: "double_endorsement", component: DoubleEndorsement },
   { path: "/bakers", name: "bakers", component: Bakers },
   { path: "/baker/:baker", name: "baker", component: Baker },
   { path: "/accounts", name: "accounts", component: Accounts },
+  { path: "/contracts", name: "contracts", component: Contracts },
   { path: "/account/:account", name: "account", component: Account },
   { path: "/404", name: "404", component: NotFound },
   { path: "/500", name: "500", component: ServerError }

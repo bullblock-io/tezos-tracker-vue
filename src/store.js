@@ -25,6 +25,21 @@ export const ACTIONS = {
   ENDORSEMENTS_SET: "ENDORSEMENTS_ADD",
   SET_ENDORSEMENTS_COUNT: "SET_ENDORSEMENTS_COUNT",
 
+  ORIGINATIONS_SET: "ORIGINATIONS_SET",
+  SET_ORIGINATIONS_COUNT: "SET_ORIGINATIONS_COUNT",
+  ORIGINATIONS_GET: "ORIGINATIONS_GET",
+
+  ACTIVATIONS_SET: "ACTIVATIONS_SET",
+  SET_ACTIVATIONS_COUNT: "SET_ACTIVATIONS_COUNT",
+  ACTIVATIONS_GET: "ACTIVATIONS_GET",
+
+  DOUBLEBAKING_SET: "DOUBLEBAKING_SET",
+  SET_DOUBLEBAKING_COUNT: "SET_DOUBLEBAKING_COUNT",
+  DOUBLEBAKING_GET: "DOUBLEBAKING_GET",
+
+  DOUBLEENDORSEMENT_SET: "DOUBLEENDORSEMENT_SET",
+  SET_DOUBLEENDORSEMENT_COUNT: "SET_DOUBLEENDORSEMENT_COUNT",
+  DOUBLEENDORSEMENT_GET: "DOUBLEENDORSEMENT_GET",
 
   DELEGATIONS_SET: "DELEGATIONS_ADD",
   DELEGATIONS_GET: "DELEGATIONS_GET",
@@ -34,6 +49,9 @@ export const ACTIONS = {
 
   ACCOUNTS_GET: "ACCOUNTS_GET",
   ACCOUNTS_SET: "ACCOUNTS_SET",
+
+  CONTRACTS_GET: "CONTRACTS_GET",
+  CONTRACTS_SET: "CONTRACTS_SET",
 
   INFO_NEW: "INFO_NEW",
   INFO_GET: "INFO_GET"
@@ -51,8 +69,13 @@ export default new Vuex.Store({
     blocks: [],
     endorsements: [],
     delegations: [],
+    originations: [],
+    activations: [],
+    double_baking: [],
+    double_endorsement: [],
     bakers: [],
     accounts: [],
+    contracts: [],
     priceInfo: {},
     headBlock: {},
     viewBlock: {},
@@ -66,8 +89,13 @@ export default new Vuex.Store({
       blocks: 0,
       endorsements: 0,
       delegations: 0,
+      originations: 0,
+      activations: 0,
+      double_baking: 0,
+      double_endorsement: 0,
       bakers: 0,
-      accounts: 0
+      accounts: 0,
+      contracts: 0
     }
   },
   mutations: {
@@ -79,6 +107,18 @@ export default new Vuex.Store({
     },
     [ACTIONS.SET_DELEGATIONS_COUNT]: function (state, count) {
       state.counts.delegations = count;
+    },
+    [ACTIONS.SET_ORIGINATIONS_COUNT]: function (state, count) {
+      state.counts.originations = count;
+    },
+    [ACTIONS.SET_ACTIVATIONS_COUNT]: function (state, count) {
+      state.counts.activations = count;
+    },
+    [ACTIONS.SET_DOUBLEBAKING_COUNT]: function (state, count) {
+      state.counts.double_baking = count;
+    },
+    [ACTIONS.SET_DOUBLEENDORSEMENT_COUNT]: function (state, count) {
+      state.counts.double_endorsement = count;
     },
     [ACTIONS.BLOCKS_SET]: function (state, blocks) {
       state.blocks = blocks.data;
@@ -96,6 +136,22 @@ export default new Vuex.Store({
       state.delegations = txs.data;
       state.counts.delegations = txs.count;
     },
+    [ACTIONS.ORIGINATIONS_SET]: function (state, originations) {
+      state.originations = originations.data;
+      state.counts.originations = originations.count;
+    },
+    [ACTIONS.ACTIVATIONS_SET]: function (state, activations) {
+      state.activations = activations.data;
+      state.counts.activations = activations.count;
+    },
+    [ACTIONS.DOUBLEBAKING_SET]: function (state, double_baking) {
+      state.double_baking = double_baking.data;
+      state.counts.double_baking = double_baking.count;
+    },
+    [ACTIONS.DOUBLEENDORSEMENT_SET]: function (state, double_endorsement) {
+      state.double_endorsement = double_endorsement.data;
+      state.counts.double_endorsement = double_endorsement.count;
+    },
     [ACTIONS.INFO_NEW]: function (state, info) {
       state.priceInfo = info.data;
     },
@@ -112,6 +168,10 @@ export default new Vuex.Store({
     [ACTIONS.ACCOUNTS_SET]: function (state, data) {
       state.accounts = data.data;
       state.counts.accounts = data.count;
+    },
+    [ACTIONS.CONTRACTS_SET]: function (state, data) {
+      state.contracts = data.data;
+      state.counts.contracts = data.count;
     }
   },
   actions: {
@@ -133,12 +193,27 @@ export default new Vuex.Store({
     async [ACTIONS.DELEGATIONS_GET]({ commit }, params) {
       commit(ACTIONS.DELEGATIONS_SET, await api.getDelegations(params));
     },
+    async [ACTIONS.ORIGINATIONS_GET]({ commit }, params) {
+      commit(ACTIONS.ORIGINATIONS_SET, await api.getOriginations(params));
+    },
+    async [ACTIONS.ACTIVATIONS_GET]({ commit }, params) {
+      commit(ACTIONS.ACTIVATIONS_SET, await api.getActivations(params));
+    },
+    async [ACTIONS.DOUBLEBAKING_GET]({ commit }, params) {
+      commit(ACTIONS.DOUBLEBAKING_SET, await api.getDoubleBaking(params));
+    },
+    async [ACTIONS.DOUBLEENDORSEMENT_GET]({ commit }, params) {
+      commit(ACTIONS.DOUBLEENDORSEMENT_SET, await api.getDoubleEndorsement(params));
+    },
     async [ACTIONS.BAKERS_GET]({ commit }, params) {
       commit(ACTIONS.BAKERS_SET, await api.getBakers(params));
     },
     async [ACTIONS.ACCOUNTS_GET]({ commit }, params) {
       commit(ACTIONS.ACCOUNTS_SET, await api.getAccounts(params));
-    }
+    },
+    async [ACTIONS.CONTRACTS_GET]({ commit }, params) {
+      commit(ACTIONS.CONTRACTS_SET, await api.getContracts(params));
+    },
   },
   getters: {
     getBlockById(state) {

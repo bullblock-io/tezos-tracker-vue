@@ -16,6 +16,26 @@
         <div class="card-body">
           <div class="item-info row ml-1 mr-1">
             <div class="col-lg-2">
+              <span class="label">Manager</span>
+            </div>
+            <div class="col-lg-10">
+              <span class="value">
+                {{account.manager}}
+              </span>
+            </div>
+          </div>
+          <div class="item-info row ml-1 mr-1">
+            <div class="col-lg-2">
+              <span class="label">Delegate</span>
+            </div>
+            <div class="col-lg-10">
+              <span class="value">
+                {{account.delegateValue}}
+              </span>
+            </div>
+          </div>
+          <div class="item-info row ml-1 mr-1">
+            <div class="col-lg-2">
               <span class="label">Balance</span>
             </div>
             <div class="col-lg-10">
