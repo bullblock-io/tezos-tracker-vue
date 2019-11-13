@@ -25,7 +25,7 @@
     <section class="addresses-counter cycle-counter">
       <div class="row">
         <div class="col-12">
-          <div class="card ml-2 mr-2">
+          <div class="card ml-4 mr-4">
             <div class="card-header">
               <div class="title text-center"><span>Total activated addresses</span></div>
             </div>
@@ -46,7 +46,7 @@
 
               <div class="row">
                 <div class="col-12">
-                  <b-progress :value="69" :max="100" class="mb-2"></b-progress>
+                  <b-progress :value="69.66" :max="100" class="mb-2"></b-progress>
                 </div>
               </div>
 
