@@ -18,8 +18,114 @@
           </div>
         </div>
 
+        <section class="cycle-counter">
+          <div class="row">
+            <div class="col-12">
+              <div class="card ml-2 mr-2">
+                <div class="card-header">
+                  <div class="title text-center"><span>Cycle counter</span></div>
+                </div>
+                <div class="card-body">
+
+                  <div class="row">
+                    <div class="col-12">
+                      <div class="progress-labels">
+                        <div class="cycle-label float-left">
+                          Cycle - <span>160</span>
+                        </div>
+                        <div class="tezos-label float-right">
+                          Tezos Mainnet
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-12">
+                      <b-progress :value="69" :max="100" class="mb-2"></b-progress>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-12">
+                      <div class="progress-labels">
+                        <div class="percentage float-left">
+                          <span>69%</span>
+                        </div>
+                        <div class="timer float-right">
+                          <span>21h 43m</span> - Until cycle end
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>                
+              </div>  
+            </div>            
+          </div>
+        </section>
+
         <div class="promo-tiles row justify-content-md-center">
-          <div class="tile col text-center ml-4 mr-4">
+
+          <div class="tile col text-center ml-2 mr-4">
+            <div class="tile-icon text-center">
+              <font-awesome-icon icon="lightbulb" />
+            </div>
+            <span class="counter">{{ stakingRatio }}%</span>
+            <div v-if="info.staking_ratio > 0">
+              <span class="percentage green">
+                <font-awesome-icon icon="caret-up" />
+              </span>
+            </div>
+            <div v-else>
+              <span class="percentage red">
+                <font-awesome-icon icon="caret-down" />
+              </span>
+            </div>
+            <span class="tile-name">Staking ratio</span>
+          </div>
+
+          <div class="tile col text-center mr-4">
+            <div class="tile-icon text-center">
+              <font-awesome-icon icon="star" />
+            </div>
+            <div class="voting-progress">
+              <b-progress :value="69" :max="100" class="mb-2"></b-progress>
+              <div class="progress-labels">
+                <div class="voting-percentage float-left">
+                  <span>69%</span>
+                </div>
+                <div class="timer float-right">
+                  <span>21h 43m</span> - Until cycle end
+                </div>
+              </div>
+            </div>            
+            <span class="tile-name">Voting progress</span>
+          </div>
+
+          <div class="tile col text-center mr-4">
+            <div class="tile-icon text-center">
+              <font-awesome-icon icon="folder" />
+            </div>
+            <span class="counter">{{ head.level | bignum }}</span>
+            <span class="percentage"></span>
+            <span class="tile-name">Block Height</span>
+          </div>
+
+          <div class="tile col text-center mr-2">
+            <div class="tile-icon text-center">
+              <font-awesome-icon icon="user" />
+            </div>
+            <span class="counter">Everstake</span>
+            <span class="percentage"></span>
+            <span class="tile-name">Latest baker</span>
+          </div>
+
+        </div>
+
+        <div class="promo-tiles row justify-content-md-center">
+
+          <div class="tile col text-center ml-2 mr-4">
             <div class="tile-icon text-center">
               <font-awesome-icon icon="chart-bar" />
             </div>
@@ -42,49 +148,33 @@
 
           <div class="tile col text-center mr-4">
             <div class="tile-icon text-center">
-              <font-awesome-icon icon="folder" />
+              <font-awesome-icon icon="bookmark" />
             </div>
-            <span class="counter">{{ head.level | bignum }}</span>
+            <span class="counter">882 kꜩ</span>
             <span class="percentage"></span>
-            <span class="tile-name">Height</span>
+            <span class="tile-name">Trading Volume</span>
           </div>
 
           <div class="tile col text-center mr-4">
+            <div class="tile-icon text-center">
+              <font-awesome-icon icon="gem" />
+            </div>
+            <span class="counter">$861,180,985</span>
+            <span class="percentage"></span>
+            <span class="tile-name">Market cap</span>
+          </div>
+
+          <div class="tile col text-center mr-2">
             <div class="tile-icon text-center">
               <font-awesome-icon icon="hourglass" />
             </div>
-            <span class="counter">{{ head.metaCycle }}</span>
+            <span class="counter">810,904,882 ꜩ</span>
             <span class="percentage"></span>
-            <span class="tile-name">Cycle counter</span>
+            <span class="tile-name">Circulating Supply</span>
           </div>
 
-          <div class="tile col text-center mr-4">
-            <div class="tile-icon text-center">
-              <font-awesome-icon icon="lightbulb" />
-            </div>
-            <span class="counter">{{ stakingRatio }}%</span>
-            <div v-if="info.staking_ratio > 0">
-              <span class="percentage green">
-                <font-awesome-icon icon="caret-up" />
-              </span>
-            </div>
-            <div v-else>
-              <span class="percentage red">
-                <font-awesome-icon icon="caret-down" />
-              </span>
-            </div>
-            <span class="tile-name">Staking ratio</span>
-          </div>
-
-          <div class="tile col text-center mr-4">
-            <div class="tile-icon text-center">
-              <font-awesome-icon icon="bell" />
-            </div>
-            <span class="counter">{{ info.annual_yield }}%</span>
-            <span class="percentage red"></span>
-            <span class="tile-name">Annual yield</span>
-          </div>
         </div>
+
       </div>
     </section>
 
