@@ -69,7 +69,7 @@
 
           <div class="tile col text-center ml-2 mr-4">
             <div class="tile-icon text-center">
-              <font-awesome-icon icon="lightbulb" />
+              <font-awesome-icon :icon="['far', 'lightbulb']" />
             </div>
             <span class="counter">{{ stakingRatio }}%</span>
             <div v-if="info.staking_ratio > 0">
@@ -87,7 +87,7 @@
 
           <div class="tile col text-center mr-4">
             <div class="tile-icon text-center">
-              <font-awesome-icon icon="star" />
+              <font-awesome-icon :icon="['far', 'star']" />
             </div>
             <div class="voting-progress">
               <b-progress :value="69" :max="100" class="mb-2"></b-progress>
@@ -105,7 +105,7 @@
 
           <div class="tile col text-center mr-4">
             <div class="tile-icon text-center">
-              <font-awesome-icon icon="folder" />
+              <font-awesome-icon :icon="['far', 'folder']" />
             </div>
             <span class="counter">{{ head.level | bignum }}</span>
             <span class="percentage"></span>
@@ -114,7 +114,7 @@
 
           <div class="tile col text-center mr-2">
             <div class="tile-icon text-center">
-              <font-awesome-icon icon="user" />
+              <font-awesome-icon :icon="['far', 'user']" />
             </div>
             <span class="counter">Everstake</span>
             <span class="percentage"></span>
@@ -127,7 +127,7 @@
 
           <div class="tile col text-center ml-2 mr-4">
             <div class="tile-icon text-center">
-              <font-awesome-icon icon="chart-bar" />
+              <font-awesome-icon :icon="['far', 'chart-bar']" />
             </div>
             <span class="counter">${{ info.price }}</span>
             <div v-if="info.price_24h_change > 0">
@@ -148,7 +148,7 @@
 
           <div class="tile col text-center mr-4">
             <div class="tile-icon text-center">
-              <font-awesome-icon icon="bookmark" />
+              <font-awesome-icon :icon="['far', 'bookmark']" />
             </div>
             <span class="counter">882 kꜩ</span>
             <span class="percentage"></span>
@@ -157,7 +157,7 @@
 
           <div class="tile col text-center mr-4">
             <div class="tile-icon text-center">
-              <font-awesome-icon icon="gem" />
+              <font-awesome-icon :icon="['far', 'gem']" />
             </div>
             <span class="counter">$861,180,985</span>
             <span class="percentage"></span>
@@ -166,7 +166,7 @@
 
           <div class="tile col text-center mr-2">
             <div class="tile-icon text-center">
-              <font-awesome-icon icon="hourglass" />
+              <font-awesome-icon :icon="['far', 'hourglass']" />
             </div>
             <span class="counter">810,904,882 ꜩ</span>
             <span class="percentage"></span>
