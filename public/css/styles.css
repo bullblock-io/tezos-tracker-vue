@@ -39,7 +39,12 @@ body {
 
 .main-header .header-middle .main-nav {
   float: left;
-  margin: 0 62px;
+  margin: 0 48px;
+}
+
+.main-header .header-middle .main-nav.right-block {
+  float: right;
+  margin: 0 24px;
 }
 
 .main-header .header-middle .main-nav ul {
@@ -53,7 +58,7 @@ body {
 .main-header .header-middle .main-nav ul li {
   display: block;
   float: left;
-  padding: 2px 26px;
+  padding: 2px 24px;
 }
 
 .main-header .header-middle .main-nav ul li a {
@@ -731,6 +736,23 @@ span a.baker {
 @media screen and (max-width: 1450px) {
   .card-body .table.transactions-table, .card-body .table.delegations-table {
     table-layout: fixed;
+  }
+}
+@media screen and (max-width: 1360px) {
+  .main-header .header-middle .main-nav {
+    float: left;
+    margin: 0 36px;
+  }
+  
+  .main-header .header-middle .main-nav.right-block {
+    float: right;
+    margin: 0 20px;
+  }
+  
+  .main-header .header-middle .main-nav ul li {
+    display: block;
+    float: left;
+    padding: 2px 20px;
   }
 }
 /*# sourceMappingURL=styles.css.map */

@@ -70,6 +70,31 @@
           </li>
         </ul>
       </nav>
+
+      <nav class="main-nav right-block">
+        <ul>
+          <li>
+            <a
+              class="dropdown-toggle"
+              data-toggle="dropdown"
+              href="#"
+              role="button"
+              aria-haspopup="true"
+              aria-expanded="false"
+              >Network</a
+            >
+            <div class="dropdown-menu">
+              <router-link class="dropdown-item" :to="{ name: 'accounts' }"
+                >Mainnet</router-link
+              >
+              <router-link class="dropdown-item" :to="{ name: 'contracts' }"
+                >Babylon net</router-link
+              >
+            </div>
+          </li>
+        </ul>
+      </nav>
+      
     </div>
     <div class="search">
       <Search />
