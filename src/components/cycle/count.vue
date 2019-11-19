@@ -60,9 +60,12 @@ export default {
       return parseInt(((this.head.metaCyclePosition / 4096) * 100).toFixed());
     },
     timeLeft() {
-      return moment()
-        .add(4096 - this.head.metaCyclePosition, "minutes")
-        .fromNow(true);
+      const d = moment(this.head.timestamp * 1000).add(
+        4096 - this.head.metaCyclePosition,
+        "minutes"
+      );
+      const duration = moment.duration(d.diff(moment()));
+      return `${duration.hours()}h ${duration.minutes()}m`;
     }
   },
   async created() {
