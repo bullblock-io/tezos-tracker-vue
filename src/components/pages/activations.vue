@@ -21,25 +21,25 @@
         </div>
       </div>
     </section>
-
-    <section class="addresses-counter cycle-counter">
+    <MetaCount />
+    <!-- <section class="addresses-counter cycle-counter">
       <div class="row">
         <div class="col-12">
           <div class="card ml-4 mr-4">
             <div class="card-header">
-              <div class="title text-center"><span>Total activated addresses</span></div>
+              <div class="title text-center">
+                <span>Total activated addresses</span>
+              </div>
             </div>
             <div class="card-body">
-
               <div class="row">
                 <div class="col-12">
                   <div class="progress-labels">
                     <div class="cycle-label float-left">
-                      Cycle - <span>160</span>
+                      Cycle -
+                      <span>160</span>
                     </div>
-                    <div class="tezos-label float-right">
-                      Tezos Mainnet
-                    </div>
+                    <div class="tezos-label float-right">Tezos Mainnet</div>
                   </div>
                 </div>
               </div>
@@ -62,12 +62,11 @@
                   </div>
                 </div>
               </div>
-
-            </div>                
-          </div>  
-        </div>            
+            </div>
+          </div>
+        </div>
       </div>
-    </section>
+    </section>-->
 
     <section>
       <div class="container-fluid">
@@ -80,7 +79,9 @@
                     <span class="text col">Activations list</span>
                     <div class="counter">
                       <span class="text">Percentage of ICO addresses activated:</span>
-                      <span class="counter-text float-right">{{ count.activations | getPercentageICOActiveAddresses }}</span>
+                      <span
+                        class="counter-text float-right"
+                      >{{ count.activations | getPercentageICOActiveAddresses }}</span>
                     </div>
                   </h3>
                 </div>
@@ -100,14 +101,17 @@
 <script>
 import { mapState } from "vuex";
 import ActivationsList from "../activations/list.vue";
+import MetaCount from "../cycle/count.vue";
 export default {
   name: "Activations",
   components: {
-    ActivationsList
+    ActivationsList,
+    MetaCount
   },
   computed: {
     ...mapState({
-      count: state => state.counts
+      count: state => state.counts,
+      head: state => state.head
     })
   }
 };

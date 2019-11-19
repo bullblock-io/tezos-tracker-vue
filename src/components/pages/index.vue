@@ -17,56 +17,10 @@
             <img src="img/promo-img.svg" height="270px" alt />
           </div>
         </div>
-
-        <section class="cycle-counter">
-          <div class="row">
-            <div class="col-12">
-              <div class="card ml-2 mr-2">
-                <div class="card-header">
-                  <div class="title text-center"><span>Cycle counter</span></div>
-                </div>
-                <div class="card-body">
-
-                  <div class="row">
-                    <div class="col-12">
-                      <div class="progress-labels">
-                        <div class="cycle-label float-left">
-                          Cycle - <span>160</span>
-                        </div>
-                        <div class="tezos-label float-right">
-                          Tezos Mainnet
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="row">
-                    <div class="col-12">
-                      <b-progress :value="69" :max="100" class="mb-2"></b-progress>
-                    </div>
-                  </div>
-
-                  <div class="row">
-                    <div class="col-12">
-                      <div class="progress-labels">
-                        <div class="percentage float-left">
-                          <span>69%</span>
-                        </div>
-                        <div class="timer float-right">
-                          <span>21h 43m</span> - Until cycle end
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                </div>                
-              </div>  
-            </div>            
-          </div>
-        </section>
+        <!-- cycle-->
+        <CycleCount />
 
         <div class="promo-tiles row justify-content-md-center">
-
           <div class="tile col text-center ml-2 mr-4">
             <div class="tile-icon text-center">
               <font-awesome-icon :icon="['far', 'lightbulb']" />
@@ -90,16 +44,16 @@
               <font-awesome-icon :icon="['far', 'star']" />
             </div>
             <div class="voting-progress">
-              <b-progress :value="69" :max="100" class="mb-2"></b-progress>
+              <b-progress :value="cyclePercent" :max="100" class="mb-2"></b-progress>
               <div class="progress-labels">
                 <div class="voting-percentage float-left">
-                  <span>69%</span>
+                  <span>{{cyclePercent}}%</span>
                 </div>
                 <div class="timer float-right">
-                  <span>21h 43m</span> - Until cycle end
+                  <span>{{timeLeft}}</span> - Until cycle end
                 </div>
               </div>
-            </div>            
+            </div>
             <span class="tile-name">Voting progress</span>
           </div>
 
@@ -120,11 +74,9 @@
             <span class="percentage"></span>
             <span class="tile-name">Latest baker</span>
           </div>
-
         </div>
 
         <div class="promo-tiles row justify-content-md-center">
-
           <div class="tile col text-center ml-2 mr-4">
             <div class="tile-icon text-center">
               <font-awesome-icon :icon="['far', 'chart-bar']" />
@@ -172,9 +124,7 @@
             <span class="percentage"></span>
             <span class="tile-name">Circulating Supply</span>
           </div>
-
         </div>
-
       </div>
     </section>
 
@@ -243,16 +193,18 @@ import { mapState } from "vuex";
 
 import BlocksCard from "../blocks/blocks_card.vue";
 import TxCard from "../transactions/transactions_card.vue";
+import CycleCount from "../cycle/count.vue";
 import Search from "../search/search";
 import { ACTIONS } from "../../store";
 import { setInterval, clearInterval } from "timers";
-
+import moment from "moment";
 export default {
   name: "index",
   components: {
     BlocksCard,
     TxCard,
-    Search
+    Search,
+    CycleCount
   },
   data() {
     return {
@@ -275,6 +227,14 @@ export default {
         return 0;
       }
       return Math.abs(this.info.staking_ratio.toFixed(2));
+    },
+    cyclePercent() {
+      return parseInt(((this.head.metaCyclePosition / 4096) * 100).toFixed());
+    },
+    timeLeft() {
+      return moment()
+        .add(4096 - this.head.metaCyclePosition, "minutes")
+        .fromNow(true);
     }
   },
   beforeDestroy() {
