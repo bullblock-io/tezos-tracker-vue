@@ -21,6 +21,7 @@
         </div>
       </div>
     </section>
+    <MetaCount />
 
     <section>
       <div class="container-fluid">
@@ -33,7 +34,9 @@
                     <span class="text col">Activations list</span>
                     <div class="counter">
                       <span class="text">Percentage of ICO addresses activated:</span>
-                      <span class="counter-text  float-right">{{ count.activations | getPercentageICOActiveAddresses }}</span>
+                      <span
+                        class="counter-text float-right"
+                      >{{ count.activations | getPercentageICOActiveAddresses }}</span>
                     </div>
                   </h3>
                 </div>
@@ -53,14 +56,17 @@
 <script>
 import { mapState } from "vuex";
 import ActivationsList from "../activations/list.vue";
+import MetaCount from "../cycle/count.vue";
 export default {
   name: "Activations",
   components: {
-    ActivationsList
+    ActivationsList,
+    MetaCount
   },
   computed: {
     ...mapState({
-      count: state => state.counts
+      count: state => state.counts,
+      head: state => state.head
     })
   }
 };

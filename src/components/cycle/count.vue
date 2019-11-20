@@ -1,0 +1,75 @@
+<template>
+  <section class="cycle-counter">
+    <div class="row">
+      <div class="col-12">
+        <div class="card ml-2 mr-2">
+          <div class="card-header">
+            <div class="title text-center">
+              <span>Cycle counter</span>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="row">
+              <div class="col-12">
+                <div class="progress-labels">
+                  <div class="cycle-label float-left">
+                    Cycle -
+                    <span>{{head.metaCycle}}</span>
+                  </div>
+                  <div class="tezos-label float-right">Tezos Mainnet</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-12">
+                <b-progress :value="cyclePercent" :max="100" class="mb-2"></b-progress>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-12">
+                <div class="progress-labels">
+                  <div class="percentage float-left">
+                    <span>{{cyclePercent}}%</span>
+                  </div>
+                  <div class="timer float-right">
+                    <span>{{timeLeft}}</span> - Until cycle end
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</template>
+
+<script>
+import { mapState } from "vuex";
+import { ACTIONS } from "../../store";
+import moment from "moment";
+export default {
+  name: "cycle-counter",
+  computed: {
+    ...mapState({
+      head: state => state.headBlock
+    }),
+    cyclePercent() {
+      return parseInt(((this.head.metaCyclePosition / 4096) * 100).toFixed());
+    },
+    timeLeft() {
+      const d = moment(this.head.timestamp * 1000).add(
+        4096 - this.head.metaCyclePosition,
+        "minutes"
+      );
+      const duration = moment.duration(d.diff(moment()));
+      return `${duration.hours()}h ${duration.minutes()}m`;
+    }
+  },
+  async created() {
+    await this.$store.dispatch(ACTIONS.BLOCK_GET_HEAD);
+  }
+};
+</script>
