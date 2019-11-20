@@ -70,7 +70,12 @@
             <div class="tile-icon text-center">
               <font-awesome-icon :icon="['far', 'user']" />
             </div>
-            <span class="counter">Everstake</span>
+
+            <span class="counter">
+              <b-link :to="{ name: 'account', params: { account: head.baker } }">
+                <span>{{ head.baker | longhash(17) }}</span>
+              </b-link>
+            </span>
             <span class="percentage"></span>
             <span class="tile-name">Latest baker</span>
           </div>
@@ -102,7 +107,7 @@
             <div class="tile-icon text-center">
               <font-awesome-icon :icon="['far', 'bookmark']" />
             </div>
-            <span class="counter">882 kꜩ</span>
+            <span class="counter">{{info.volume_24h | tezos}}</span>
             <span class="percentage"></span>
             <span class="tile-name">Trading Volume</span>
           </div>
@@ -111,7 +116,7 @@
             <div class="tile-icon text-center">
               <font-awesome-icon :icon="['far', 'gem']" />
             </div>
-            <span class="counter">$861,180,985</span>
+            <span class="counter">${{info.market_cap | bignum}}</span>
             <span class="percentage"></span>
             <span class="tile-name">Market cap</span>
           </div>
@@ -120,7 +125,7 @@
             <div class="tile-icon text-center">
               <font-awesome-icon :icon="['far', 'hourglass']" />
             </div>
-            <span class="counter">810,904,882 ꜩ</span>
+            <span class="counter">{{info.circulating_supply | bignum}}</span>
             <span class="percentage"></span>
             <span class="tile-name">Circulating Supply</span>
           </div>
