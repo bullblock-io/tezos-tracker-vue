@@ -116,7 +116,7 @@
             <div class="tile-icon text-center">
               <font-awesome-icon :icon="['far', 'gem']" />
             </div>
-            <span class="counter">${{info.market_cap | bignum}}</span>
+            <span class="counter">${{info.market_cap | bignum(",")}}</span>
             <span class="percentage"></span>
             <span class="tile-name">Market cap</span>
           </div>
@@ -125,7 +125,9 @@
             <div class="tile-icon text-center">
               <font-awesome-icon :icon="['far', 'hourglass']" />
             </div>
-            <span class="counter">{{info.circulating_supply | bignum}}</span>
+            <span
+              class="counter"
+            >{{(info.circulating_supply > 0 ? info.circulating_supply.toFixed() : 0) | bignum(",")}}</span>
             <span class="percentage"></span>
             <span class="tile-name">Circulating Supply</span>
           </div>
