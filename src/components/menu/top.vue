@@ -9,8 +9,27 @@
           <li v-bind:class="{ active: isActive('index') }">
             <router-link :to="{ name: 'index' }">Dashboard</router-link>
           </li>
-          <li v-bind:class="{ active: isActive('blocks') }">
-            <router-link :to="{ name: 'blocks' }">Blocks</router-link>
+          <li>
+            <a
+              class="dropdown-toggle"
+              data-toggle="dropdown"
+              href="#"
+              role="button"
+              aria-haspopup="true"
+              aria-expanded="false"
+              >Blocks</a
+            >
+            <div class="dropdown-menu">
+              <router-link class="dropdown-item" :to="{ name: 'blocks' }"
+                >Blocks</router-link
+              >
+              <router-link class="dropdown-item" :to="{ name: 'snapshots' }"
+                >Snapshots</router-link
+              >
+              <router-link class="dropdown-item" :to="{ name: 'baking_rights' }"
+                >Baking Rights</router-link
+              >
+            </div>
           </li>
           <li>
             <a

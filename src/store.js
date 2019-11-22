@@ -17,6 +17,18 @@ export const ACTIONS = {
   BLOCKS_GET: "BLOCKS_GET",
   BLOCKS_SET: "BLOCKS_SET",
   BLOCKS_REPLACE: "BLOCKS_REPLACE",
+
+  SNAPSHOTS_GET: "SNAPSHOTS_GET",
+  SET_SNAPSHOTS_COUNT: "SET_SNAPSHOTS_COUNT",
+  SNAPSHOTS_SET: "SNAPSHOTS_SET",
+
+  BAKINGRIGHTS_GET: "BAKINGRIGHTS_GET",
+  SET_BAKINGRIGHTS_COUNT: "SET_BAKINGRIGHTS_COUNT",
+  BAKINGRIGHTS_SET: "BAKINGRIGHTS_SET",
+
+  FUTUREBAKINGRIGHTS_GET: "FUTUREBAKINGRIGHTS_GET",
+  SET_FUTUREBAKINGRIGHTS_COUNT: "SET_FUTUREBAKINGRIGHTS_COUNT",
+  FUTUREBAKINGRIGHTS_SET: "FUTUREBAKINGRIGHTS_SET",
   //OPERATIONS
   TRANSACTIONS_SET: "TRANSACTIONS_SET",
   TRANSACTIONS_GET: "TRANSACTIONS_GET",
@@ -67,6 +79,9 @@ export default new Vuex.Store({
   state: {
     txs: [],
     blocks: [],
+    snapshots: [],
+    baking_rights: [],
+    future_baking_rights: [],
     endorsements: [],
     delegations: [],
     originations: [],
@@ -87,6 +102,9 @@ export default new Vuex.Store({
     counts: {
       txs: 0,
       blocks: 0,
+      snapshots: 0,
+      baking_rights: 0,
+      future_baking_rights: 0,
       endorsements: 0,
       delegations: 0,
       originations: 0,
@@ -120,9 +138,30 @@ export default new Vuex.Store({
     [ACTIONS.SET_DOUBLEENDORSEMENT_COUNT]: function (state, count) {
       state.counts.double_endorsement = count;
     },
+    [ACTIONS.SET_SNAPSHOTS_COUNT]: function (state, count) {
+      state.counts.snapshots = count;
+    },
+    [ACTIONS.SET_BAKINGRIGHTS_COUNT]: function (state, count) {
+      state.counts.baking_rights = count;
+    },
+    [ACTIONS.SET_FUTUREBAKINGRIGHTS_COUNT]: function (state, count) {
+      state.counts.future_baking_rights = count;
+    },
     [ACTIONS.BLOCKS_SET]: function (state, blocks) {
       state.blocks = blocks.data;
       state.counts.blocks = blocks.count;
+    },
+    [ACTIONS.SNAPSHOTS_SET]: function (state, snapshots) {
+      state.snapshots = snapshots.data;
+      state.counts.snapshots = snapshots.count;
+    },
+    [ACTIONS.BAKINGRIGHTS_SET]: function (state, baking_rights) {
+      state.baking_rights = baking_rights.data;
+      state.counts.baking_rights = baking_rights.count;
+    },
+    [ACTIONS.FUTUREBAKINGRIGHTS_SET]: function (state, future_baking_rights) {
+      state.future_baking_rights = future_baking_rights.data;
+      state.counts.future_baking_rights = future_baking_rights.count;
     },
     [ACTIONS.TRANSACTIONS_SET]: function (state, txs) {
       state.txs = txs.data;
@@ -180,6 +219,15 @@ export default new Vuex.Store({
     },
     async [ACTIONS.BLOCK_GET_BY_LEVEL]({ commit }, params = {}) {
       commit(ACTIONS.BLOCK_SET_SINGLE, await api.getBlock({ block: params.block }));
+    },
+    async [ACTIONS.SNAPSHOTS_GET]({ commit }, params = {}) {
+      commit(ACTIONS.SNAPSHOTS_SET, await api.getSnapshots(params));
+    },
+    async [ACTIONS.BAKINGRIGHTS_GET]({ commit }, params = {}) {
+      commit(ACTIONS.BAKINGRIGHTS_SET, await api.baking_rights(params));
+    },
+    async [ACTIONS.FUTUREBAKINGRIGHTS_GET]({ commit }, params = {}) {
+      commit(ACTIONS.FUTUREBAKINGRIGHT_SET, await api.future_baking_rights(params));
     },
     async [ACTIONS.INFO_GET]({ commit }) {
       commit(ACTIONS.INFO_NEW, await api.getInfo());
