@@ -46,7 +46,7 @@
 </template>
 <script>
 import { mapState } from "vuex";
-import { ACTIONS, api } from "../../store";
+import { ACTIONS } from "../../store";
 
 export default {
   name: "Activations",
@@ -62,7 +62,7 @@ export default {
         { key: "txhash", label: "Origination Hash" },
         { key: "level", label: "Block ID" },
         { key: "timestamp", label: "Timestamp" },
-        { key: "to", label: "To" },
+        { key: "to", label: "To" }
       ]
     };
   },
@@ -96,7 +96,7 @@ export default {
       if (this.$props.account) {
         props.account_id = this.$props.account;
       }
-      const data = await api.getActivations(props);
+      const data = await this.$store.getActivations(props);
       this.activations = data.data;
       this.count = data.count;
       this.$store.commit(ACTIONS.SET_ACTIVATIONS_COUNT, this.count);

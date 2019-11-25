@@ -57,10 +57,14 @@ export const ACTIONS = {
   INFO_GET: "INFO_GET"
 };
 
-const API_URL = "https://api-teztracker.everstake.one/v2/data/tezos/mainnet/";
+const API_URL_MAIN = "https://api-teztracker.everstake.one/v2/data/tezos/mainnet/";
+const API_URL_BABYLON = "https://api-teztracker.everstake.one/v2/data/tezos/babylonnet/";
 
-export const api = new TzAPI({ API_URL })
 
+const API = {
+  mainnet: new TzAPI({ API_URL: API_URL_MAIN }),
+  babylonnet: new TzAPI({ API_URL: API_URL_BABYLON })
+};
 
 
 export default new Vuex.Store({
@@ -99,6 +103,9 @@ export default new Vuex.Store({
     }
   },
   mutations: {
+    setNetwork(state, network) {
+      state.app.network = network;
+    },
     [ACTIONS.SET_TX_COUNT]: function (state, count) {
       state.counts.txs = count;
     },
@@ -175,44 +182,44 @@ export default new Vuex.Store({
     }
   },
   actions: {
-    async [ACTIONS.BLOCKS_GET]({ commit }, params = {}) {
-      commit(ACTIONS.BLOCKS_SET, await api.getBlocks(params));
+    async [ACTIONS.BLOCKS_GET]({ commit, getters }, params = {}) {
+      commit(ACTIONS.BLOCKS_SET, await getters.API.getBlocks(params));
     },
-    async [ACTIONS.BLOCK_GET_BY_LEVEL]({ commit }, params = {}) {
-      commit(ACTIONS.BLOCK_SET_SINGLE, await api.getBlock({ block: params.block }));
+    async [ACTIONS.BLOCK_GET_BY_LEVEL]({ commit, getters }, params = {}) {
+      commit(ACTIONS.BLOCK_SET_SINGLE, await getters.API.getBlock({ block: params.block }));
     },
-    async [ACTIONS.INFO_GET]({ commit }) {
-      commit(ACTIONS.INFO_NEW, await api.getInfo());
+    async [ACTIONS.INFO_GET]({ commit, getters }) {
+      commit(ACTIONS.INFO_NEW, await getters.API.getInfo());
     },
-    async [ACTIONS.BLOCK_GET_HEAD]({ commit }) {
-      commit(ACTIONS.BLOCK_SET_HEAD, await api.getBlockHead());
+    async [ACTIONS.BLOCK_GET_HEAD]({ commit, getters }) {
+      commit(ACTIONS.BLOCK_SET_HEAD, await getters.API.getBlockHead());
     },
-    async [ACTIONS.TRANSACTIONS_GET]({ commit }, params = {}) {
-      commit(ACTIONS.TRANSACTIONS_SET, await api.getTransactions(params));
+    async [ACTIONS.TRANSACTIONS_GET]({ commit, getters }, params = {}) {
+      commit(ACTIONS.TRANSACTIONS_SET, await getters.API.getTransactions(params));
     },
-    async [ACTIONS.DELEGATIONS_GET]({ commit }, params) {
-      commit(ACTIONS.DELEGATIONS_SET, await api.getDelegations(params));
+    async [ACTIONS.DELEGATIONS_GET]({ commit, getters }, params) {
+      commit(ACTIONS.DELEGATIONS_SET, await getters.API.getDelegations(params));
     },
-    async [ACTIONS.ORIGINATIONS_GET]({ commit }, params) {
-      commit(ACTIONS.ORIGINATIONS_SET, await api.getOriginations(params));
+    async [ACTIONS.ORIGINATIONS_GET]({ commit, getters }, params) {
+      commit(ACTIONS.ORIGINATIONS_SET, await getters.API.getOriginations(params));
     },
-    async [ACTIONS.ACTIVATIONS_GET]({ commit }, params) {
-      commit(ACTIONS.ACTIVATIONS_SET, await api.getActivations(params));
+    async [ACTIONS.ACTIVATIONS_GET]({ commit, getters }, params) {
+      commit(ACTIONS.ACTIVATIONS_SET, await getters.API.getActivations(params));
     },
-    async [ACTIONS.DOUBLEBAKING_GET]({ commit }, params) {
-      commit(ACTIONS.DOUBLEBAKING_SET, await api.getDoubleBaking(params));
+    async [ACTIONS.DOUBLEBAKING_GET]({ commit, getters }, params) {
+      commit(ACTIONS.DOUBLEBAKING_SET, await getters.API.getDoubleBaking(params));
     },
-    async [ACTIONS.DOUBLEENDORSEMENT_GET]({ commit }, params) {
-      commit(ACTIONS.DOUBLEENDORSEMENT_SET, await api.getDoubleEndorsement(params));
+    async [ACTIONS.DOUBLEENDORSEMENT_GET]({ commit, getters }, params) {
+      commit(ACTIONS.DOUBLEENDORSEMENT_SET, await getters.API.getDoubleEndorsement(params));
     },
-    async [ACTIONS.BAKERS_GET]({ commit }, params) {
-      commit(ACTIONS.BAKERS_SET, await api.getBakers(params));
+    async [ACTIONS.BAKERS_GET]({ commit, getters }, params) {
+      commit(ACTIONS.BAKERS_SET, await getters.API.getBakers(params));
     },
-    async [ACTIONS.ACCOUNTS_GET]({ commit }, params) {
-      commit(ACTIONS.ACCOUNTS_SET, await api.getAccounts(params));
+    async [ACTIONS.ACCOUNTS_GET]({ commit, getters }, params) {
+      commit(ACTIONS.ACCOUNTS_SET, await getters.API.getAccounts(params));
     },
-    async [ACTIONS.CONTRACTS_GET]({ commit }, params) {
-      commit(ACTIONS.CONTRACTS_SET, await api.getContracts(params));
+    async [ACTIONS.CONTRACTS_GET]({ commit, getters }, params) {
+      commit(ACTIONS.CONTRACTS_SET, await getters.API.getContracts(params));
     },
   },
   getters: {
@@ -224,6 +231,9 @@ export default new Vuex.Store({
     },
     getActions(state) {
       return () => state.app.actions;
+    },
+    API(state) {
+      return API[state.app.network] || API.mainnet;
     }
   }
 });

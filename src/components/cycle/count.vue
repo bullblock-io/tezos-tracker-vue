@@ -16,7 +16,7 @@
                     Cycle -
                     <span>{{head.metaCycle}}</span>
                   </div>
-                  <div class="tezos-label float-right">Tezos Mainnet</div>
+                  <div class="tezos-label float-right">Tezos {{network}}</div>
                 </div>
               </div>
             </div>
@@ -66,6 +66,11 @@ export default {
       );
       const duration = moment.duration(d.diff(moment()));
       return `${duration.hours()}h ${duration.minutes()}m`;
+    },
+    network() {
+      return this.$route.params.network === "mainnet"
+        ? "Mainnet"
+        : "Babylonnet";
     }
   },
   async created() {

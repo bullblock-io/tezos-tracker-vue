@@ -55,7 +55,7 @@
 </template>
 <script>
 import { mapState } from "vuex";
-import { ACTIONS, api } from "../../store";
+import { ACTIONS } from "../../store";
 
 export default {
   name: "Originations",
@@ -73,7 +73,7 @@ export default {
         { key: "timestamp", label: "Timestamp" },
         { key: "to", label: "To" },
         { key: "from", label: "From" },
-        { key: "amount", label: "Amount" },
+        { key: "amount", label: "Amount" }
       ]
     };
   },
@@ -107,7 +107,7 @@ export default {
       if (this.$props.account) {
         props.account_id = this.$props.account;
       }
-      const data = await api.getOriginations(props);
+      const data = await this.$store.API.getOriginations(props);
       this.originations = data.data;
       this.count = data.count;
       this.$store.commit(ACTIONS.SET_ORIGINATIONS_COUNT, this.count);
