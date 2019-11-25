@@ -20,9 +20,6 @@
       <template slot="assets" slot-scope="row">
         <span>{{ row.item.stakingBalance | tezos }}</span>
       </template>
-      <template slot="fees" slot-scope="row">
-        <span>{{ row.item.fees | longhash(20) }}</span>
-      </template>
       <template slot="endorsement" slot-scope="row">
         <span>{{ row.item.endorsements }}</span>
       </template>
@@ -55,7 +52,6 @@ export default {
         { key: "baker", label: "Baker" },
         { key: "blocks", label: "Blocks" },
         { key: "assets", label: "Staked assets" },
-        { key: "fees", label: "Fee" },
         { key: "endorsement", label: "Endorsement" }
       ]
     };

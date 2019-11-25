@@ -57,7 +57,7 @@
 </template>
 <script>
 import { mapState } from "vuex";
-import { ACTIONS, api } from "../../store";
+import { ACTIONS } from "../../store";
 
 export default {
   data() {
@@ -123,7 +123,7 @@ export default {
       if (this.account) {
         props.account_id = this.account;
       }
-      const data = await api.getTransactions(props);
+      const data = await this.$store.API.getTransactions(props);
       if (data.status !== 200) {
         return this.$router.push({
           name: data.status
