@@ -24,7 +24,6 @@
       <template slot="age" slot-scope="row">
         <span>{{ row.item.timestamp | getAge }}</span>
       </template>
-
     </b-table>
 
     <b-pagination
@@ -41,7 +40,7 @@
 </template>
 <script>
 import { mapState } from "vuex";
-import { ACTIONS, api } from "../../store";
+import { ACTIONS } from "../../store";
 
 export default {
   name: "DoubleBaking",
@@ -63,7 +62,7 @@ export default {
         { key: "denounced_level", label: "Denounced Level" },
         { key: "lost_deposits", label: "Lost Deposits" },
         { key: "lost_rewards", label: "Lost Rewards" },
-        { key: "lost_fees", label: "Lost Fees" },
+        { key: "lost_fees", label: "Lost Fees" }
       ]
     };
   },
@@ -97,7 +96,7 @@ export default {
       if (this.$props.account) {
         props.account_id = this.$props.account;
       }
-      const data = await api.getDoubleBaking(props);
+      const data = await this.$store.API.getDoubleBaking(props);
       this.double_baking = data.data;
       this.count = data.count;
       this.$store.commit(ACTIONS.SET_DOUBLEBAKING_COUNT, this.count);

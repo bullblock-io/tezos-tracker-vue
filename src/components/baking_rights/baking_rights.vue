@@ -1,6 +1,6 @@
 <template>
   <div>
-    <b-table
+    <b-table-simple
       show-empty
       stacked="md"
       :items="items"
@@ -9,10 +9,16 @@
       :per-page="0"
       class="table table-borderless table-responsive-md"
     >
-      <template slot="priority" slot-scope="row">
+    </b-table-simple>
 
-      </template>
-    </b-table>
+    <td v-for="field in fields">
+        <th>{{field.label}}</th>
+        <tr v-for="item in items">
+          <td>
+                <span>{{item[field.key]}}</span>
+            </td>
+        </tr>
+    </td>
 
     <b-pagination
       v-model="currentPage"
@@ -29,7 +35,7 @@
 </template>
 <script>
 import { mapState } from "vuex";
-import { ACTIONS, api } from "../../store";
+import { ACTIONS } from "../../store";
 import _ from "lodash";
 let i = 0;
 export default {
@@ -42,47 +48,63 @@ export default {
       pageOptions: [10, 15, 20, 25, 30],
       baking_rights: [],
       count: 0,
-      fields: [
-        { key: "priority", label: "Priority" },
-        { key: "block", label: "Endorsed Block" },
-        { key: "endorser", label: "Endorser" },
-        { key: "timestamp", label: "Timestamp" },
-        { key: "timestamp1", label: "Timestamp" },
-        { key: "timestamp2", label: "Timestamp" },
-        { key: "timestamp3", label: "Timestamp" }
-      ]
+      fields: [],
+      items: []
     };
   },
   computed: {
     rows() {
       return this.count;
     },
-    items() {
-      return this.baking_rights;
-    },
   },
   watch: {
     currentPage: {
       async handler(value) {
-        await this.reload({ page: value, block: this.level });
-      }
-    },
-    level: {
-      async handler(value) {
-        await this.reload({ block: value });
+        await this.reload(value);
       }
     }
   },
+  async mounted() {
+    await this.reload();
+  },
   methods: {
-    async reload( page = 1) {
+    parseResponse (data) {
+        return [];
+    },
+    async reload(page = 1) {
       const props = {
         page,
         limit: this.perPage
       };
-      const data = await api.getBakingRights(props);
-      this.baking_rights = data.data;
+      if (this.$props.block) {
+        props.block_id = this.$props.block.hash;
+      }
+      if (this.$props.account) {
+        props.account_id = this.$props.account;
+      }
+      const data = await this.$store.getBakingRights(props);
+      const parseResponse  = this.parseResponse(data.data);
+      this.fields = parseResponse.fields;
+      this.items = parseResponse.items;
       this.count = data.count;
       this.$store.commit(ACTIONS.SET_BAKINGRIGHTS_COUNT, this.count);
+    },
+    parseResponse (data) {
+        let items = [];
+        let fields = [{key: "priority", label: "Priority"}];
+        for(let k = 0; k < 11; k++){
+          items.push({'priority': k});
+        }
+        for(let i = 0; i < data.length; i++){
+           let key = "block_level_"+data[i].level;
+           let label = "Block level "+data[i].level;
+           fields.push({key: key, label: label})
+           for(let j = 0; j < data[i].rights.length; j++){
+              let value = data[i].rights[j].delegate;
+              items[j][key] = value;
+           }
+        }
+        return {fields: fields, items: items};
     }
   }
 };

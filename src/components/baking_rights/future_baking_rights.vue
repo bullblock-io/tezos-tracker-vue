@@ -1,6 +1,6 @@
 <template>
   <div>
-    <b-table
+    <b-table-simple
       show-empty
       stacked="md"
       :items="items"
@@ -9,11 +9,16 @@
       :per-page="0"
       class="table table-borderless table-responsive-md"
     >
+    </b-table-simple>
 
-
-
-
-    </b-table>
+    <td v-for="field in fields">
+        <th>{{field.label}}</th>
+        <tr v-for="item in items">
+          <td>
+                <span>{{item[field.key]}}</span>
+            </td>
+        </tr>
+    </td>
 
     <b-pagination
       v-model="currentPage"
@@ -30,7 +35,7 @@
 </template>
 <script>
 import { mapState } from "vuex";
-import { ACTIONS, api } from "../../store";
+import { ACTIONS } from "../../store";
 import _ from "lodash";
 let i = 0;
 export default {
@@ -43,25 +48,14 @@ export default {
       pageOptions: [10, 15, 20, 25, 30],
       future_baking_rights: [],
       count: 0,
-      items: [],
-      fields: [
-        { key: "priority", label: "Priority" },
-        { key: "delegate", label: "Block level x" },
-        { key: "endorser", label: "Block level x+1" },
-        { key: "timestamp", label: "Block level x+2" },
-        { key: "timestamp1", label: "Block level x+3" },
-        { key: "timestamp2", label: "Block level x+4" },
-        { key: "timestamp3", label: "Block level x+5" }
-      ]
+      fields: [],
+      items: []
     };
   },
   computed: {
     rows() {
       return this.count;
     },
-    items() {
-      return this.future_baking_rights;
-    }
   },
   watch: {
     currentPage: {
@@ -88,12 +82,29 @@ export default {
       if (this.$props.account) {
         props.account_id = this.$props.account;
       }
-      const data = await api.getFutureBakingRights(props);
-      this.future_baking_rights = data.data;
-      console.log(this.future_baking_rights);
+      const data = await this.$store.getFutureBakingRights(props);
+      const parseResponse  = this.parseResponse(data.data);
+      this.fields = parseResponse.fields;
+      this.items = parseResponse.items;
       this.count = data.count;
       this.$store.commit(ACTIONS.SET_FUTUREBAKINGRIGHTS_COUNT, this.count);
-      this.items = this.parseResponse(data);
+    },
+    parseResponse (data) {
+        let items = [];
+        let fields = [{key: "priority", label: "Priority"}];
+        for(let k = 0; k < 11; k++){
+          items.push({'priority': k});
+        }
+        for(let i = 0; i < data.length; i++){
+           let key = "block_level_"+data[i].level;
+           let label = "Block level "+data[i].level;
+           fields.push({key: key, label: label})
+           for(let j = 0; j < data[i].rights.length; j++){
+              let value = data[i].rights[j].delegate;
+              items[j][key] = value;
+           }
+        }
+        return {fields: fields, items: items};
     }
   }
 };

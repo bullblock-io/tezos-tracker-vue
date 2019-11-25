@@ -60,7 +60,7 @@
 </template>
 <script>
 import { mapState } from "vuex";
-import { ACTIONS, api } from "../../store";
+import { ACTIONS } from "../../store";
 export default {
   name: "Delegations",
   props: ["account"],
@@ -111,7 +111,7 @@ export default {
       if (this.$props.account) {
         props.account_id = this.$props.account;
       }
-      const data = await api.getDelegations(props);
+      const data = await this.$store.API.getDelegations(props);
       if (data.status !== 200) {
         return this.$router.push({
           name: data.status

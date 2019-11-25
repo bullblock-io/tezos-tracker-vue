@@ -39,30 +39,18 @@
               role="button"
               aria-haspopup="true"
               aria-expanded="false"
-              >Operations</a
-            >
+            >Operations</a>
             <div class="dropdown-menu">
-              <router-link class="dropdown-item" :to="{ name: 'txs' }"
-                >Transactions</router-link
-              >
-              <router-link class="dropdown-item" :to="{ name: 'endorsements' }"
-                >Endorsements</router-link
-              >
-              <router-link class="dropdown-item" :to="{ name: 'delegations' }"
-                >Delegations</router-link
-              >
-              <router-link class="dropdown-item" :to="{ name: 'originations' }"
-                >Originations</router-link
-              >
-              <router-link class="dropdown-item" :to="{ name: 'activations' }"
-                >Activations</router-link
-              >
-              <router-link class="dropdown-item" :to="{ name: 'double_baking' }"
-                >Double-baking</router-link
-              >
-              <router-link class="dropdown-item" :to="{ name: 'double_endorsement' }"
-                >Double-endorsement</router-link
-              >
+              <router-link class="dropdown-item" :to="{ name: 'txs' }">Transactions</router-link>
+              <router-link class="dropdown-item" :to="{ name: 'endorsements' }">Endorsements</router-link>
+              <router-link class="dropdown-item" :to="{ name: 'delegations' }">Delegations</router-link>
+              <router-link class="dropdown-item" :to="{ name: 'originations' }">Originations</router-link>
+              <router-link class="dropdown-item" :to="{ name: 'activations' }">Activations</router-link>
+              <router-link class="dropdown-item" :to="{ name: 'double_baking' }">Double-baking</router-link>
+              <router-link
+                class="dropdown-item"
+                :to="{ name: 'double_endorsement' }"
+              >Double-endorsement</router-link>
             </div>
           </li>
           <li v-bind:class="{ active: isActive('bakers') }">
@@ -76,15 +64,10 @@
               role="button"
               aria-haspopup="true"
               aria-expanded="false"
-              >Accounts</a
-            >
+            >Accounts</a>
             <div class="dropdown-menu">
-              <router-link class="dropdown-item" :to="{ name: 'accounts' }"
-                >Accounts</router-link
-              >
-              <router-link class="dropdown-item" :to="{ name: 'contracts' }"
-                >Contracts</router-link
-              >
+              <router-link class="dropdown-item" :to="{ name: 'accounts' }">Accounts</router-link>
+              <router-link class="dropdown-item" :to="{ name: 'contracts' }">Contracts</router-link>
             </div>
           </li>
         </ul>
@@ -100,20 +83,14 @@
               role="button"
               aria-haspopup="true"
               aria-expanded="false"
-              >Network</a
-            >
+            >{{currentNetwork}}</a>
             <div class="dropdown-menu">
-              <router-link class="dropdown-item" :to="{ name: 'accounts' }"
-                >Mainnet</router-link
-              >
-              <router-link class="dropdown-item" :to="{ name: 'contracts' }"
-                >Babylon net</router-link
-              >
+              <li class="dropdown-item" @click="useMainNet()">Mainnet</li>
+              <li class="dropdown-item" @click="useBabylon()">Babylon net</li>
             </div>
           </li>
         </ul>
       </nav>
-      
     </div>
     <div class="search">
       <Search />
@@ -122,15 +99,32 @@
 </template>
 <script>
 import Search from "../search/search";
+import { ACTIONS } from "../../store";
 export default {
   name: "TopMenu",
+  data() {
+    return {};
+  },
   props: {},
   components: {
     Search
   },
+  computed: {
+    currentNetwork: function() {
+      return this.$route.params.network === "mainnet"
+        ? "Mainnet"
+        : "Babylonnet";
+    }
+  },
   methods: {
     isActive(...args) {
       return args.includes(this.$route.name);
+    },
+    useMainNet() {
+      window.location = "/mainnet";
+    },
+    useBabylon() {
+      window.location = "/babylonnet";
     }
   }
 };

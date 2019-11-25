@@ -39,7 +39,7 @@
 </template>
 <script>
 import { mapState } from "vuex";
-import { ACTIONS, api } from "../../store";
+import { ACTIONS } from "../../store";
 
 export default {
   name: "Snapshots",
@@ -81,7 +81,8 @@ export default {
         page,
         limit: this.perPage
       };
-      const data = await api.getSnapshots(props);
+      const data = await this.$store.getSnapshots(props);
+      console.log(data);
       this.snapshots = data.data;
       this.count = data.count;
       this.$store.commit(ACTIONS.SET_SNAPSHOTS_COUNT, this.count);

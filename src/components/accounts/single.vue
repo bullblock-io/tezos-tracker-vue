@@ -19,9 +19,7 @@
               <span class="label">Manager</span>
             </div>
             <div class="col-lg-10">
-              <span class="value">
-                {{account.manager}}
-              </span>
+              <span class="value">{{account.manager}}</span>
             </div>
           </div>
           <div class="item-info row ml-1 mr-1">
@@ -29,9 +27,7 @@
               <span class="label">Delegate</span>
             </div>
             <div class="col-lg-10">
-              <span class="value">
-                {{account.delegateValue}}
-              </span>
+              <span class="value">{{account.delegateValue}}</span>
             </div>
           </div>
           <div class="item-info row ml-1 mr-1">
@@ -103,7 +99,7 @@
   </div>
 </template>
 <script>
-import { api, ACTIONS, XTZ } from "../../store";
+import { ACTIONS, XTZ } from "../../store";
 import { mapState } from "vuex";
 import { ceil } from "lodash";
 
@@ -135,7 +131,7 @@ export default {
   },
   methods: {
     async reload(acc) {
-      const result = await api.getAccount({ account: acc });
+      const result = await this.$store.API.getAccount({ account: acc });
       if (result.status !== 200) {
         return this.$router.push({
           name: result.status

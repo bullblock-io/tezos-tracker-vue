@@ -24,7 +24,6 @@
       <template slot="timestamp" slot-scope="row">
         <span>{{ row.item.timestamp | timeformat("hh:mm:ss DD.MM.YY") }}</span>
       </template>
-
     </b-table>
 
     <b-pagination
@@ -41,7 +40,7 @@
 </template>
 <script>
 import { mapState } from "vuex";
-import { ACTIONS, api } from "../../store";
+import { ACTIONS } from "../../store";
 
 export default {
   name: "DoubleEndorsement",
@@ -57,7 +56,7 @@ export default {
         { key: "txhash", label: "Origination Hash" },
         { key: "level", label: "Block ID" },
         { key: "timestamp", label: "Timestamp" },
-        { key: "denounced_level", label: "Denounced Level" },
+        { key: "denounced_level", label: "Denounced Level" }
       ]
     };
   },
@@ -91,7 +90,7 @@ export default {
       if (this.$props.account) {
         props.account_id = this.$props.account;
       }
-      const data = await api.getDoubleEndorsement(props);
+      const data = await this.$store.API.getDoubleEndorsement(props);
       this.double_endorsement = data.data;
       this.count = data.count;
       this.$store.commit(ACTIONS.SET_DOUBLEENDORSEMENT_COUNT, this.count);
