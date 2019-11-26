@@ -42,7 +42,6 @@
 <script>
 import { mapState } from "vuex";
 import { ACTIONS } from "../../store";
-import moment from "moment";
 export default {
   name: "ico-cycle-counter",
   props: ["percent"],

@@ -63,7 +63,7 @@
   </div>
 </template>
 <script>
-import { api, XTZ, ACTIONS } from "../../store";
+import { XTZ, ACTIONS } from "../../store";
 import { ceil } from "lodash";
 import { mapState } from "vuex";
 
