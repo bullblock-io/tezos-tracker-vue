@@ -104,9 +104,9 @@ export default {
         props.block_id = block;
         props.limit = 32;
         this.perPage = 32;
-        result = await this.$store.API.getBlockEndorsements(props);
+        result = await this.$store.getters.API.getBlockEndorsements(props);
       } else {
-        result = await this.$store.API.getEndorsements(props);
+        result = await this.$store.getters.API.getEndorsements(props);
       }
       if (result.status !== 200) {
         return this.$router.push({

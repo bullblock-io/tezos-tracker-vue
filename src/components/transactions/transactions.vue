@@ -98,12 +98,12 @@ export default {
       }
     },
     block: {
-      async handler(value) {
+      async handler() {
         await this.reload();
       }
     },
     account: {
-      async handler(value) {
+      async handler() {
         await this.reload();
       }
     }
@@ -123,7 +123,7 @@ export default {
       if (this.account) {
         props.account_id = this.account;
       }
-      const data = await this.$store.API.getTransactions(props);
+      const data = await this.$store.getters.API.getTransactions(props);
       if (data.status !== 200) {
         return this.$router.push({
           name: data.status
@@ -136,6 +136,5 @@ export default {
   }
 };
 </script>
-
 
 <style scoped></style>

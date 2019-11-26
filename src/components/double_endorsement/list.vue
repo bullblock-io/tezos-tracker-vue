@@ -90,7 +90,7 @@ export default {
       if (this.$props.account) {
         props.account_id = this.$props.account;
       }
-      const data = await this.$store.API.getDoubleEndorsement(props);
+      const data = await this.$store.getters.API.getDoubleEndorsement(props);
       this.double_endorsement = data.data;
       this.count = data.count;
       this.$store.commit(ACTIONS.SET_DOUBLEENDORSEMENT_COUNT, this.count);

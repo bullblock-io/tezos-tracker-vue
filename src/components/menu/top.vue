@@ -17,8 +17,7 @@
               role="button"
               aria-haspopup="true"
               aria-expanded="false"
-              >Blocks</a
-            >
+              >Blocks</a>
             <div class="dropdown-menu">
               <router-link class="dropdown-item" :to="{ name: 'blocks' }"
                 >Blocks</router-link

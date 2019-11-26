@@ -82,7 +82,7 @@ export default {
       if (this.$props.account) {
         props.account_id = this.$props.account;
       }
-      const data = await this.$store.getFutureBakingRights(props);
+      const data = await this.$store.getters.API.getFutureBakingRights(props);
       const parseResponse  = this.parseResponse(data.data);
       this.fields = parseResponse.fields;
       this.items = parseResponse.items;

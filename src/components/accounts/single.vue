@@ -131,7 +131,7 @@ export default {
   },
   methods: {
     async reload(acc) {
-      const result = await this.$store.API.getAccount({ account: acc });
+      const result = await this.$store.getters.API.getAccount({ account: acc });
       if (result.status !== 200) {
         return this.$router.push({
           name: result.status

@@ -107,7 +107,7 @@ export default {
       if (this.$props.account) {
         props.account_id = this.$props.account;
       }
-      const data = await this.$store.API.getOriginations(props);
+      const data = await this.$store.getters.API.getOriginations(props);
       this.originations = data.data;
       this.count = data.count;
       this.$store.commit(ACTIONS.SET_ORIGINATIONS_COUNT, this.count);

@@ -21,7 +21,7 @@
         </div>
       </div>
     </section>
-    <MetaCount />
+    <ICOMetaCount v-bind:percent="getPercentage" />
 
     <section>
       <div class="container-fluid">
@@ -32,12 +32,6 @@
                 <div class="title">
                   <h3 class="row">
                     <span class="text col">Activations list</span>
-                    <div class="counter">
-                      <span class="text">Percentage of ICO addresses activated:</span>
-                      <span
-                        class="counter-text float-right"
-                      >{{ count.activations | getPercentageICOActiveAddresses }}</span>
-                    </div>
                   </h3>
                 </div>
               </div>
@@ -56,18 +50,24 @@
 <script>
 import { mapState } from "vuex";
 import ActivationsList from "../activations/list.vue";
-import MetaCount from "../cycle/count.vue";
+import ICOMetaCount from "../cycle/ico_count.vue";
 export default {
   name: "Activations",
   components: {
     ActivationsList,
-    MetaCount
+    ICOMetaCount
   },
   computed: {
     ...mapState({
       count: state => state.counts,
       head: state => state.head
-    })
+    }),
+    getPercentage() {
+      const num = this.count.activations;
+      const allAddresses = 30317;
+      const result = parseFloat(((num * 100) / allAddresses).toFixed(2));
+      return result;
+    }
   }
 };
 </script>
