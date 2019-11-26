@@ -12,10 +12,6 @@
             <div class="row">
               <div class="col-12">
                 <div class="progress-labels">
-                  <div class="cycle-label float-left">
-                    Cycle -
-                    <span>{{head.metaCycle}}</span>
-                  </div>
                   <div class="tezos-label float-right">Tezos {{network}}</div>
                 </div>
               </div>
