@@ -91,7 +91,7 @@ export default {
   },
   methods: {
     async load(level) {
-      const result = await store.API.getBlock({ block: level });
+      const result = await this.$store.getters.API.getBlock({ block: level });
       if (result.status !== 200) {
         return this.$router.push({
           name: result.status
