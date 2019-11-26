@@ -73,7 +73,7 @@
 
             <span class="counter">
               <b-link :to="{ name: 'account', params: { account: head.baker } }">
-                <span>{{ head.baker | longhash(17) }}</span>
+                <span>{{ head.baker | longhash(10) }}</span>
               </b-link>
             </span>
             <span class="percentage"></span>
