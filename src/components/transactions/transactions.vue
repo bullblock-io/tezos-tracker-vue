@@ -123,7 +123,7 @@ export default {
       if (this.account) {
         props.account_id = this.account;
       }
-      const data = await this.$store.API.getTransactions(props);
+      const data = await this.$store.getters.API.getTransactions(props);
       if (data.status !== 200) {
         return this.$router.push({
           name: data.status

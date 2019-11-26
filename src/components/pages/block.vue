@@ -99,7 +99,9 @@ export default {
     }
   },
   async created() {
-    const result = await this.$store.API.getBlock({ block: this.level });
+    const result = await this.$store.getters.API.getBlock({
+      block: this.level
+    });
     this.block = result.data.block || {};
   }
 };
