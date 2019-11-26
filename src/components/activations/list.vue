@@ -96,7 +96,7 @@ export default {
       if (this.$props.account) {
         props.account_id = this.$props.account;
       }
-      const data = await this.$store.getActivations(props);
+      const data = await this.$store.getters.API.getActivations(props);
       this.activations = data.data;
       this.count = data.count;
       this.$store.commit(ACTIONS.SET_ACTIVATIONS_COUNT, this.count);

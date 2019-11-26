@@ -96,7 +96,7 @@ export default {
       if (this.$props.account) {
         props.account_id = this.$props.account;
       }
-      const data = await this.$store.API.getDoubleBaking(props);
+      const data = await this.$store.getters.API.getDoubleBaking(props);
       this.double_baking = data.data;
       this.count = data.count;
       this.$store.commit(ACTIONS.SET_DOUBLEBAKING_COUNT, this.count);

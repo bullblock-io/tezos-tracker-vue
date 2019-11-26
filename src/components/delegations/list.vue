@@ -111,7 +111,7 @@ export default {
       if (this.$props.account) {
         props.account_id = this.$props.account;
       }
-      const data = await this.$store.API.getDelegations(props);
+      const data = await this.$store.getters.API.getDelegations(props);
       if (data.status !== 200) {
         return this.$router.push({
           name: data.status
