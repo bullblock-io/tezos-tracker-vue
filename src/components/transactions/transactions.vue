@@ -98,12 +98,12 @@ export default {
       }
     },
     block: {
-      async handler(value) {
+      async handler() {
         await this.reload();
       }
     },
     account: {
-      async handler(value) {
+      async handler() {
         await this.reload();
       }
     }
@@ -136,6 +136,5 @@ export default {
   }
 };
 </script>
-
 
 <style scoped></style>
