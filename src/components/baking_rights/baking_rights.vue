@@ -1,6 +1,6 @@
 <template>
   <div>
-    <b-table-simple
+    <b-table
       show-empty
       stacked="md"
       :items="items"
@@ -9,23 +9,60 @@
       :per-page="0"
       class="table table-borderless table-responsive-md"
     >
-    </b-table-simple>
+      <template slot="priority" slot-scope="row">
+        <span>{{ row.item.priority }}</span>
+      </template>
 
-    <td v-for="field in fields">
-        <th>{{field.label}}</th>
-        <tr v-for="item in items">
-          <td>
-                <span>{{item[field.key]}}</span>
-            </td>
-        </tr>
-    </td>
+      <template slot="block_0" slot-scope="row">
+        <router-link
+          class="baker"
+          :to="{ name: 'baker', params: {baker: row.item.block_0.delegate}}"
+        >{{row.item.block_0.delegate | longhash(19)}}</router-link>
+      </template>
+      <template slot="block_1" slot-scope="row">
+        <router-link
+          class="baker"
+          :to="{ name: 'baker', params: {baker: row.item.block_1.delegate}}"
+        >{{row.item.block_1.delegate | longhash(19)}}</router-link>
+      </template>
+      <template slot="block_2" slot-scope="row">
+        <router-link
+          class="baker"
+          :to="{ name: 'baker', params: {baker: row.item.block_2.delegate}}"
+        >{{row.item.block_2.delegate | longhash(19)}}</router-link>
+      </template>
+      <template slot="block_3" slot-scope="row">
+        <router-link
+          class="baker"
+          :to="{ name: 'baker', params: {baker: row.item.block_3.delegate}}"
+        >{{row.item.block_3.delegate | longhash(19)}}</router-link>
+      </template>
+      <template slot="block_4" slot-scope="row">
+        <router-link
+          class="baker"
+          :to="{ name: 'baker', params: {baker: row.item.block_4.delegate}}"
+        >{{row.item.block_4.delegate | longhash(19)}}</router-link>
+      </template>
+      <template slot="block_5" slot-scope="row">
+        <router-link
+          class="baker"
+          :to="{ name: 'baker', params: {baker: row.item.block_5.delegate}}"
+        >{{row.item.block_5.delegate | longhash(19)}}</router-link>
+      </template>
+      <template slot="block_6" slot-scope="row">
+        <router-link
+          class="baker"
+          :to="{ name: 'baker', params: {baker: row.item.block_6.delegate}}"
+        >{{row.item.block_6.delegate | longhash(19)}}</router-link>
+      </template>
+    </b-table>
 
     <b-pagination
       v-model="currentPage"
       :total-rows="rows"
       :per-page="perPage"
       align="right"
-      limit= 10
+      limit="10"
       first-text
       prev-text="Prev"
       next-text="Next"
@@ -37,25 +74,31 @@
 import { mapState } from "vuex";
 import { ACTIONS } from "../../store";
 import _ from "lodash";
-let i = 0;
 export default {
   name: "BakingRights",
-  props: ["block"],
+  props: [],
   data() {
     return {
-      perPage: 11,
-      currentPage: 1,
-      pageOptions: [10, 15, 20, 25, 30],
-      baking_rights: [],
       count: 0,
-      fields: [],
-      items: []
+      baking_rights: [],
+      blocks_in_row: 7,
+      perPage: 10,
+      currentPage: 1,
+      fields: [
+        {
+          key: "priority",
+          label: "Priority"
+        }
+      ]
     };
   },
   computed: {
     rows() {
-      return this.count;
+      return this.$data.count;
     },
+    items() {
+      return this.$data.baking_rights;
+    }
   },
   watch: {
     currentPage: {
@@ -68,43 +111,41 @@ export default {
     await this.reload();
   },
   methods: {
-    parseResponse (data) {
-        return [];
+    parseResponse(data) {
+      const p = new Array(10).fill(0);
+      return p.map((el, idx) => {
+        const result = { priority: idx };
+        const values = [];
+        for (const value of data) {
+          const b = _.find(value.rights, e => e.priority === idx) || {};
+          b.level = value.level;
+          values.push(b);
+        }
+        for (let i = 0; i < this.blocks_in_row; i++) {
+          result[`block_${i}`] = values[i];
+        }
+        return result;
+      });
     },
     async reload(page = 1) {
       const props = {
         page,
         limit: this.perPage
       };
-      if (this.$props.block) {
-        props.block_id = this.$props.block.hash;
-      }
-      if (this.$props.account) {
-        props.account_id = this.$props.account;
-      }
       const data = await this.$store.getters.API.getBakingRights(props);
-      const parseResponse  = this.parseResponse(data.data);
-      this.fields = parseResponse.fields;
-      this.items = parseResponse.items;
-      this.count = data.count;
-      this.$store.commit(ACTIONS.SET_BAKINGRIGHTS_COUNT, this.count);
-    },
-    parseResponse (data) {
-        let items = [];
-        let fields = [{key: "priority", label: "Priority"}];
-        for(let k = 0; k < 11; k++){
-          items.push({'priority': k});
+      this.$data.count = data.count;
+      const parsedData = this.parseResponse(data.data);
+      const row = parsedData[0];
+      for (const key in row) {
+        if (key === "priority") {
+          continue;
         }
-        for(let i = 0; i < data.length; i++){
-           let key = "block_level_"+data[i].level;
-           let label = "Block level "+data[i].level;
-           fields.push({key: key, label: label})
-           for(let j = 0; j < data[i].rights.length; j++){
-              let value = data[i].rights[j].delegate;
-              items[j][key] = value;
-           }
-        }
-        return {fields: fields, items: items};
+        this.$data.fields.push({
+          key,
+          label: `Block ${row[key].level}`
+        });
+      }
+      this.$data.baking_rights = parsedData;
     }
   }
 };
