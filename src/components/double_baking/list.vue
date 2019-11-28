@@ -40,7 +40,9 @@
         >{{row.item.doubleBake.offender | longhash(20)}}</router-link>
       </template>
       <template slot="denounced_level" slot-scope="row">
-        <span>{{ row.item.doubleBake.denounced_level }}</span>
+        <b-link :to="{ name: 'block', params: { level: row.item.doubleBake.denounced_level } }">
+          <span>{{ row.item.doubleBake.denounced_level }}</span>
+        </b-link>
       </template>
       <template slot="lost_deposits" slot-scope="row">
         <span>{{ row.item.doubleBake.lost_deposits | tezos }}</span>
