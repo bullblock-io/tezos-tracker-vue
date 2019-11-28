@@ -50,9 +50,6 @@
       <template slot="lost_rewards" slot-scope="row">
         <span>{{ row.item.doubleBake.lost_rewards | tezos }}</span>
       </template>
-      <template slot="lost_fees" slot-scope="row">
-        <span>{{ row.item.doubleBake.lost_fees | tezos }}</span>
-      </template>
     </b-table>
 
     <b-pagination
@@ -90,8 +87,7 @@ export default {
         { key: "offender", label: "Offender" },
         { key: "denounced_level", label: "Denounced Level" },
         { key: "lost_deposits", label: "Lost Deposits" },
-        { key: "lost_rewards", label: "Lost Rewards" },
-        { key: "lost_fees", label: "Lost Fees" }
+        { key: "lost_rewards", label: "Lost Rewards" }
       ]
     };
   },
