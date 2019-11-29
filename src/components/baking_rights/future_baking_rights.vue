@@ -72,6 +72,8 @@
 </template>
 <script>
 import _ from "lodash";
+import { ACTIONS } from "../../store";
+
 export default {
   name: "FutureBakingRights",
   props: ["block"],
@@ -81,8 +83,8 @@ export default {
       currentPage: 1,
       blocks_in_row: 7,
       future_baking_rights: [],
-      render: [],
-      startIdx: 0,
+      block_levels: [],
+      blocks: [],
       count: 0,
       fields: [
         {
@@ -94,17 +96,16 @@ export default {
   },
   computed: {
     rows() {
-      return 1000;
-      return this.$data.perPage;
+      return this.$data.count;
     },
     items() {
-      return this.$data.render;
+      return this.$data.future_baking_rights;
     }
   },
   watch: {
     currentPage: {
       async handler(value) {
-        await this.reload(value);
+        await this.render(value);
       }
     }
   },
@@ -113,82 +114,78 @@ export default {
   },
   methods: {
     parseResponse(data) {
-      this.$data.future_baking_rights = data;
-      console.log(data);
+      const result = [];
+      for (let i = 0; i < data.length; i++) {
+        for (let j = 0; j < data[i].rights.length; j++) {
+          result.push({
+            level: data[i].level,
+            baker: data[i].baker,
+            block_hash: data[i].block_hash,
+            priority: data[i].rights[j].priority,
+            delegate: data[i].rights[j].delegate
+          });
+        }
+      }
+      const levels = _.uniq(result.map(el => el.level));
+      this.$data.blocks = result;
+      this.$data.levels = levels;
+      const cnt = Math.floor(levels.length / this.$data.blocks_in_row) * 10;
+      this.$data.count = cnt + (levels.length % this.$data.perPage);
+      this.$store.commit(ACTIONS.SET_FUTUREBAKINGRIGHTS_COUNT, levels.length);
     },
-    renderTable(startIdx) {
-      const idx = startIdx === 0 ? startIdx : startIdx - 1;
-      const stopIdx = parseInt(idx + this.$data.blocks_in_row - 1);
-      const fbr = this.$data.future_baking_rights;
-
-      const data = [];
+    render(page = 1) {
+      const p = page - 1;
+      const rowLength = this.$data.blocks_in_row;
+      const startIdx = p === 0 ? p : p + rowLength - 1;
+      const blocks = this.$data.levels.slice(startIdx, startIdx + rowLength);
+      const allBlocks = this.$data.blocks;
       const fields = [
         {
           key: "priority",
           label: "Priority"
         }
       ];
-      let renderIdx = 0;
-      for (let i = idx; i < stopIdx; i++) {
-        const block = fbr[i];
-        fields.push({
-          key: `block_${renderIdx++}`,
-          label: `Block ${block.level}`
-        });
-      }
-      console.log(`from ${idx} to ${stopIdx}`);
       const data = [];
-
-      for (let i = 0; i < fbr.length; i++) {
-        const d = { priority: fbr[i].priority };
-        let ii = 0;
-        for (let key in fbr[i]) {
-          console.log(fbr[i][key].level);
-
-          if (key === "priority") {
+      for (let j = 0; j < 10; j++) {
+        const row = {
+          priority: j
+        };
+        for (let i = 0; i < rowLength; i++) {
+          if (!blocks[i]) {
+            fields.push({
+              key: `block_${i}`,
+              label: ""
+            });
+            row[`block_${i}`] = {};
             continue;
           }
-          const k = parseInt(key);
-          if (k < idx || k > stopIdx) {
-            console.log(`block id ${k}, skipping`);
-            continue;
+          fields.push({
+            key: `block_${i}`,
+            label: `Block ${blocks[i]}`
+          });
+          const blockId = blocks[i];
+          const block = allBlocks.find(
+            el => el.level === blockId && el.priority === j
+          );
+          row[`block_${i}`] = {};
+          if (block) {
+            row[`block_${i}`] = { ...block };
           }
-          d[`block_${ii++}`] = fbr[i][key];
         }
-        data.push(d);
+        data.push(row);
       }
-      console.log(data);
-      const row = data[0];
-      if (!row) {
-        return;
-      }
-
-      for (const key in row) {
-        if (key === "priority") {
-          continue;
-        }
-        this.$data.fields.push({
-          key,
-          label: `Block ${row[key].level}`
-        });
-      }
-      this.$data.render = data;
+      this.$data.fields = fields;
+      this.$data.future_baking_rights = data;
     },
+
     async reload(page = 1) {
       const props = {
         page,
         limit: this.perPage
       };
-      if (this.$props.block) {
-        props.block_id = this.$props.block.hash;
-      }
-      if (this.$props.account) {
-        props.account_id = this.$props.account;
-      }
       const data = await this.$store.getters.API.getFutureBakingRights(props);
-      const parsedData = this.parseResponse(data.data);
-      this.$data.future_baking_rights = parsedData;
-      this.renderTable((page - 1) * this.$data.blocks_in_row);
+      this.parseResponse(data.data);
+      this.render(page);
     }
   }
 };

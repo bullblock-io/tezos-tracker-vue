@@ -2,12 +2,13 @@
   <div>
     <b-table
       show-empty
+      fixed
       stacked="md"
       :items="items"
       :fields="fields"
       :current-page="currentPage"
       :per-page="0"
-      class="table table-borderless table-responsive-md"
+      class="table table-borderless"
     >
       <template slot="priority" slot-scope="row">
         <span>{{ row.item.priority }}</span>
@@ -82,6 +83,8 @@ export default {
       count: 0,
       baking_rights: [],
       blocks_in_row: 7,
+      block_levels: [],
+      blocks: [],
       perPage: 10,
       currentPage: 1,
       fields: [
@@ -103,7 +106,7 @@ export default {
   watch: {
     currentPage: {
       async handler(value) {
-        await this.reload(value);
+        await this.render(value);
       }
     }
   },
@@ -112,20 +115,60 @@ export default {
   },
   methods: {
     parseResponse(data) {
-      const p = new Array(10).fill(0);
-      return p.map((el, idx) => {
-        const result = { priority: idx };
-        const values = [];
-        for (const value of data) {
-          const b = _.find(value.rights, e => e.priority === idx) || {};
-          b.level = value.level;
-          values.push(b);
+      const result = [];
+      for (let i = 0; i < data.length; i++) {
+        for (let j = 0; j < data[i].rights.length; j++) {
+          result.push({
+            level: data[i].level,
+            baker: data[i].baker,
+            block_hash: data[i].block_hash,
+            priority: data[i].rights[j].priority,
+            delegate: data[i].rights[j].delegate
+          });
         }
-        for (let i = 0; i < this.blocks_in_row; i++) {
-          result[`block_${i}`] = values[i];
+      }
+      const levels = _.uniq(result.map(el => el.level));
+      this.$data.blocks = result;
+      this.$data.levels = levels;
+      const cnt = Math.floor(levels.length / this.$data.blocks_in_row) * 10;
+      this.$data.count = cnt + (levels.length % this.$data.perPage);
+      this.$store.commit(ACTIONS.SET_BAKINGRIGHTS_COUNT, levels.length);
+    },
+    render(page = 1) {
+      const p = page - 1;
+      const rowLength = this.$data.blocks_in_row;
+      const startIdx = p === 0 ? p : p + rowLength - 1;
+      const blocks = this.$data.levels.slice(startIdx, startIdx + rowLength);
+      const allBlocks = this.$data.blocks;
+      const fields = [
+        {
+          key: "priority",
+          label: "Priority"
         }
-        return result;
-      });
+      ];
+      const data = [];
+      for (let j = 0; j < 10; j++) {
+        const row = {
+          priority: j
+        };
+        for (let i = 0; i < rowLength; i++) {
+          fields.push({
+            key: `block_${i}`,
+            label: `Block ${blocks[i] ? blocks[i] : ""}`
+          });
+          const blockId = blocks[i];
+          const block = allBlocks.find(
+            el => el.level === blockId && el.priority === j
+          );
+          row[`block_${i}`] = {};
+          if (block) {
+            row[`block_${i}`] = { ...block };
+          }
+        }
+        data.push(row);
+      }
+      this.$data.fields = fields;
+      this.$data.baking_rights = data;
     },
     async reload(page = 1) {
       const props = {
@@ -134,18 +177,8 @@ export default {
       };
       const data = await this.$store.getters.API.getBakingRights(props);
       this.$data.count = data.count;
-      const parsedData = this.parseResponse(data.data);
-      const row = parsedData[0];
-      for (const key in row) {
-        if (key === "priority") {
-          continue;
-        }
-        this.$data.fields.push({
-          key,
-          label: `Block ${row[key].level}`
-        });
-      }
-      this.$data.baking_rights = parsedData;
+      this.parseResponse(data.data);
+      this.render(page);
     }
   }
 };
