@@ -24,6 +24,11 @@
       <template slot="timestamp" slot-scope="row">
         <span>{{ row.item.timestamp | timeformat("hh:mm:ss DD.MM.YY") }}</span>
       </template>
+      <template slot="denounced_level" slot-scope="row">
+        <b-link :to="{ name: 'block', params: { level: row.item.level } }">
+          <span>{{ row.item.level }}</span>
+        </b-link>
+      </template>
     </b-table>
 
     <b-pagination

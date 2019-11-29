@@ -82,8 +82,7 @@ export default class TzAPI {
         });
     }
     getDoubleBaking(opts = {}) {
-        return get(this.API_URL(), "operations", {
-            operation_kind: "double_baking_evidence",
+        return get(this.API_URL(), "double_bakings", {
             ...opts
         });
     }
