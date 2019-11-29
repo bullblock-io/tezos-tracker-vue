@@ -109,5 +109,14 @@ export default class TzAPI {
     getBlocks(opts = {}) {
         return get(this.API_URL(), "blocks", opts);
     }
+    getSnapshots(opts = {}) {
+        return get(this.API_URL(), "snapshots", opts);
+    }
+    getBakingRights(opts = {}) {
+        return get(this.API_URL(), "baking_rights", opts);
+    }
+    getFutureBakingRights(opts = {}) {
+        return get(this.API_URL(), "future_baking_rights", opts);
+    }
 
 }

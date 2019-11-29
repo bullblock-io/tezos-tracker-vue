@@ -1,6 +1,8 @@
 import Index from "./components/pages/index.vue";
 import Blocks from "./components/pages/blocks.vue";
 import Block from "./components/pages/block.vue";
+import Snapshots from "./components/pages/snapshots.vue";
+import BakingRights from "./components/pages/baking_rights.vue";
 
 import Txs from "./components/pages/txs.vue";
 import Tx from "./components/pages/tx.vue";
@@ -41,6 +43,8 @@ export default [
   { path: "/:network/", name: "index", component: Index },
   { path: "/:network/blocks", name: "blocks", component: Blocks },
   { path: "/:network/block/:level", name: "block", component: Block },
+  { path: "/:network/snapshots", name: "snapshots", component: Snapshots },
+  { path: "/:network/baking_rights", name: "baking_rights", component: BakingRights },
   { path: "/:network/txs", name: "txs", component: Txs },
   { path: "/:network/tx/:txhash", name: "tx", component: Tx },
   { path: "/:network/endorsements", name: "endorsements", component: Endorsements },
