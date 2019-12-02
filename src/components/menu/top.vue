@@ -17,17 +17,11 @@
               role="button"
               aria-haspopup="true"
               aria-expanded="false"
-              >Blocks</a>
+            >Blocks</a>
             <div class="dropdown-menu">
-              <router-link class="dropdown-item" :to="{ name: 'blocks' }"
-                >Blocks</router-link
-              >
-              <router-link class="dropdown-item" :to="{ name: 'snapshots' }"
-                >Snapshots</router-link
-              >
-              <router-link class="dropdown-item" :to="{ name: 'baking_rights' }"
-                >Baking Rights</router-link
-              >
+              <router-link class="dropdown-item" :to="{ name: 'blocks' }">Blocks</router-link>
+              <router-link class="dropdown-item" :to="{ name: 'snapshots' }">Snapshots</router-link>
+              <router-link class="dropdown-item" :to="{ name: 'baking_rights' }">Baking Rights</router-link>
             </div>
           </li>
           <li>
@@ -84,8 +78,8 @@
               aria-expanded="false"
             >{{currentNetwork}}</a>
             <div class="dropdown-menu">
-              <li class="dropdown-item" @click="useMainNet()">Mainnet</li>
-              <li class="dropdown-item" @click="useBabylon()">Babylon net</li>
+              <li class="dropdown-item pointer" @click="useMainNet()">Mainnet</li>
+              <li class="dropdown-item pointer" @click="useBabylon()">Babylon net</li>
             </div>
           </li>
         </ul>
@@ -129,4 +123,8 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.pointer {
+  cursor: pointer;
+}
+</style>
