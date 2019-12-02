@@ -54,14 +54,20 @@ export default {
   name: "cycle-counter",
   computed: {
     ...mapState({
-      head: state => state.headBlock
+      head: state => state.headBlock,
+      info: state => state.priceInfo
     }),
     cyclePercent() {
-      return parseInt(((this.head.metaCyclePosition / 4096) * 100).toFixed());
+      return parseInt(
+        (
+          (this.head.metaCyclePosition / this.info.blocks_in_cycle) *
+          100
+        ).toFixed()
+      );
     },
     timeLeft() {
       const d = moment(this.head.timestamp * 1000).add(
-        4096 - this.head.metaCyclePosition,
+        this.info.blocks_in_cycle - this.head.metaCyclePosition,
         "minutes"
       );
       const duration = moment.duration(d.diff(moment()));
@@ -77,6 +83,7 @@ export default {
   },
   async created() {
     await this.$store.dispatch(ACTIONS.BLOCK_GET_HEAD);
+    await this.$store.dispatch(ACTIONS.INFO_GET);
   }
 };
 </script>
