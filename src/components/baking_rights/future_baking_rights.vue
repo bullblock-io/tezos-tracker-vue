@@ -83,7 +83,7 @@ export default {
     return {
       perPage: 10,
       currentPage: 1,
-      blocks_in_row: 7,
+      blocks_in_row: 6,
       future_baking_rights: [],
       fields: [
         {
@@ -137,7 +137,7 @@ export default {
         }
       ];
       const result = [];
-      for (let j = 0; j < 10; j++) {
+      for (let j = 0; j < 11; j++) {
         const row = {
           priority: j
         };

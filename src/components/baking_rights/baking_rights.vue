@@ -81,7 +81,7 @@ export default {
   data() {
     return {
       baking_rights: [],
-      blocks_in_row: 7,
+      blocks_in_row: 6,
       block_levels: [],
       blocks: [],
       perPage: 10,
@@ -141,7 +141,7 @@ export default {
         }
       ];
       const result = [];
-      for (let j = 0; j < 10; j++) {
+      for (let j = 0; j < 11; j++) {
         const row = {
           priority: j
         };
