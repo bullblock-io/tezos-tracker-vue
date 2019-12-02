@@ -65,7 +65,9 @@ export default {
         "minutes"
       );
       const duration = moment.duration(d.diff(moment()));
-      return `${duration.hours()}h ${duration.minutes()}m`;
+      return `${
+        duration.days() > 0 ? duration.days() + "d" : ""
+      } ${duration.hours()}h ${duration.minutes()}m`;
     },
     network() {
       return this.$route.params.network === "mainnet"
