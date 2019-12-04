@@ -72,9 +72,10 @@
             </div>
 
             <span class="counter">
-              <b-link :to="{ name: 'account', params: { account: head.baker } }">
-                <span>{{ head.baker | longhash(10) }}</span>
-              </b-link>
+              <router-link
+                class="baker"
+                :to="{ name: 'account', params: { account: head.baker } }"
+              >{{ head.baker | longhash(13) }}</router-link>
             </span>
             <span class="percentage"></span>
             <span class="tile-name">Latest baker</span>
