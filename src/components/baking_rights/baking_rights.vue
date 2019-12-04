@@ -120,13 +120,17 @@ export default {
       const blocks = [];
       for (let i = 0; i < data.length; i++) {
         for (let j = 0; j < data[i].rights.length; j++) {
+          const isActualBaker =
+            data[i].rights[j].delegate === data[i].baker &&
+            data[i].rights[j].priority === data[i].baker_priority;
+
           blocks.push({
             level: data[i].level,
             baker: data[i].baker,
             block_hash: data[i].block_hash,
             priority: data[i].rights[j].priority,
             delegate: data[i].rights[j].delegate,
-            winner: data[i].rights[j].delegate === data[i].baker
+            winner: isActualBaker
           });
         }
       }
