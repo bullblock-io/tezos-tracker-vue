@@ -27,7 +27,7 @@
               <span class="label">Timestamp</span>
             </div>
             <div class="col-lg-9">
-              <span class="value">{{block.timestamp | timeformat("hh:mm:ss DD.MM.YY")}}</span>
+              <span class="value">{{block.timestamp | timeformat("HH:mm:ss DD.MM.YY")}}</span>
             </div>
           </div>
           <div class="item-info row ml-1 mr-1">
